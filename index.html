@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>看球战术台 TacticBoard</title>
+<style>
+  :root{
+    --bg:#0c1015; --card:#151a21; --card2:#1b222c; --line:#2a323d;
+    --txt:#e8eef5; --mut:#93a0af; --red:#e2383f; --red2:#a32228;
+    --green:#23c55e; --amber:#f0b429; --blue:#4ea1ff; --pitchA:#0e4f2f; --pitchB:#0b3f25;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0; padding:0; background:var(--bg); color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",Roboto,"Microsoft YaHei",sans-serif;}
+  header{position:sticky; top:0; z-index:50; backdrop-filter:blur(10px);
+    background:rgba(12,16,21,.86); border-bottom:1px solid var(--line);
+    padding:10px 14px 8px; }
+  header .t{font-weight:800; font-size:17px; letter-spacing:.5px}
+  header .t b{color:var(--red)}
+  header .badge{display:inline-block; font-size:11px; color:var(--amber);
+    border:1px solid rgba(240,180,41,.4); border-radius:99px; padding:1px 8px; margin-left:8px; vertical-align:2px}
+  header .s{font-size:12px; color:var(--mut); margin-top:2px}
+  main{max-width:700px; margin:0 auto; padding:12px 12px 96px}
+  .nav{position:fixed; bottom:0; left:0; right:0; z-index:60; display:flex;
+    background:rgba(16,20,26,.96); border-top:1px solid var(--line);
+    padding-bottom:env(safe-area-inset-bottom);}
+  .nav button{flex:1; background:none; border:0; color:var(--mut); font-size:11px;
+    padding:8px 2px 9px; font-family:inherit}
+  .nav button .i{display:block; font-size:19px; margin-bottom:1px; filter:grayscale(1) opacity(.7)}
+  .nav button.on{color:var(--txt); font-weight:700}
+  .nav button.on .i{filter:none}
+  .tab{display:none}
+  .tab.on{display:block}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:14px; margin-bottom:12px}
+  .card.deep{border-color:rgba(226,56,63,.55); background:linear-gradient(180deg,rgba(226,56,63,.08),var(--card) 55%)}
+  .card h3{margin:0 0 2px; font-size:17px}
+  .card h3 small{color:var(--mut); font-weight:400; font-size:12px; margin-left:6px}
+  .tagline{color:var(--amber); font-size:13px; margin:2px 0 8px}
+  .sec{font-size:11px; letter-spacing:2px; color:var(--mut); margin:10px 0 4px; font-weight:700}
+  ul.tight{margin:2px 0; padding-left:18px}
+  ul.tight li{font-size:13.5px; line-height:1.55; margin:4px 0}
+  ul.tight li b{color:#fff}
+  .p{font-size:13.5px; line-height:1.6; margin:6px 0}
+  .chip{display:inline-block; font-size:12px; background:var(--card2); border:1px solid var(--line);
+    border-radius:99px; padding:3px 10px; margin:2px 4px 2px 0; color:#cdd7e1; font-family:inherit}
+  button.chip{cursor:pointer}
+  button.chip:active{border-color:var(--red)}
+  .chip.r{border-color:rgba(226,56,63,.5); color:#ffb4b7}
+  .chip.g{border-color:rgba(35,197,94,.45); color:#8ef0b3}
+  .chip.b{border-color:rgba(78,161,255,.45); color:#a8d2ff}
+  .chip.y{border-color:rgba(240,180,41,.5); color:#ffe1a1}
+  .pitch{position:relative; width:100%; max-width:380px; aspect-ratio:.72; margin:10px auto 4px;
+    background:linear-gradient(180deg,var(--pitchA),var(--pitchB)); border-radius:10px;
+    border:1px solid #1d5c3a; overflow:hidden}
+  .pitch::before{content:""; position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(255,255,255,.25)}
+  .pitch .circle{position:absolute; left:50%; top:50%; width:26%; aspect-ratio:1; border-radius:50%;
+    border:1px solid rgba(255,255,255,.25); transform:translate(-50%,-50%)}
+  .pitch .box{position:absolute; left:50%; transform:translateX(-50%); width:56%; height:15%;
+    border:1px solid rgba(255,255,255,.25); border-radius:2px}
+  .pitch .box.top{top:-1px} .pitch .box.bot{bottom:-1px}
+  .dot{position:absolute; width:30px; height:30px; border-radius:50%;
+    background:radial-gradient(circle at 32% 30%,#ff6b70,var(--red) 55%,var(--red2));
+    border:1px solid rgba(255,255,255,.5); color:#fff; font-size:10.5px; font-weight:800;
+    display:flex; align-items:center; justify-content:center; transform:translate(-50%,-50%);
+    box-shadow:0 2px 6px rgba(0,0,0,.45)}
+  .dot.k{background:radial-gradient(circle at 32% 30%,#ffd75e,var(--amber) 60%,#b07f10); color:#3a2a00; border-color:#ffe9a8}
+  .dot2{width:52px; height:52px; flex-direction:column; line-height:1.1; cursor:pointer;
+    font-size:11px; font-weight:800; border-width:2px; padding-top:2px}
+  .dot2 small{display:block; font-size:8.5px; font-weight:600; opacity:.85}
+  .dot2.sel{border-color:var(--amber); box-shadow:0 0 0 3px rgba(240,180,41,.45),0 2px 6px rgba(0,0,0,.45)}
+  .dot2.bad{background:radial-gradient(circle at 32% 30%,#ff9a9e,#c22a30 55%,#7c1418)}
+  .grid2{display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:10px}
+  .mini{background:var(--card2); border:1px solid var(--line); border-radius:12px; padding:12px}
+  .mini h4{margin:0 0 4px; font-size:15px}
+  .mini .who{font-size:12px; color:var(--mut); margin-bottom:6px}
+  .gcard{border-left:3px solid var(--blue); padding-left:10px}
+  .gcard.why{border-left-color:var(--amber)}
+  .optbtn{display:block; width:100%; text-align:left; background:var(--card2); color:var(--txt);
+    border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin:7px 0;
+    font-size:14px; font-family:inherit; cursor:pointer}
+  .optbtn.ok{border-color:var(--green); background:rgba(35,197,94,.12)}
+  .optbtn.bad{border-color:var(--red); background:rgba(226,56,63,.12)}
+  .optbtn:disabled{cursor:default}
+  .pillrow{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0}
+  .pillrow button{background:var(--card2); border:1px solid var(--line); color:var(--txt);
+    border-radius:99px; padding:8px 13px; font-size:13px; font-family:inherit; cursor:pointer}
+  .pillrow button.on{border-color:var(--red); color:#ffb4b7; font-weight:700}
+  .warn{font-size:12px; color:var(--mut); line-height:1.6; border-top:1px dashed var(--line); margin-top:10px; padding-top:8px}
+  .seg{display:flex; gap:8px; margin-bottom:12px}
+  .seg button{flex:1; background:var(--card); border:1px solid var(--line); color:var(--mut);
+    border-radius:10px; padding:9px 0; font-size:14px; font-family:inherit; cursor:pointer}
+  .seg button.on{color:#fff; border-color:var(--red); background:rgba(226,56,63,.12); font-weight:700}
+  .score{font-size:15px; text-align:center; color:var(--amber); margin:10px 0; font-weight:700}
+  .searchrow{display:flex; gap:8px; margin-bottom:8px}
+  .searchrow input{flex:1; background:var(--card2); border:1px solid var(--line); color:var(--txt);
+    border-radius:10px; padding:11px 12px; font-size:15px; font-family:inherit; outline:none}
+  .searchrow input:focus{border-color:var(--red)}
+  .plist .mini{padding:10px 12px; cursor:pointer}
+  .plist .mini:active{border-color:var(--red)}
+  #modal{position:fixed; inset:0; z-index:100; background:rgba(5,8,12,.72); display:none;
+    align-items:flex-end; justify-content:center}
+  #modal.on{display:flex}
+  #modal .mbox{background:var(--card); border:1px solid var(--line); border-radius:18px 18px 0 0;
+    width:100%; max-width:700px; max-height:82vh; overflow-y:auto; padding:18px 16px calc(18px + env(safe-area-inset-bottom)); position:relative}
+  #modal .mclose{position:absolute; top:10px; right:14px; background:var(--card2); color:var(--txt);
+    border:1px solid var(--line); border-radius:99px; width:34px; height:34px; font-size:15px; cursor:pointer}
+  .mrow{font-size:13px; color:var(--mut); margin:2px 0}
+  .mrow b{color:var(--txt)}
+  .pairli{font-size:13px; line-height:1.55; margin:5px 0; padding-left:10px; border-left:2px solid var(--green)}
+  .warnlist li{font-size:13px; line-height:1.55; margin:5px 0; padding-left:2px}
+  .lv2{color:#ffb4b7} .lv1{color:#ffe1a1} .lv0{color:#a8d2ff}
+  .benchbar{display:flex; flex-wrap:wrap; gap:6px; margin:6px 0}
+  .benchbar button{background:var(--card2); border:1px solid var(--line); color:var(--txt);
+    border-radius:9px; padding:6px 9px; font-size:12px; font-family:inherit; cursor:pointer}
+  .benchbar button:active{border-color:var(--amber)}
+  .hintline{font-size:12px; color:var(--mut); margin:4px 0}
+  .plusli{color:#8ef0b3} .minusli{color:#ffb4b7}
+</style>
+</head>
+<body>
+<header>
+  <div class="t">看球战术台 <b>TacticBoard</b><span class="badge">v3 · 数据截至 2026.10 · 名单已按 2026-27 官方更新</span></div>
+  <div class="s">赛前 3 分钟简报 → 比赛盯 3 个点 → 赛后名词复盘 · 若显示为旧版请强制刷新</div>
+</header>
+<main>
+  <section class="tab on" id="tab-fmt"></section>
+  <section class="tab" id="tab-role"></section>
+  <section class="tab" id="tab-club"></section>
+  <section class="tab" id="tab-plr"></section>
+  <section class="tab" id="tab-sim"></section>
+  <section class="tab" id="tab-gls"></section>
+</main>
+<nav class="nav">
+  <button data-t="tab-fmt" class="on"><span class="i">📐</span>阵型</button>
+  <button data-t="tab-role"><span class="i">🎭</span>角色</button>
+  <button data-t="tab-club"><span class="i">🏟️</span>球队</button>
+  <button data-t="tab-plr"><span class="i">🔍</span>球员</button>
+  <button data-t="tab-sim"><span class="i">🎮</span>模拟器</button>
+  <button data-t="tab-gls"><span class="i">📖</span>词典</button>
+</nav>
+<footer class="hintline" style="text-align:center; padding:0 14px 92px; line-height:1.7">
+  数据截至 2026.10 · 转会/换帅后对 ZCode 说「更新数据」即可刷新<br>
+  球员库约 210 人覆盖豪门主力级 · 本地学习记录保存在浏览器
+</footer>
+
+<div id="modal"><div class="mbox" id="mbox"></div></div>
+
+<script src="players.js?v=5"></script>
+<script src="data.js?v=5"></script>
+<script>
+"use strict";
+/* ================= 工具 ================= */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s).replace(/</g,"&lt;");
+function lsGet(k, d){ try{ const v = localStorage.getItem(k); return v===null? d : JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+
+const POSN = {GK:"门将",CB:"中卫",LB:"左后卫",RB:"右后卫",LWB:"左翼卫",RWB:"右翼卫",DM:"后腰(6)",CM:"中场(8)",AM:"前腰(10)",LW:"左边锋",RW:"右边锋",ST:"中锋(9)"};
+const NEAR = {GK:[], CB:["LB","RB","LWB","RWB","DM"], LB:["LWB","CB","LW"], RB:["RWB","CB","RW"],
+  LWB:["LB","LW","CB"], RWB:["RB","RW","CB"], DM:["CM","CB"], CM:["DM","AM"],
+  AM:["CM","LW","RW","ST"], LW:["LWB","AM","ST","RW"], RW:["RWB","AM","ST","LW"], ST:["AM","LW","RW"]};
+const ATTR_FLAVOR = {pace:"回追/转身速度不够，怕被直接打身后", sta:"90 分钟高频往返的体能存疑",
+  air:"争顶和防空吃亏", def:"防守对抗与站位达不到该位置要求", pass:"出球/组织精度低于该位置需要", fin:"终结威胁不足"};
+
+/* ================= 球员弹窗 ================= */
+function findPlayer(name){
+  return PLAYERS.find(p => p.n === name || (p.en||[]).some(e => e.toLowerCase() === String(name).toLowerCase()));
+}
+function openPlayer(name){
+  const p = findPlayer(name);
+  if(!p){ return; }
+  const posTxt = p.pos.map(x=>POSN[x]||x).join(" / ");
+  $("#mbox").innerHTML =
+    '<button class="mclose" onclick="closeModal()">✕</button>' +
+    '<h3 style="margin:0 0 2px;font-size:20px">'+esc(p.n)+(p.num?' <small style="color:var(--mut);font-size:14px">#'+p.num+'</small>':'')+
+    '<small style="color:var(--mut);font-weight:400;font-size:13px"> '+(p.en||[]).filter(e=>!/[\u4e00-\u9fa5]/.test(e)).join(" / ")+'</small></h3>' +
+    '<div class="mrow"><b>位置：</b>'+posTxt+' &nbsp;·&nbsp; <b>惯用脚：</b>'+(p.foot||"待确认")+(p.age?' &nbsp;·&nbsp; <b>年龄：</b>'+p.age:'')+'</div>' +
+    '<div class="mrow"><b>俱乐部：</b>'+esc(p.club)+'（截至 2026.10） &nbsp;·&nbsp; <b>国家队：</b>'+esc(p.nat)+'</div>' +
+    (p.season?'<div class="mrow"><b>上季数据：</b>'+esc(p.season)+'</div>':"") +
+    (p.status?'<div class="mrow" style="color:#ffb4b7"><b>状态：</b>'+esc(p.status)+'</div>':"") +
+    '<div class="tagline" style="margin-top:8px">「'+esc(p.st)+'」</div>' +
+    (p.tags && p.tags.length ? '<div>'+(p.tags.map(t=>'<span class="chip y">'+esc(t)+'</span>').join(""))+'</div>' : "") +
+    '<div class="sec">风 格 详 解</div><div class="p">'+esc(p.d)+'</div>' +
+    (p.pair && p.pair.length ? '<div class="sec">谁 和 他 搭 配</div>'+p.pair.map(x=>'<div class="pairli">'+esc(x)+'</div>').join("") : "") +
+    (p.a ? '<div class="sec">属 性 示 意（模拟器引擎用）</div><div class="hintline">速度 '+p.a.pace+' · 出球 '+p.a.pass+' · 防守 '+p.a.def+' · 争顶 '+p.a.air+' · 终结 '+p.a.fin+' · 体能 '+p.a.sta+'</div>' : "") +
+    '<div class="warn">发现他转会/信息过期？在 ZCode 会话里喊我更新，30 秒更正。</div>';
+  $("#modal").classList.add("on");
+}
+function closeModal(){ $("#modal").classList.remove("on"); }
+$("#modal").addEventListener("click", e => { if(e.target.id === "modal") closeModal(); });
+
+function playerChips(names){
+  return (names||[]).map(n => findPlayer(n) ? '<button class="chip" data-p="'+esc(n)+'">'+esc(n)+'</button>' : '<span class="chip">'+esc(n)+'</span>').join("");
+}
+document.addEventListener("click", e => {
+  const c = e.target.closest("button.chip[data-p]");
+  if(c) openPlayer(c.dataset.p);
+});
+
+/* ================= 阵型页 ================= */
+function pitch(dots, cls){
+  return '<div class="pitch"><div class="circle"></div><div class="box top"></div><div class="box bot"></div>' +
+    dots.map(d => '<div class="dot '+(cls||"")+(d[3]==="k"?" k":"")+'" style="left:'+d[1]+'%;top:'+d[2]+'%">'+d[0]+'</div>').join("") +
+    '</div>';
+}
+function renderFormations(){
+  $("#tab-fmt").innerHTML =
+    '<div class="card"><h3>怎么用这个 App</h3><div class="p">📱 手机上：把整个 tactics 文件夹存到「文件」App，点开 index.html（数据文件要和页面在一起）。赛前打开<b>「模拟器」</b>排阵容看警告，比赛里只盯简报给的 3 个点，赛后用<b>「词典」</b>复盘、做测验。学习进度自动存在浏览器里。</div><div class="p">⚠️ 先记一句话：<b>阵型是起步姿势，不是站着不动的位置</b>。所有卡片配合最后一张「现代通用形状」理解。</div></div>' +
+    FORMATIONS.map(f =>
+      '<div class="card'+(f.id==="meta"?" deep":"")+'"><h3>'+f.name+'<small>'+f.tag+'</small></h3>' +
+      pitch(f.dots) +
+      '<div class="sec">优 势</div><ul class="tight">'+f.good.map(x=>"<li>"+x+"</li>").join("")+'</ul>' +
+      '<div class="sec">劣 势 / 风险</div><ul class="tight">'+f.bad.map(x=>"<li>"+x+"</li>").join("")+'</ul>' +
+      '<div class="sec">谁在用</div><div class="p">'+f.who+'</div>' +
+      '</div>').join("");
+}
+
+/* ================= 角色页 ================= */
+function renderRoles(){
+  $("#tab-role").innerHTML =
+    '<div class="card"><h3>位置编号速查</h3><div class="p">1=门将 · 2-5=后卫 · 6=后腰（保护弧顶的人）· 8=中中场（要防守的组织者）· 10=前腰（不落位的组织者）· 7/11=边锋 · 9=中锋。<b>号码是职责，不是站位。</b></div><div class="p">👇 每个角色下面都点了<b>现役球员例子</b>——点击名字弹出该球员的风格、球队、国家队、搭档关系。</div></div>' +
+    ROLES.map(g =>
+      '<div class="sec" style="margin:16px 0 6px">'+g.g+'</div>' +
+      g.items.map(it =>
+        '<div class="card"><h4 style="margin:0 0 4px;font-size:15.5px">'+it.n+'</h4>' +
+        '<div class="p">'+it.d+'</div>' +
+        (it.ex && it.ex.length ? '<div class="hintline">现役例子（点击查看）：'+playerChips(it.ex)+'</div>' : "") +
+        '</div>').join("")
+    ).join("");
+}
+
+/* ================= 球队页 ================= */
+let clubSeg = "dna";
+function renderClubs(){
+  const segs = '<div class="seg"><button data-s="dna"'+(clubSeg==="dna"?' class="on"':'')+'>豪门 DNA</button>'+
+    '<button data-s="epl"'+(clubSeg==="epl"?' class="on"':'')+'>英超 20 队</button>'+
+    '<button data-s="nat"'+(clubSeg==="nat"?' class="on"':'')+'>国家队</button></div>';
+  let body = "";
+  if(clubSeg === "dna"){
+    const deep = CLUBS.filter(c=>c.deep).map(c =>
+      '<div class="card deep"><h3>'+c.badge+' '+c.name+'<small>'+c.coach+'</small></h3>' +
+      '<div class="tagline">'+c.sys+'</div>' +
+      '<ul class="tight">'+c.bullets.map(b=>"<li>"+b+"</li>").join("")+'</ul></div>').join("");
+    const rest = CLUBS.filter(c=>!c.deep).map(c =>
+      '<div class="mini"><h4>'+c.badge+' '+c.name+'<span style="color:var(--mut);font-weight:400;font-size:12px"> · '+c.coach+'</span></h4>' +
+      '<div class="who">'+c.sys+'</div>' +
+      '<ul class="tight">'+c.bullets.map(b=>"<li>"+b+"</li>").join("")+'</ul></div>').join("");
+    body = '<div class="card"><h3>五大联赛豪门 + 欧冠常客</h3><div class="p">2026 夏窗教练大挪移已核实：卡里克（曼联）、阿隆索（切尔西）、穆里尼奥（皇马）、马雷斯卡（曼城）、伊劳拉（利物浦）、德泽尔比（热刺）、阿莫林（米兰）；国家队：齐达内（法国）、克洛普（德国）、哈维（荷兰）。前两张是曼联和拜仁深度卡。</div></div>' + deep +
+      '<div class="sec" style="margin:14px 0 8px">其 他 豪 门 速 览</div><div class="grid2">'+rest+'</div>';
+  } else if(clubSeg === "epl"){
+    body = '<div class="card"><h3>英超 2026-27 · 20 队侦察报告</h3><div class="p">升班马：考文垂、伊普斯维奇、赫尔城（降级：西汉姆、伯恩利、狼队）。每队：主帅 · 体系 · 核心球员 · <b>对曼联的威胁点</b>。核心球员一栏已按 2026 夏窗后的转会更新（恩佐→曼城、巴尔克拉→利物浦、蒂勒曼斯/巴莱巴→曼联等）。</div></div>' +
+      PL20.map(c =>
+        (c.name==="曼联" ? '<div class="card deep">' : '<div class="card">') +
+        '<h3>'+c.name+'<small>'+c.mgr+'</small></h3><div class="tagline">'+c.sys+'</div>' +
+        '<div class="mrow"><b>核心：</b>'+c.key+'</div>' +
+        '<div class="mrow" style="margin-top:6px"><b>对曼联的威胁：</b>'+c.threat+'</div></div>').join("");
+  } else {
+    body = '<div class="card"><h3>国家队</h3><div class="p">2026 世界杯后的<b>名帅国家队潮</b>已核实：齐达内执教法国、克洛普执教德国、哈维执教荷兰。排名取自 2026 年 10 月 FIFA 排名（西班牙夺冠后登顶）。每队附战术看点。</div></div>' +
+      NATIONS.map(n =>
+        '<div class="card"><h3>'+(n.r?('#'+n.r+' '):'')+' '+n.f+' '+n.name+'<small>'+(n.sys.includes("<b>")?n.sys:n.sys)+'</small></h3>' +
+        '<div class="p">'+n.d+'</div></div>').join("");
+  }
+  $("#tab-club").innerHTML = segs + body;
+  $$("#tab-club .seg button").forEach(b => b.onclick = () => { clubSeg = b.dataset.s; renderClubs(); window.scrollTo(0,0); });
+}
+
+/* ================= 球员页（百科 / 曼联专属） ================= */
+let plrSeg = "wiki", plrQ = "", plrFilter = "all";
+const PLR_FILTERS = [
+ ["all","全部"],["GK","门将"],["DEF","后卫"],["MID","中场"],["FWD","锋线"],
+ ["L","左脚"],["R","右脚"],["LCB","左脚中卫"]
+];
+function plrMatch(p){
+  const f = plrFilter;
+  if(f==="all") return true;
+  if(f==="L") return p.foot==="左";
+  if(f==="R") return p.foot==="右";
+  if(f==="LCB") return p.pos.includes("CB") && p.foot==="左";
+  const grp = {GK:["GK"], DEF:["CB","LB","RB","LWB","RWB"], MID:["DM","CM","AM"], FWD:["LW","RW","ST"]}[f];
+  return p.pos.some(x => grp.includes(x));
+}
+function plrHits(){
+  const q = plrQ.trim().toLowerCase();
+  return PLAYERS.filter(p => {
+    if(!plrMatch(p)) return false;
+    if(!q) return true;
+    return p.n.toLowerCase().includes(q) || (p.en||[]).some(e => e.toLowerCase().includes(q)) || (p.club||"").toLowerCase().includes(q) || (p.nat||"").toLowerCase().includes(q);
+  });
+}
+function buildPlrWiki(){
+  /* 输入框和筛选键只建一次，之后只刷新结果区——中文输入法不会被打断 */
+  $("#tab-plr").innerHTML =
+    '<div class="card"><h3>球员百科</h3><div class="p">搜中文名/英文名/俱乐部/国家队都行（支持别名：塞斯科=谢什科、阿马德=迪亚洛）。点球员看：<b>风格详解 · 俱乐部 · 国家队 · 谁和他搭配 · 惯用脚 · 上季数据</b>。共 '+PLAYERS.length+' 人，覆盖五大豪门+英超20队主力级。</div></div>' +
+    '<div class="card"><div class="searchrow"><input id="qinp" placeholder="搜球员：哈兰德 / B费 / Sesko / 曼城…"></div>' +
+    '<div class="pillrow" id="plrfilters">'+PLR_FILTERS.map(f=>'<button data-f="'+f[0]+'"'+(plrFilter===f[0]?' class="on"':'')+'>'+f[1]+'</button>').join("")+'</div></div>' +
+    '<div id="plrResults"></div>';
+  let timer = null;
+  $("#qinp").addEventListener("input", () => {
+    plrQ = $("#qinp").value;
+    clearTimeout(timer);
+    timer = setTimeout(renderPlrResults, 180);
+  });
+  $$("#plrfilters button").forEach(b => b.onclick = () => {
+    plrFilter = b.dataset.f;
+    $$("#plrfilters button").forEach(x=>x.classList.toggle("on", x===b));
+    renderPlrResults();
+  });
+  renderPlrResults();
+}
+function renderPlrResults(){
+  const hits = plrHits();
+  $("#plrResults").innerHTML =
+    '<div class="hintline" style="margin:2px 4px 8px">找到 '+hits.length+' 人</div>' +
+    (hits.length ? hits.map(p =>
+      '<div class="mini" data-p="'+esc(p.n)+'" style="margin-bottom:8px"><h4>'+esc(p.n)+(p.num?' <span style="color:var(--mut);font-size:12px">#'+p.num+'</span>':'')+' <span style="font-weight:400;color:var(--mut);font-size:12px">'+(p.en||[]).filter(e=>!/[\u4e00-\u9fa5]/.test(e))[0]+'</span></h4>' +
+      '<div class="who">'+p.pos.map(x=>POSN[x]).join(" · ")+' | '+(p.foot||"—")+'脚 | '+esc(p.club)+(p.status?' | ⛔'+esc(p.status):'')+'</div>' +
+      '<div class="p" style="margin:0;font-size:12.5px;color:#cdd7e1">'+esc(p.st)+'</div></div>').join("")
+      : '<div class="card"><div class="p">没有找到——试试更短的关键词。</div></div>');
+  $$("#plrResults .mini").forEach(m => m.onclick = () => openPlayer(m.dataset.p));
+}
+function renderUtdDeep(){
+  const group = (title, items) =>
+    '<div class="sec" style="margin:16px 0 6px">'+title+'</div>' +
+    items.map(it =>
+      '<div class="card deep"><h3>'+(findPlayer(it.n)?'<button class="chip" data-p="'+esc(it.n)+'">'+esc(it.n)+'</button>':esc(it.n))+
+      '<small>#'+it.num+'</small></h3>' +
+      '<div class="tagline">'+it.line+'</div>' +
+      '<div class="mrow"><b>数据：</b>'+esc(it.data)+'</div>' +
+      '<div class="sec">技 术 特 点（大数据画像）</div><ul class="tight">'+it.plus.map(x=>'<li class="plusli">＋ '+x+'</li>').join("")+'</ul>' +
+      '<ul class="tight">'+it.minus.map(x=>'<li class="minusli">－ '+x+'</li>').join("")+'</ul>' +
+      '<div class="sec">阵 型 职 责</div>' +
+      '<div class="pairli"><b>4-2-3-1（卡里克）：</b>'+it.fit.a+'</div>' +
+      '<div class="pairli"><b>4-3-3：</b>'+it.fit.b+'</div>' +
+      '<div class="pairli"><b>三中卫：</b>'+it.fit.c+'</div>' +
+      '</div>').join("");
+  $("#tab-plr").innerHTML =
+    '<div class="card deep"><h3>曼联专属 · 阵容适配解析</h3><div class="p">基于 2026-27 官方名单（官方框架 + 上季数据）。每名球员：技术特点画像 + <b>三种阵型下的具体职责</b>。点名字弹完整档案。搭配组合和换帅预案在最下面。</div></div>' +
+    UTD_DEEP.map(g => group(g.g, g.items)).join("") +
+    '<div class="sec" style="margin:18px 0 8px;font-size:14px">搭 档 组 合 解 析（谁干啥、偏向哪、帮谁补防）</div>' +
+    UTD_COMBOS.map(c =>
+      '<div class="card"><h3>'+c.t+'<small>'+c.who+'</small></h3>' +
+      '<ul class="tight">'+c.jobs.map(j=>"<li>"+j+"</li>").join("")+'</ul>' +
+      '<div class="p" style="color:#8ef0b3">🔗 联动：'+c.sync+'</div>' +
+      (c.weak?'<div class="p" style="color:#ffb4b7">⚠️ 风险：'+c.weak+'</div>':"") +
+      '</div>').join("") +
+    '<div class="card"><h3>🛡️ 换帅预案</h3><div class="p">万一卡里克离任：高压型（克洛普式）→ 体能组上（巴莱巴/桑托斯/梅努/迪亚洛/多古）；控制型（瓜系）→ 齐尔克泽伪9+海文出球+马兹拉维内收；三中卫（阿莫林式）→ 人手竟然齐；防反型（穆氏）→ 拉什福德+谢什科双箭头+双破坏6。'+UTD_BACKUP_NOTE+'</div></div>';
+}
+let plrBuilt = false;
+function renderPlr(){
+  if(plrSeg === "wiki"){
+    if(!plrBuilt){ buildPlrWiki(); plrBuilt = true; }
+    else { renderPlrResults(); }
+  } else {
+    renderUtdDeep();
+  }
+}
+
+/* ================= 模拟器 ================= */
+const SIM_FORMS = {
+ "4231": {name:"4-2-3-1（卡里克默认）", slots:[
+   {lab:"GK", fam:"GK", side:"C", pref:["GK"], x:50,y:92, need:{pass:65}},
+   {lab:"LB", fam:"LB", side:"L", pref:["LB","LWB","CB"], x:13,y:74, need:{pace:72,sta:72,def:58}},
+   {lab:"CB", fam:"CB", side:"L", pref:["CB"], x:37,y:80, need:{def:72,air:70}},
+   {lab:"CB", fam:"CB", side:"R", pref:["CB"], x:63,y:80, need:{def:72,air:70}},
+   {lab:"RB", fam:"RB", side:"R", pref:["RB","RWB","CB"], x:87,y:74, need:{pace:72,sta:72,def:58}},
+   {lab:"6",  fam:"DM", side:"C", pref:["DM","CM"], x:35,y:63, need:{def:70,pass:70}},
+   {lab:"6/8",fam:"DM", side:"C", pref:["DM","CM"], x:65,y:63, need:{pass:72,def:62}},
+   {lab:"10", fam:"AM", side:"C", pref:["AM","CM"], x:50,y:44, need:{pass:74,fin:62}},
+   {lab:"LW", fam:"LW", side:"L", pref:["LW","AM","ST"], x:13,y:30, need:{pace:78,fin:62}},
+   {lab:"RW", fam:"RW", side:"R", pref:["RW","AM","LW"], x:87,y:30, need:{pace:78,fin:62}},
+   {lab:"9",  fam:"ST", side:"C", pref:["ST","AM"], x:50,y:22, need:{fin:70,air:62}}]},
+ "433": {name:"4-3-3", slots:[
+   {lab:"GK", fam:"GK", side:"C", pref:["GK"], x:50,y:92, need:{pass:65}},
+   {lab:"LB", fam:"LB", side:"L", pref:["LB","LWB","CB"], x:13,y:74, need:{pace:72,sta:72,def:58}},
+   {lab:"CB", fam:"CB", side:"L", pref:["CB"], x:37,y:80, need:{def:72,air:70}},
+   {lab:"CB", fam:"CB", side:"R", pref:["CB"], x:63,y:80, need:{def:72,air:70}},
+   {lab:"RB", fam:"RB", side:"R", pref:["RB","RWB","CB"], x:87,y:74, need:{pace:72,sta:72,def:58}},
+   {lab:"6",  fam:"DM", side:"C", pref:["DM"], x:50,y:61, need:{def:74,pass:72}},
+   {lab:"8",  fam:"CM", side:"L", pref:["CM","AM"], x:28,y:55, need:{pass:72,def:56}},
+   {lab:"8",  fam:"CM", side:"R", pref:["CM","AM"], x:72,y:55, need:{pass:72,def:56}},
+   {lab:"LW", fam:"LW", side:"L", pref:["LW","AM","ST"], x:13,y:31, need:{pace:78,fin:62}},
+   {lab:"RW", fam:"RW", side:"R", pref:["RW","AM","LW"], x:87,y:31, need:{pace:78,fin:62}},
+   {lab:"9",  fam:"ST", side:"C", pref:["ST","AM"], x:50,y:23, need:{fin:70,air:60}}]},
+ "442": {name:"4-4-2", slots:[
+   {lab:"GK", fam:"GK", side:"C", pref:["GK"], x:50,y:92, need:{pass:65}},
+   {lab:"LB", fam:"LB", side:"L", pref:["LB","LWB","CB"], x:13,y:74, need:{pace:72,sta:72,def:58}},
+   {lab:"CB", fam:"CB", side:"L", pref:["CB"], x:37,y:80, need:{def:72,air:72}},
+   {lab:"CB", fam:"CB", side:"R", pref:["CB"], x:63,y:80, need:{def:72,air:72}},
+   {lab:"RB", fam:"RB", side:"R", pref:["RB","RWB","CB"], x:87,y:74, need:{pace:72,sta:72,def:58}},
+   {lab:"LM", fam:"LW", side:"L", pref:["LW","CM","LWB"], x:13,y:57, need:{pace:76,sta:74}},
+   {lab:"CM", fam:"CM", side:"C", pref:["CM","DM"], x:38,y:61, need:{pass:70,def:64}},
+   {lab:"CM", fam:"CM", side:"C", pref:["CM","AM"], x:62,y:61, need:{pass:72,def:58}},
+   {lab:"RM", fam:"RW", side:"R", pref:["RW","CM","RWB"], x:87,y:57, need:{pace:76,sta:74}},
+   {lab:"9",  fam:"ST", side:"L", pref:["ST","AM"], x:38,y:30, need:{fin:68}},
+   {lab:"9",  fam:"ST", side:"R", pref:["ST","LW","RW"], x:62,y:30, need:{fin:68,pace:72}}]},
+ "3421": {name:"3-4-2-1（阿莫林遗产）", slots:[
+   {lab:"GK", fam:"GK", side:"C", pref:["GK"], x:50,y:92, need:{pass:65}},
+   {lab:"LCB",fam:"CB", side:"L", pref:["CB"], x:28,y:80, need:{def:70,pass:70}},
+   {lab:"CB", fam:"CB", side:"C", pref:["CB"], x:50,y:83, need:{def:74,air:74}},
+   {lab:"RCB",fam:"CB", side:"R", pref:["CB"], x:72,y:80, need:{def:70,pass:70}},
+   {lab:"LWB",fam:"LWB",side:"L", pref:["LWB","LB","LW"], x:9,y:57, need:{pace:78,sta:80,def:56}},
+   {lab:"RWB",fam:"RWB",side:"R", pref:["RWB","RB","RW"], x:91,y:57, need:{pace:78,sta:80,def:56}},
+   {lab:"6",  fam:"DM", side:"C", pref:["DM","CM"], x:38,y:61, need:{def:70,pass:70}},
+   {lab:"8",  fam:"CM", side:"C", pref:["CM","DM"], x:62,y:61, need:{pass:72,def:60}},
+   {lab:"L10",fam:"AM", side:"C", pref:["AM","LW"], x:37,y:36, need:{pass:72,fin:62}},
+   {lab:"R10",fam:"AM", side:"C", pref:["AM","RW"], x:63,y:36, need:{pass:72,fin:62}},
+   {lab:"9",  fam:"ST", side:"C", pref:["ST","AM"], x:50,y:22, need:{fin:68,air:66}}]},
+ "352": {name:"3-5-2", slots:[
+   {lab:"GK", fam:"GK", side:"C", pref:["GK"], x:50,y:92, need:{pass:65}},
+   {lab:"LCB",fam:"CB", side:"L", pref:["CB"], x:28,y:80, need:{def:70,pass:70}},
+   {lab:"CB", fam:"CB", side:"C", pref:["CB"], x:50,y:83, need:{def:74,air:74}},
+   {lab:"RCB",fam:"CB", side:"R", pref:["CB"], x:72,y:80, need:{def:70,pass:70}},
+   {lab:"LWB",fam:"LWB",side:"L", pref:["LWB","LB","LW"], x:9,y:57, need:{pace:78,sta:80,def:56}},
+   {lab:"RWB",fam:"RWB",side:"R", pref:["RWB","RB","RW"], x:91,y:57, need:{pace:78,sta:80,def:56}},
+   {lab:"8",  fam:"CM", side:"L", pref:["CM","AM"], x:28,y:58, need:{pass:70,def:58}},
+   {lab:"6",  fam:"DM", side:"C", pref:["DM","CM"], x:50,y:64, need:{def:72,pass:70}},
+   {lab:"8",  fam:"CM", side:"R", pref:["CM","AM"], x:72,y:58, need:{pass:70,def:58}},
+   {lab:"9",  fam:"ST", side:"L", pref:["ST","AM"], x:40,y:29, need:{fin:68}},
+   {lab:"9",  fam:"ST", side:"R", pref:["ST","LW","RW"], x:60,y:29, need:{fin:68,pace:72}}]},
+ "4141": {name:"4-1-4-1", slots:[
+   {lab:"GK", fam:"GK", side:"C", pref:["GK"], x:50,y:92, need:{pass:65}},
+   {lab:"LB", fam:"LB", side:"L", pref:["LB","LWB","CB"], x:13,y:74, need:{pace:72,sta:72,def:58}},
+   {lab:"CB", fam:"CB", side:"L", pref:["CB"], x:37,y:80, need:{def:72,air:72}},
+   {lab:"CB", fam:"CB", side:"R", pref:["CB"], x:63,y:80, need:{def:72,air:72}},
+   {lab:"RB", fam:"RB", side:"R", pref:["RB","RWB","CB"], x:87,y:74, need:{pace:72,sta:72,def:58}},
+   {lab:"6",  fam:"DM", side:"C", pref:["DM"], x:50,y:68, need:{def:76,pass:70}},
+   {lab:"LM", fam:"LW", side:"L", pref:["LW","CM"], x:13,y:52, need:{pace:74,sta:74}},
+   {lab:"CM", fam:"CM", side:"C", pref:["CM","DM"], x:38,y:55, need:{pass:70,def:62}},
+   {lab:"CM", fam:"CM", side:"C", pref:["CM","AM"], x:62,y:55, need:{pass:70,def:58}},
+   {lab:"RM", fam:"RW", side:"R", pref:["RW","CM"], x:87,y:52, need:{pace:74,sta:74}},
+   {lab:"9",  fam:"ST", side:"C", pref:["ST","AM"], x:50,y:27, need:{fin:70}}]}
+};
+
+let simForm = "4231";
+let assign = {};
+let selSlot = null;
+let simSeg = "lineup";
+
+function slotFit(p, slot){
+  const msgs = [];
+  let lvl = 0;
+  const exact = slot.pref.filter(pp => p.pos.includes(pp));
+  if(exact.includes(slot.pref[0])){ /* 完美 */ }
+  else if(exact.length){ msgs.push({l:1, t:"他踢过这个位置但不是最自然的角色（"+p.pos.map(x=>POSN[x]).join("、")+" 出身），细节习惯需要适应。"}); lvl = Math.max(lvl,1); }
+  else if(p.pos.some(pp => NEAR[slot.fam].includes(pp))){ msgs.push({l:1, t:"就近改型：他的本能位置是 "+p.pos.map(x=>POSN[x]).join("、")+"，客串这里防守习惯/跑位线路要重新养。"}); lvl = Math.max(lvl,1); }
+  else { msgs.push({l:2, t:"位置错配：他的位置本能是 "+p.pos.map(x=>POSN[x]).join("、")+"，放在这里体系会被破坏。"}); lvl = 2; }
+  if(p.foot){
+    if((slot.fam==="LB"||slot.fam==="LWB") && p.foot==="右"){
+      msgs.push({l:1, t:"右脚踢左路：下底传中质量打折，对手会放他外线；好处是内切护球顺脚（现代逆足边后卫流派可接受，但要接受传中威胁下降）。"}); lvl = Math.max(lvl,1);
+    }
+    if((slot.fam==="RB"||slot.fam==="RWB") && p.foot==="左"){
+      msgs.push({l:1, t:"左脚踢右路：下底传中质量打折，对手会放他外线；内切护球顺脚是补偿。"}); lvl = Math.max(lvl,1);
+    }
+    if(slot.fam==="CB" && slot.side==="L" && p.foot==="右"){
+      msgs.push({l:0, t:"右脚踢左中卫：向左的出球线路变窄，对方逼抢左侧时他只能回传/大脚——现代可接受，但会被针对性设计。"}); lvl = Math.max(lvl,0);
+    }
+    if(slot.fam==="CB" && slot.side==="R" && p.foot==="左"){
+      msgs.push({l:0, t:"左脚踢右中卫：向右出球线路变窄——组织型球队会规避，实用性球队无所谓。"}); lvl = Math.max(lvl,0);
+    }
+  }
+  if(p.a){
+    for(const k in slot.need){
+      if((p.a[k]||0) < slot.need[k]){
+        msgs.push({l:1, t:"「"+(k==="pace"?"速度":k==="sta"?"体能":k==="air"?"争顶":k==="def"?"防守":k==="pass"?"出球":"终结")+"」低于这个位置的要求——"+ATTR_FLAVOR[k]+"。"});
+        lvl = Math.max(lvl,1);
+      }
+    }
+  }
+  return {lvl, msgs};
+}
+function fitScore(p, slot){
+  const f = slotFit(p, slot);
+  let s = 100;
+  if(!p.pos.includes(slot.pref[0])) s -= (f.lvl>=2 ? 60 : 22);
+  s -= f.msgs.filter(m=>m.l===1).length * 10;
+  s -= f.msgs.filter(m=>m.l===2).length * 40;
+  if(p.a){ s += (p.a.pace+p.a.pass+p.a.def+p.a.air+p.a.fin+p.a.sta)/100; } // 同分时综合属性更高者优先
+  return s;
+}
+function availableSquad(){
+  return PLAYERS.filter(p => p.club === "曼联" && !p.status);
+}
+function autoAssign(){
+  const slots = SIM_FORMS[simForm].slots;
+  const pool = availableSquad();
+  const used = new Set();
+  assign = {};
+  const order = slots.map((s,i)=>i).sort((a,b)=>{
+    const w = f => f==="GK"?0:f==="CB"?1:f==="DM"?2:3;
+    return w(slots[a].fam)-w(slots[b].fam);
+  });
+  for(const i of order){
+    let best=null, bestS=-1;
+    for(const p of pool){
+      if(used.has(p.n)) continue;
+      const s = fitScore(p, slots[i]);
+      if(s > bestS){ bestS = s; best = p.n; }
+    }
+    if(best){ assign[i] = best; used.add(best); }
+  }
+}
+function benchPlayers(){
+  const inXI = new Set(Object.values(assign));
+  return PLAYERS.filter(p => p.club === "曼联" && !inXI.has(p.n));
+}
+function slotWarnings(){
+  const slots = SIM_FORMS[simForm].slots;
+  const out = [];
+  slots.forEach((s,i)=>{
+    const name = assign[i]; if(!name) return;
+    const p = findPlayer(name); if(!p) return;
+    if(p.status){ out.push({lvl:2, txt:"「"+s.lab+" "+name+"」"+p.status+"——伤员不能上场。"}); return; }
+    const f = slotFit(p, s);
+    f.msgs.forEach(m => out.push({lvl:m.l, txt:"「"+s.lab+" "+name+"」"+m.t}));
+  });
+  const xi = Object.values(assign).map(n=>findPlayer(n)).filter(Boolean);
+  const cbSlots = slots.filter(s=>s.fam==="CB").length;
+  const cbNat = xi.filter(p=>p.pos.includes("CB")).length;
+  if(cbSlots>0 && cbNat<cbSlots){
+    out.push({lvl:2, txt:"「全局」中卫位上正印中卫不够（"+cbNat+"/"+cbSlots+"）：客串中卫在英超的高球和对抗里会被重点照顾。"});
+  }
+  const dmNat = xi.filter(p=>p.pos.includes("DM")).length;
+  if(dmNat===0){
+    out.push({lvl:2, txt:"「全局」阵容里没有正印 6 号：弧顶保护和攻转守第一道闸缺失——丢远射的标准配方。"});
+  }
+  const cbAssign = slots.map((s,i)=>({s,i})).filter(x=>x.s.fam==="CB" && assign[x.i]).map(x=>findPlayer(assign[x.i]));
+  if(cbAssign.length>=2 && !cbAssign.some(p=>p.foot==="左")){
+    out.push({lvl:0, txt:"「全局」双中卫均为右脚将：向左的出球线路整体变窄，对方重点逼左中卫时会很难受（现代可接受，看出球要求）。"});
+  }
+  out.sort((a,b)=>b.lvl-a.lvl);
+  return out;
+}
+/* 组合诊断：不看单点，看搭配——任何组合都有代价 */
+function comboWarnings(){
+  const slots = SIM_FORMS[simForm].slots;
+  const xi = slots.map((s,i)=>({s, p: findPlayer(assign[i])})).filter(x=>x.p);
+  const out = [];
+  const tg = p => p.tags || [];
+  const isShield = p => tg(p).includes("破坏型") || tg(p).includes("B2B");
+  const isOrg = p => tg(p).includes("拖后组织") || tg(p).includes("组织8") || tg(p).includes("节拍器") || tg(p).includes("现代10");
+  /* 中场组合 */
+  const mids = xi.filter(x=>x.s.fam==="DM" || x.s.fam==="CM").map(x=>x.p);
+  if(mids.length>=2){
+    const shields = mids.filter(isShield);
+    const orgs = mids.filter(isOrg);
+    if(shields.length===0){
+      out.push({lvl:2, area:"中场", txt:"中场组合（"+mids.map(p=>p.n).join("+")+"）没有任何防守屏障——全是组织/攻击型球员：弧顶保护真空、攻转守第一道闸缺失，对手一次转换直塞就能打穿中路。修正：换一名破坏型 6 号（巴莱巴/乌加特型）搭档，或让边后卫回收补人数。"});
+    } else if(shields.length===mids.length){
+      out.push({lvl:1, area:"中场", txt:"双破坏型中场（"+mids.map(p=>p.n).join("+")+"）：防守硬度拉满，但出球和推进可能便秘——阵地战攻坚会告急，需要前场有人回撤接应（齐尔克泽/芒特型），否则进攻全靠长传。"});
+    } else {
+      const shield = shields[0];
+      const other = mids.find(p=>p!==shield);
+      out.push({lvl:0, area:"中场", txt:"中场组合攻守平衡："+shield.n+"（扫荡保护+第一推进）+"+other.n+"（调度/肋部/前插）——一人管「抢回来」一人管「打出去」，现代最稳的结构。但注意：两人同丢球权时的弧顶保护仍是共同责任。"});
+    }
+    if(orgs.length===1 && mids.includes(orgs[0])){
+      const creators = xi.filter(x=>x.s.fam!=="GK" && (isOrg(x.p)||tg(x.p).includes("自由10"))).length;
+      if(creators<=1){
+        out.push({lvl:1, area:"中场", txt:"全队创造力集中在 "+orgs[0].n+" 一人：对手用后腰贴死他，进攻就只剩边路 1v1。需要一个第二组织点（回撤伪 9 或另一名组织 8）分流球权。"});
+      }
+    }
+  }
+  /* 中卫组合 */
+  const cbs = xi.filter(x=>x.s.fam==="CB").map(x=>x.p);
+  if(cbs.length>=2){
+    const up = cbs.filter(p=>tg(p).includes("上抢型"));
+    const hold = cbs.filter(p=>tg(p).includes("拖后型"));
+    if(up.length===cbs.length){
+      out.push({lvl:1, area:"防线", txt:"双上抢中卫（"+cbs.map(p=>p.n).join("+")+"）：两人同时前顶的回合，防线身后全空——必须有人回撤保护（6 号位回收或边中卫拖后），高位线还要配清球门将。赌对了是压迫样板，赌输是单刀集锦。"});
+    } else if(hold.length===cbs.length){
+      out.push({lvl:1, area:"防线", txt:"双拖后中卫（"+cbs.map(p=>p.n).join("+")+"）：上抢犹豫会让对手在中场从容转身组织，肋部直塞很难防——考虑换一个上抢型搭档扩大覆盖。"});
+    } else if(cbs.length===2){
+      out.push({lvl:0, area:"防线", txt:"中卫组合一抢一保（"+cbs.map(p=>p.n).join("+")+"）——结构健康：一人前顶扫荡，一人拖后兜底互补。"});
+    }
+  }
+  /* 边后卫逆足 */
+  const fbs = xi.filter(x=>["LB","RB","LWB","RWB"].includes(x.s.fam) && x.p);
+  const wrongFoot = fbs.filter(x => (x.s.side==="L" && x.p.foot==="右") || (x.s.side==="R" && x.p.foot==="左"));
+  if(fbs.length>=2 && wrongFoot.length===fbs.length){
+    out.push({lvl:1, area:"边路", txt:"两名边后卫全部逆足（"+wrongFoot.map(x=>x.p.n).join("+")+"）：两侧传中质量双降——这场比赛别指望边路传中战术，进攻必须走地面肋部或定位球，换上顺足边后卫是更稳妥的选择。"});
+  }
+  /* 前场速度 */
+  const outfield = xi.filter(x=>x.s.fam!=="GK").map(x=>x.p);
+  if(outfield.length && !outfield.some(p=>p.a && p.a.pace>=80)){
+    out.push({lvl:1, area:"锋线", txt:"前场没有一名速度≥80 的球员：破低位块缺少「身后」威胁，对方防线可以放心前压——转换进攻和反越位都会变钝，留一名爆点在场上是保底选项。"});
+  }
+  /* 伪9无支点 */
+  const st = xi.find(x=>x.s.fam==="ST" && x.p);
+  if(st && tg(st.p).includes("伪9") && !outfield.some(p=>p!==st.p && (tg(p).includes("支点")||tg(p).includes("抢点型")))){
+    out.push({lvl:1, area:"锋线", txt:"伪 9 阵型（"+st.p.n+"回撤）：禁区内没有传统抢点者——传中战术收益极低，进攻必须走地面肋部，角球第一点也没保障；好处是中场人数优势，配合两翼内收使用。"});
+  }
+  /* 年龄结构 */
+  const olds = xi.filter(x=>x.p.age && x.p.age>=32);
+  if(olds.length>=3){
+    out.push({lvl:1, area:"体能", txt:"首发里 "+olds.length+" 名 32+ 老将（"+olds.map(x=>x.p.n).join("、")+"）：70 分钟体能拐点会提前到来——换人窗口提前到 60 分钟，别赌最后 15 分钟的往返。"});
+  }
+  return out;
+}
+/* 对手风格 × 当前阵型与首发 = 动态危险度 */
+function styleRisk(k){
+  const base = {"4231":{press:2,midblock:2,lowblock:2,wing:2,transition:2},
+    "433":{press:1,midblock:2,lowblock:2,wing:2,transition:2},
+    "442":{press:1,midblock:1,lowblock:2,wing:2,transition:2},
+    "3421":{press:1,midblock:2,lowblock:2,wing:3,transition:3},
+    "352":{press:1,midblock:1,lowblock:2,wing:3,transition:2},
+    "4141":{press:1,midblock:1,lowblock:1,wing:2,transition:1}}[simForm];
+  let lvl = (base && base[k]) || 2;
+  const why = [];
+  const xi = SIM_FORMS[simForm].slots.map((s,i)=>({s, p: findPlayer(assign[i])})).filter(x=>x.p);
+  const tg = p => p.tags || [];
+  const mids = xi.filter(x=>x.s.fam==="DM"||x.s.fam==="CM").map(x=>x.p);
+  const shields = mids.filter(p=>tg(p).includes("破坏型")||tg(p).includes("B2B"));
+  if((k==="press"||k==="transition") && mids.length>=2 && shields.length===0){
+    lvl = Math.min(3, lvl+1);
+    why.push("你的双后腰（"+mids.map(p=>p.n).join("+")+"）没有防守屏障——这类对手专吃逼抢出球和转换");
+  }
+  const fbs = xi.filter(x=>["LB","RB","LWB","RWB"].includes(x.s.fam) && x.p);
+  const wf = fbs.filter(x=>(x.s.side==="L"&&x.p.foot==="右")||(x.s.side==="R"&&x.p.foot==="左"));
+  if(k==="wing" && wf.length>0){
+    lvl = Math.min(3, lvl+1);
+    why.push("边后卫"+wf.map(x=>x.p.n).join("、")+"逆足——对方边锋爆点会反复冲这条走廊");
+  }
+  const outfield = xi.filter(x=>x.s.fam!=="GK").map(x=>x.p);
+  if((k==="lowblock"||k==="midblock") && !outfield.some(p=>p.a&&p.a.pace>=80)){
+    lvl = Math.min(3, lvl+1);
+    why.push("前场没有直线速度——低位块最不怕的就是这种阵地战围攻");
+  }
+  const st = xi.find(x=>x.s.fam==="ST" && x.p);
+  if(k==="lowblock" && st && tg(st.p).includes("伪9")){
+    lvl = Math.min(3, lvl+1);
+    why.push("伪9阵型对摆大巴收益低——禁区内没有抢点者，传中打不动");
+  }
+  const cbs = xi.filter(x=>x.s.fam==="CB" && x.p);
+  if(k==="transition" && cbs.length>=2 && cbs.every(p=>tg(p).includes("上抢型"))){
+    lvl = Math.min(3, lvl+1);
+    why.push("双上抢中卫——转换型对手专吃上抢后的身后");
+  }
+  const gk = xi.find(x=>x.s.fam==="GK" && x.p);
+  if(k==="press" && gk && gk.p.a && gk.p.a.pass>=72){
+    lvl = Math.max(1, lvl-1);
+    why.push("门将出球能力强（"+gk.p.n+"），能缓解一部分压迫——后场别慌，敢短传");
+  }
+  const olds = xi.filter(x=>x.p.age && x.p.age>=32).length;
+  if(olds>=3){
+    lvl = Math.min(3, lvl+1);
+    why.push("首发老将偏多（"+olds+"名32+）——高节奏对手会重点冲击70分钟后的你");
+  }
+  return {lvl, why};
+}
+function renderSim(){
+  const form = SIM_FORMS[simForm];
+  const slots = form.slots;
+  const dots = slots.map((s,i)=>{
+    const name = assign[i] || "?";
+    const p = findPlayer(name);
+    let cls = "";
+    if(p){ cls = slotFit(p, s).lvl>=2 ? "bad" : ""; }
+    return '<div class="dot dot2 '+cls+(selSlot===i?" sel":"")+'" data-i="'+i+'" style="left:'+s.x+'%;top:'+s.y+'%">'+esc(name.length>4?name.slice(0,4):name)+'<small>'+s.lab+'</small></div>';
+  }).join("");
+  const warns = slotWarnings();
+  const combos = comboWarnings();
+  const warnHtml = warns.length ?
+    '<ul class="tight warnlist">'+warns.map(w=>'<li class="lv'+w.lvl+'">'+(w.lvl===2?"🔴":w.lvl===1?"⚠️":"ℹ️")+" "+w.txt+"</li>").join("")+'</ul>'
+    : '<div class="p" style="color:var(--green)">✅ 当前阵容没有单点警告——但组合层面的问题看下面的「组合诊断」。</div>';
+  const comboHtml = '<div class="sec">组 合 诊 断（中场 · 防线 · 边路 · 锋线 · 体能）</div><ul class="tight warnlist">' +
+    combos.map(w=>'<li class="lv'+w.lvl+'">'+(w.lvl===2?"🔴":w.lvl===1?"⚠️":"✅")+"【"+w.area+"】"+w.txt+"</li>").join("") +
+    '</ul>';
+  const sug = [];
+  slots.forEach((s,i)=>{
+    const name = assign[i]; if(!name) return;
+    const p = findPlayer(name); if(!p) return;
+    const f = slotFit(p, s);
+    if(f.lvl>=2 || p.status){
+      let best=null,bs=-1;
+      for(const b of benchPlayers()){
+        if(b.status) continue;
+        const sc = fitScore(b,s);
+        if(sc>bs){bs=sc;best=b.n;}
+      }
+      if(best && bs>90) sug.push(s.lab+" 改用 "+best);
+    }
+  });
+  const inXI = new Set(Object.values(assign));
+  const bench = PLAYERS.filter(p=>p.club==="曼联" && !inXI.has(p.n));
+  let lineup =
+    '<div class="card"><h3>阵容实验室：'+form.name+'</h3>' +
+    '<div class="p">点击场上<b>两个位置互换球员</b>；或点击一个位置后从下方替补席点人填入。首发 11 人由引擎按位置+脚+属性自动选，其余全在替补席（伤员自动避开）。把人放到不该踢的位置，警告会实时告诉你风险。</div>' +
+    '<div class="pillrow">'+Object.keys(SIM_FORMS).map(k=>'<button data-f="'+k+'"'+(k===simForm?' class="on"':'')+'>'+SIM_FORMS[k].name.split("（")[0]+'</button>').join("") +
+    '<button id="btnAuto">⚡ 自动排最强阵</button></div>' +
+    '<div class="pitch"><div class="circle"></div><div class="box top"></div><div class="box bot"></div>'+dots+'</div>' +
+    '<div class="sec">风 险 警 告（'+warns.length+' 项）</div>'+warnHtml +
+    comboHtml +
+    (sug.length ? '<div class="p" style="color:var(--green)">💡 建议：'+sug.join("；")+'</div>' : "") +
+    '<div class="sec">替 补 席'+(selSlot!==null?'（点击填入 '+slots[selSlot].lab+' 位）':'（先点场上位置再点人）')+'</div>' +
+    '<div class="benchbar">'+ (bench.length ? bench.map(p=>'<button data-p="'+esc(p.n)+'">'+esc(p.n)+'<small style="color:var(--mut)"> '+p.pos.map(x=>POSN[x]).join("/")+(p.status?' ⛔':'')+'</small></button>').join("") : '<span class="hintline">全部首发了</span>') +'</div>' +
+    '<div class="warn">「自动排阵」按位置本能+惯用脚+属性算分选人。属性是示意值，教你的是<b>判断逻辑</b>。想练「换教练预案」？切换上面任意阵型重新自动排阵即可。</div></div>';
+  const topWarn = warns.slice(0,2).map(w=>"· "+w.txt).join("<br>");
+  const ranked = SIMS.map(s=>({s, r:styleRisk(s.k)})).sort((a,b)=>b.r.lvl-a.r.lvl);
+  const brief = ranked.map(({s,r}) =>
+    '<div class="card'+(r.lvl>=3?' deep':'')+'"><h3>⚔️ '+s.name+'<small>'+s.ex+'</small></h3>' +
+    '<div class="tagline">对「'+SIM_FORMS[simForm].name.split("（")[0]+' + 你这套首发」的危险度：'+"●".repeat(r.lvl)+"○".repeat(3-r.lvl)+'</div>' +
+    (r.why.length?'<div class="sec">针 对 你 这 套 阵 容</div><ul class="tight">'+r.why.map(w=>"<li>"+w+"</li>").join("")+'</ul>':"") +
+    '<div class="sec">总 思 路</div><div class="p">'+s.idea+'</div>' +
+    '<div class="sec">曼联的三大风险</div><ul class="tight">'+s.risks.map(r2=>"<li>"+r2+"</li>").join("")+'</ul>' +
+    '<div class="sec">推荐布置</div><ul class="tight">'+s.plan.map(r2=>"<li>"+r2+"</li>").join("")+'</ul>' +
+    '<div class="sec">观赛清单</div><ul class="tight">'+s.watch.map(r2=>"<li>"+r2+"</li>").join("")+'</ul>' +
+    '<div class="sec">出 错 预 测</div><div class="p" style="color:#ffb4b7">'+s.wrong+'</div></div>').join("");
+  const briefIntro = '<div class="card"><h3>对手风格简报（随阵型和阵容变化）</h3><div class="p">按危险度从高到低排列。<b>危险度不是固定的</b>：根据你当前选的阵型 + 排出的首发实时计算——同样打利兹联式对手，多古踢左后卫和肖踢左后卫是两个危险度。' +
+    (warns.length? '你当前阵容的单点问题：<br><span class="lv1">'+topWarn+'</span>' : '当前首发没有单点警告，组合层面的问题看「阵容实验室」的组合诊断。') +'</div></div>';
+  const segs = '<div class="seg"><button data-s="lineup"'+(simSeg==="lineup"?' class="on"':'')+'>阵容实验室</button>'+
+    '<button data-s="brief"'+(simSeg==="brief"?' class="on"':'')+'>对手简报</button></div>';
+  $("#tab-sim").innerHTML = segs + (simSeg==="lineup" ? lineup : briefIntro + brief);
+  $$("#tab-sim .seg button").forEach(b => b.onclick = () => { simSeg = b.dataset.s; renderSim(); window.scrollTo(0,0); });
+  $$("#tab-sim .pillrow button[data-f]").forEach(b => b.onclick = () => { simForm = b.dataset.f; selSlot=null; autoAssign(); renderSim(); window.scrollTo(0,0); });
+  const auto = $("#btnAuto");
+  if(auto) auto.onclick = () => { selSlot=null; autoAssign(); renderSim(); };
+  $$("#tab-sim .dot2").forEach(d => d.onclick = () => {
+    const i = +d.dataset.i;
+    if(selSlot === null){ selSlot = i; }
+    else if(selSlot === i){ selSlot = null; }
+    else { const tmp = assign[selSlot]; assign[selSlot] = assign[i]; assign[i] = tmp; selSlot = null; }
+    renderSim();
+  });
+  $$("#tab-sim .benchbar button").forEach(b => b.onclick = () => {
+    if(selSlot === null){ renderSim(); return; }
+    assign[selSlot] = b.dataset.p;
+    selSlot = null;
+    renderSim();
+  });
+}
+
+/* ================= 词典 + 测验 ================= */
+let glSeg = "words";
+let qi = 0, session = [], sessionAns = [], qDone = false;
+function pickSession(){
+  const hist = lsGet("tb_hist", {});
+  const idx = QUIZ_BANK.map((_,i)=>i);
+  idx.sort((a,b)=>((hist[a]||0)-(hist[b]||0)) || (Math.random()-0.5));
+  session = idx.slice(0, 10);
+  for(let i=session.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [session[i],session[j]]=[session[j],session[i]]; }
+  qi = 0; sessionAns = []; qDone = false;
+}
+function renderGlossary(){
+  if(glSeg === "words"){
+    $("#tab-gls").innerHTML =
+      '<div class="seg"><button data-s="words" class="on">名词 & 为什么</button><button data-s="quiz">战术测验（无限更新）</button></div>' +
+      GLOSSARY.map(g =>
+        '<div class="card gcard'+(g.why?' why':'')+'"><h4 style="margin:0 0 4px;font-size:15.5px">'+(g.why?"❓ ":"")+g.w+'</h4>' +
+        '<div class="p">'+g.d+'</div></div>').join("");
+  } else {
+    const stats = lsGet("tb_stats", {a:0,c:0});
+    let body = '<div class="seg"><button data-s="words">名词 & 为什么</button><button data-s="quiz" class="on">战术测验（无限更新）</button></div>';
+    if(!session.length) pickSession();
+    if(qDone){
+      const score = sessionAns.filter(Boolean).length;
+      body += '<div class="card"><h3>本轮成绩：'+score+' / '+session.length+'</h3>' +
+        '<div class="p">'+(score>=8?"这批题吃得下了——换一批继续，题库里还有 "+(QUIZ_BANK.length-session.length)+" 道新题等着。":score>=5?"不错！错题的解析都写了原理，回头翻「词典」对应名词再战。":"别慌，先看「词典」的名词卡，这不是考试是热身。")+'</div>' +
+        '<div class="score">累计：答对 '+stats.c+' / 答过 '+stats.a+'（'+(stats.a?Math.round(stats.c/stats.a*100):0)+'%）· 题库共 '+QUIZ_BANK.length+' 题，自动避开近期出过的题</div>' +
+        '<div class="pillrow"><button id="qMore">🔄 换一批新题</button><button id="qReset">重置学习记录</button></div></div>';
+    } else {
+      const q = QUIZ_BANK[session[qi]];
+      body += '<div class="card"><h3>第 '+(qi+1)+' / '+session.length+' 题</h3><div class="p">'+q.q+'</div><div id="qOpts">' +
+        q.o.map((o,i)=>'<button class="optbtn" data-i="'+i+'">'+String.fromCharCode(65+i)+'. '+o+'</button>').join("") +
+        '</div><div id="qWhy"></div></div>';
+    }
+    $("#tab-gls").innerHTML = body;
+    const more = $("#qMore");
+    if(more) more.onclick = () => { pickSession(); renderGlossary(); window.scrollTo(0,0); };
+    const reset = $("#qReset");
+    if(reset) reset.onclick = () => { lsSet("tb_hist",{}); lsSet("tb_stats",{a:0,c:0}); pickSession(); renderGlossary(); };
+    $$("#qOpts .optbtn").forEach(b => b.onclick = () => {
+      const q = QUIZ_BANK[session[qi]], pick = +b.dataset.i, correct = pick===q.a;
+      $$("#qOpts .optbtn").forEach((ob,i)=>{
+        ob.disabled = true;
+        if(i===q.a) ob.classList.add("ok");
+        else if(i===pick) ob.classList.add("bad");
+      });
+      const hist = lsGet("tb_hist", {});
+      hist[session[qi]] = Date.now(); lsSet("tb_hist", hist);
+      const stats = lsGet("tb_stats", {a:0,c:0});
+      stats.a++; if(correct) stats.c++; lsSet("tb_stats", stats);
+      sessionAns.push(correct);
+      $("#qWhy").innerHTML = '<div class="p" style="color:var(--amber);border-top:1px dashed var(--line);padding-top:8px">'+(correct?"✅ 答对了！":"❌ 正确答案："+String.fromCharCode(65+q.a)+"。")+' '+q.why+'</div>' +
+        (qi<session.length-1 ? '<div class="pillrow"><button id="qNext">下一题 →</button></div>' : '<div class="pillrow"><button id="qNext">看成绩 →</button></div>');
+      $("#qNext").onclick = () => { if(qi<session.length-1) qi++; else qDone=true; renderGlossary(); window.scrollTo(0,0); };
+    });
+  }
+  /* 分段按钮绑定放两个分支共用的位置——v2 的 bug 就出在这 */
+  $$("#tab-gls .seg button").forEach(b => b.onclick = () => { glSeg = b.dataset.s; renderGlossary(); window.scrollTo(0,0); });
+}
+
+/* ================= 导航 & 启动 ================= */
+$$(".nav button").forEach(b => {
+  b.onclick = () => {
+    $$(".nav button").forEach(x=>x.classList.remove("on"));
+    $$(".tab").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    $("#"+b.dataset.t).classList.add("on");
+    window.scrollTo(0,0);
+  };
+});
+
+autoAssign();
+renderFormations();
+renderRoles();
+renderClubs();
+renderPlr();
+renderSim();
+renderGlossary();
+</script>
+</body>
+</html>
