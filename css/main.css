@@ -1,0 +1,166 @@
+  :root{
+    --bg:#0c1015; --card:#151a21; --card2:#1b222c; --line:#2a323d;
+    --txt:#e8eef5; --mut:#93a0af; --red:#e2383f; --red2:#a32228;
+    --green:#23c55e; --amber:#f0b429; --blue:#4ea1ff; --pitchA:#0e4f2f; --pitchB:#0b3f25;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0; padding:0; background:var(--bg); color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",Roboto,"Microsoft YaHei",sans-serif;}
+  header{position:sticky; top:0; z-index:50; backdrop-filter:blur(10px);
+    background:rgba(12,16,21,.86); border-bottom:1px solid var(--line);
+    padding:10px 14px 8px; }
+  header .t{font-weight:800; font-size:17px; letter-spacing:.5px}
+  header .t b{color:var(--red)}
+  header .badge{display:inline-block; font-size:11px; color:var(--amber);
+    border:1px solid rgba(240,180,41,.4); border-radius:99px; padding:1px 8px; margin-left:8px; vertical-align:2px}
+  header .s{font-size:12px; color:var(--mut); margin-top:2px}
+  main{max-width:860px; margin:0 auto; padding:12px 12px 96px}
+  .nav{position:fixed; bottom:0; left:0; right:0; z-index:60; display:flex;
+    background:rgba(16,20,26,.96); border-top:1px solid var(--line);
+    padding-bottom:env(safe-area-inset-bottom);}
+  .nav button{flex:1; background:none; border:0; color:var(--mut); font-size:11px;
+    padding:8px 2px 9px; font-family:inherit}
+  .nav button .i{display:block; font-size:19px; margin-bottom:1px; filter:grayscale(1) opacity(.7)}
+  .nav button.on{color:var(--txt); font-weight:700}
+  .nav button.on .i{filter:none}
+  .tab{display:none}
+  .tab.on{display:block}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:14px; margin-bottom:12px}
+  .card.deep{border-color:rgba(226,56,63,.55); background:linear-gradient(180deg,rgba(226,56,63,.08),var(--card) 55%)}
+  .card h3{margin:0 0 2px; font-size:17px}
+  .card h3 small{color:var(--mut); font-weight:400; font-size:12px; margin-left:6px}
+  .tagline{color:var(--amber); font-size:13px; margin:2px 0 8px}
+  .sec{font-size:11px; letter-spacing:2px; color:var(--mut); margin:10px 0 4px; font-weight:700}
+  ul.tight{margin:2px 0; padding-left:18px}
+  ul.tight li{font-size:13.5px; line-height:1.55; margin:4px 0}
+  ul.tight li b{color:#fff}
+  .p{font-size:13.5px; line-height:1.6; margin:6px 0}
+  .chip{display:inline-block; font-size:12px; background:var(--card2); border:1px solid var(--line);
+    border-radius:99px; padding:3px 10px; margin:2px 4px 2px 0; color:#cdd7e1; font-family:inherit}
+  button.chip{cursor:pointer}
+  button.chip:active{border-color:var(--red)}
+  .chip.r{border-color:rgba(226,56,63,.5); color:#ffb4b7}
+  .chip.g{border-color:rgba(35,197,94,.45); color:#8ef0b3}
+  .chip.b{border-color:rgba(78,161,255,.45); color:#a8d2ff}
+  .chip.y{border-color:rgba(240,180,41,.5); color:#ffe1a1}
+  .pitch{position:relative; width:100%; max-width:380px; aspect-ratio:.72; margin:10px auto 4px;
+    background:linear-gradient(180deg,var(--pitchA),var(--pitchB)); border-radius:10px;
+    border:1px solid #1d5c3a; overflow:hidden}
+  .pitch::before{content:""; position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(255,255,255,.25)}
+  .pitch .circle{position:absolute; left:50%; top:50%; width:26%; aspect-ratio:1; border-radius:50%;
+    border:1px solid rgba(255,255,255,.25); transform:translate(-50%,-50%)}
+  .pitch .box{position:absolute; left:50%; transform:translateX(-50%); width:56%; height:15%;
+    border:1px solid rgba(255,255,255,.25); border-radius:2px}
+  .pitch .box.top{top:-1px} .pitch .box.bot{bottom:-1px}
+  .dot{position:absolute; width:30px; height:30px; border-radius:50%;
+    background:radial-gradient(circle at 32% 30%,#ff6b70,var(--red) 55%,var(--red2));
+    border:1px solid rgba(255,255,255,.5); color:#fff; font-size:10.5px; font-weight:800;
+    display:flex; align-items:center; justify-content:center; transform:translate(-50%,-50%);
+    box-shadow:0 2px 6px rgba(0,0,0,.45)}
+  .dot.k{background:radial-gradient(circle at 32% 30%,#ffd75e,var(--amber) 60%,#b07f10); color:#3a2a00; border-color:#ffe9a8}
+  .dot2{width:52px; height:52px; flex-direction:column; line-height:1.1; cursor:pointer;
+    font-size:11px; font-weight:800; border-width:2px; padding-top:2px}
+  .dot2 small{display:block; font-size:8.5px; font-weight:600; opacity:.85}
+  .dot2.sel{border-color:var(--amber); box-shadow:0 0 0 3px rgba(240,180,41,.45),0 2px 6px rgba(0,0,0,.45)}
+  .dot2.bad{background:radial-gradient(circle at 32% 30%,#ff9a9e,#c22a30 55%,#7c1418)}
+  .grid2{display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:10px}
+  .mini{background:var(--card2); border:1px solid var(--line); border-radius:12px; padding:12px}
+  .mini h4{margin:0 0 4px; font-size:15px}
+  .mini .who{font-size:12px; color:var(--mut); margin-bottom:6px}
+  .gcard{border-left:3px solid var(--blue); padding-left:10px}
+  .gcard.why{border-left-color:var(--amber)}
+  .optbtn{display:block; width:100%; text-align:left; background:var(--card2); color:var(--txt);
+    border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin:7px 0;
+    font-size:14px; font-family:inherit; cursor:pointer}
+  .optbtn.ok{border-color:var(--green); background:rgba(35,197,94,.12)}
+  .optbtn.bad{border-color:var(--red); background:rgba(226,56,63,.12)}
+  .optbtn:disabled{cursor:default}
+  .pillrow{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0}
+  .pillrow button{background:var(--card2); border:1px solid var(--line); color:var(--txt);
+    border-radius:99px; padding:8px 13px; font-size:13px; font-family:inherit; cursor:pointer}
+  .pillrow button.on{border-color:var(--red); color:#ffb4b7; font-weight:700}
+  .warn{font-size:12px; color:var(--mut); line-height:1.6; border-top:1px dashed var(--line); margin-top:10px; padding-top:8px}
+  .seg{display:flex; gap:8px; margin-bottom:12px}
+  .seg button{flex:1; background:var(--card); border:1px solid var(--line); color:var(--mut);
+    border-radius:10px; padding:9px 0; font-size:14px; font-family:inherit; cursor:pointer}
+  .seg button.on{color:#fff; border-color:var(--red); background:rgba(226,56,63,.12); font-weight:700}
+  .score{font-size:15px; text-align:center; color:var(--amber); margin:10px 0; font-weight:700}
+  .searchrow{display:flex; gap:8px; margin-bottom:8px}
+  .searchrow input{flex:1; background:var(--card2); border:1px solid var(--line); color:var(--txt);
+    border-radius:10px; padding:11px 12px; font-size:15px; font-family:inherit; outline:none}
+  .searchrow input:focus{border-color:var(--red)}
+  .plist .mini{padding:10px 12px; cursor:pointer}
+  .plist .mini:active{border-color:var(--red)}
+  #modal{position:fixed; inset:0; z-index:100; background:rgba(5,8,12,.72); display:none;
+    align-items:flex-end; justify-content:center}
+  #modal.on{display:flex}
+  #modal .mbox{background:var(--card); border:1px solid var(--line); border-radius:18px 18px 0 0;
+    width:100%; max-width:700px; max-height:82vh; overflow-y:auto; padding:18px 16px calc(18px + env(safe-area-inset-bottom)); position:relative}
+  #modal .mclose{position:absolute; top:10px; right:14px; background:var(--card2); color:var(--txt);
+    border:1px solid var(--line); border-radius:99px; width:34px; height:34px; font-size:15px; cursor:pointer}
+  .mrow{font-size:13px; color:var(--mut); margin:2px 0}
+  .mrow b{color:var(--txt)}
+  .pairli{font-size:13px; line-height:1.55; margin:5px 0; padding-left:10px; border-left:2px solid var(--green)}
+  .warnlist li{font-size:13px; line-height:1.55; margin:5px 0; padding-left:2px}
+  .lv2{color:#ffb4b7} .lv1{color:#ffe1a1} .lv0{color:#a8d2ff}
+  .benchbar{display:flex; flex-wrap:wrap; gap:6px; margin:6px 0}
+  .benchbar button{background:var(--card2); border:1px solid var(--line); color:var(--txt);
+    border-radius:9px; padding:6px 9px; font-size:12px; font-family:inherit; cursor:pointer}
+  .benchbar button:active{border-color:var(--amber)}
+  .hintline{font-size:12px; color:var(--mut); margin:4px 0}
+  .plusli{color:#8ef0b3} .minusli{color:#ffb4b7}
+
+  /* ---- 模拟器页签：内嵌对位引擎（整页嵌入，隐藏主站 header 把空间让给引擎） ---- */
+  body.sim-mode header{display:none}
+  body.sim-mode main{padding:0 0 78px; max-width:none}
+  body.sim-mode #tab-sim{padding:0}
+  #simwrap{width:100%; height:calc(100vh - 78px); height:calc(100dvh - 78px); min-height:520px;
+    background:#0c1015; overflow:hidden}
+  #simwrap iframe{width:100%; height:100%; border:0; display:block; background:#0c1015}
+  /* 窄屏兜底：引擎的球员头行允许换行，但名字本身不折行 */
+  @media (max-width:420px){ body.sim-mode .phead{flex-wrap:wrap} body.sim-mode .phead b{white-space:nowrap} }
+
+/* ---- 全局设置齿轮 ---- */
+.gearbtn{background:var(--card2); color:var(--txt); border:1px solid var(--line); border-radius:99px;
+  font-size:13px; padding:4px 10px; cursor:pointer; font-family:inherit; margin-left:8px; vertical-align:2px}
+.gearbtn:active{border-color:var(--red)}
+
+/* ---- 阵型实验室 ---- */
+.dot2.empty{background:radial-gradient(circle at 32% 30%,#3a4654,#232b35 60%);border-style:dashed;color:var(--mut)}
+.dot2 .ring{display:none}
+.dot2.pressing{transform:translate(-50%,-50%) scale(1.12)}
+.dot2.pressing .ring{display:block;position:absolute;inset:-5px;border:2px solid var(--amber);
+  border-radius:50%;animation:flring .5s linear forwards}
+@keyframes flring{from{clip-path:polygon(50% 50%,50% -10%,110% -10%,110% 110%,-10% 110%,-10% -10%,50% -10%)}
+  to{clip-path:polygon(50% 50%,50% -10%,110% -10%,110% 110%,-10% 110%,-10% -10%,50% -10%)}}
+.fzone{position:absolute;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;z-index:4}
+.fzone span{font-size:9.5px;color:#fff;text-align:center;line-height:1.15;max-width:90%;
+  text-shadow:0 1px 3px rgba(0,0,0,.95),0 0 4px rgba(0,0,0,.9);pointer-events:none;font-weight:700}
+.fzone{background-image:radial-gradient(circle,rgba(0,0,0,.08),rgba(0,0,0,0))}
+.dot2{z-index:3;opacity:.92}
+.fzone{mix-blend-mode:normal}
+
+/* ---- 问题九：模拟器页签下 footer 隐藏、外层文档禁止滚动 ---- */
+body.sim-mode{overflow:hidden;height:100vh;height:100dvh}
+body.sim-mode footer{display:none}
+body.sim-mode main{padding-bottom:78px}
+/* ---- 问题二/十七：紧凑选队下拉 ---- */
+.teamSel{background:var(--card2);border:1px solid var(--line);border-radius:9px;color:var(--txt);
+  padding:8px 6px;font-size:13px;font-family:inherit;max-width:38%;min-width:0}
+/* ---- 问题七：战术行折叠 ---- */
+.tacbox{margin:2px 0 8px;border:1px solid var(--line);border-radius:10px;background:var(--card2)}
+.tacbox summary{padding:7px 10px;font-size:11.5px;color:var(--mut);cursor:pointer}
+
+/* ---- 问题一：球场防双击缩放/闪击 ---- */
+.pitch{touch-action:manipulation}
+.dot2{touch-action:manipulation}
+/* ---- 问题三：角色检测器窄屏堆叠 ---- */
+.pickrow{flex-wrap:wrap}
+.pickrow .optbtn{flex:1;min-width:200px}
+
+/* ---- 桌面观感（手机不影响） ---- */
+@media (min-width:900px){
+  #tab-club .ttgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+}
