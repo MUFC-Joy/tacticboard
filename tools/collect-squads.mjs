@@ -32,9 +32,12 @@ const CLUBS = [
   ['桑德兰','sunderland','eng.1','英超'], ['考文垂','coventry','eng.1','英超'],
   ['伊普斯维奇','ipswich','eng.1','英超'], ['赫尔城','hull city','eng.1','英超'],
   ['皇马','real madrid','esp.1','西甲'], ['巴萨','barcelona','esp.1','西甲'], ['马竞','atlético madrid','esp.1','西甲'],
-  ['米兰','ac milan','ita.1','意甲'], ['国米','inter milan','ita.1','意甲'], ['那不勒斯','napoli','ita.1','意甲'], ['尤文','juventus','ita.1','意甲'],
+  ['毕尔巴鄂竞技','athletic bilbao','esp.1','西甲'], ['比利亚雷亚尔','villarreal','esp.1','西甲'],
+  ['米兰','ac milan','ita.1','意甲'], ['国米','inter milan','ita.1','意甲'], ['那不勒斯','napoli','ita.1','意甲'], ['尤文','juventus','ita.1','意甲'], ['罗马','roma','ita.1','意甲'],
   ['拜仁','bayern munich','ger.1','德甲'], ['多特蒙德','borussia dortmund','ger.1','德甲'], ['RB莱比锡','rb leipzig','ger.1','德甲'],
+  ['勒沃库森','bayer leverkusen','ger.1','德甲'], ['弗赖堡','freiburg','ger.1','德甲'],
   ['巴黎','paris saint-germain','fra.1','法甲'], ['里尔','lille','fra.1','法甲'], ['摩纳哥','monaco','fra.1','法甲'],
+  ['里昂','lyon','fra.1','法甲'], ['马赛','marseille','fra.1','法甲'],
 ];
 const POS_MAP={Goalkeeper:'GK',Defender:'DF',Midfielder:'MF',Forward:'FW'};
 const NAT_MAP={England:'英格兰',Scotland:'苏格兰',Wales:'威尔士',Ireland:'爱尔兰','Northern Ireland':'北爱尔兰',
@@ -191,7 +194,9 @@ const TEAM_ALIAS={ /* ESPN 实际队名与简称对不上时的别名表：zh ->
   '伯恩茅斯':'bournemouth','利兹联':'leeds united','考文垂':'coventry city','伊普斯维奇':'ipswich town',
   '国米':'internazionale','摩纳哥':'as monaco','马竞':'atletico madrid','巴黎':'paris saint-germain',
   '拜仁':'bayern munich','RB莱比锡':'rb leipzig','多特蒙德':'borussia dortmund','皇马':'real madrid',
-  '巴萨':'barcelona','米兰':'ac milan','那不勒斯':'napoli'
+  '巴萨':'barcelona','米兰':'ac milan','那不勒斯':'napoli','罗马':'as roma',
+  '毕尔巴鄂竞技':'athletic club','比利亚雷亚尔':'villarreal cf','勒沃库森':'bayer 04 leverkusen',
+  '弗赖堡':'sc freiburg','里昂':'olympique lyonnais','马赛':'olympique de marseille'
 };
 
 for(const [zh,espnName,leagueSlug,leagueZh] of CLUBS){

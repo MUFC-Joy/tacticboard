@@ -255,7 +255,7 @@ window.PLSearch=(function(){
     if(!built){
       built=true;
       el.innerHTML=
-        '<div class="card"><h3>球员搜索</h3><div class="p">随便搜五大联赛任何一个球员（不限模拟器里的 32 队——法甲/德甲/西甲任意球队、甚至次级联赛球员都能搜）：AI 联网核实后生成完整档案（基础信息 · 风格 · '
+        '<div class="card"><h3>球员搜索</h3><div class="p">随便搜五大联赛任何一个球员（不限模拟器里的球队——法甲/德甲/西甲任意球队、甚至次级联赛球员都能搜）：AI 联网核实后生成完整档案（基础信息 · 风格 · '
         +'百分位雷达 · 短板风险 · 搭档分级 · 战术适配 · 模拟器属性）。惯用脚/数据查不到就标「未查证」，不编造。</div>'
         +'<div class="searchrow"><input id="plq" placeholder="球员名：哈兰德 / Saka / 谢什科…"><button class="optbtn" style="width:auto;padding:10px 16px;margin:0" id="plGo">搜 索</button></div>'
         +filterHtml()

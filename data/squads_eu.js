@@ -2,14 +2,14 @@
    数据来源：ESPN core API 2026 赛季（名单/号码/位置粗粒度/年龄/国籍/身高体重）
    + 精选库合并（中文名/惯用脚/技术特点/属性），_rosterMiss=精选库有但ESPN名单未匹配
    foot 空值=未查证；运行时 AI 联网补全后缓存到 localStorage
-   生成时间：2026-11-01T18:50:29.712Z
+   生成时间：2026-11-02T16:08:30.043Z
 */
 "use strict";
 window.SQUADS_EU={
  "皇马": {
   league: "西甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "库尔图瓦",
@@ -742,7 +742,7 @@ window.SQUADS_EU={
  "巴萨": {
   league: "西甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "乔安·加西亚",
@@ -1409,7 +1409,7 @@ window.SQUADS_EU={
  "马竞": {
   league: "西甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "Juan Musso",
@@ -1900,10 +1900,1000 @@ window.SQUADS_EU={
    }
   ]
  },
+ "毕尔巴鄂竞技": {
+  league: "西甲",
+  coach: "",
+  updated: "2026-11-02",
+  players: [
+   {
+    n: "乌奈·西蒙",
+    en: [
+     "Unai Simón"
+    ],
+    num: 1,
+    pos: [
+     "GK"
+    ],
+    nat: "西班牙",
+    age: 29,
+    foot: null,
+    h: "6' 3\"",
+    w: "192 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "达尼·维维安",
+    en: [
+     "Dani Vivian"
+    ],
+    num: 3,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 27,
+    foot: null,
+    h: "6' 0\"",
+    w: "172 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "帕雷德斯",
+    en: [
+     "Aitor Paredes"
+    ],
+    num: 4,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 26,
+    foot: null,
+    h: "6' 1\"",
+    w: "168 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "耶赖",
+    en: [
+     "Yeray"
+    ],
+    num: 5,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 31,
+    foot: null,
+    h: "6' 0\"",
+    w: "172 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "贝尼亚特·普拉多斯",
+    en: [
+     "Beñat Prados"
+    ],
+    num: 6,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 25,
+    foot: null,
+    h: "5' 11\"",
+    w: "159 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "阿莱士·贝伦格尔",
+    en: [
+     "Álex Berenguer"
+    ],
+    num: 7,
+    pos: [
+     "FW"
+    ],
+    nat: "西班牙",
+    age: 31,
+    foot: null,
+    h: "5' 9\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "奥伊汉·桑塞特",
+    en: [
+     "Oihan Sancet"
+    ],
+    num: 8,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 26,
+    foot: null,
+    h: "6' 2\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "伊纳基·威廉姆斯",
+    en: [
+     "Iñaki Williams"
+    ],
+    num: 9,
+    pos: [
+     "FW"
+    ],
+    nat: "加纳",
+    age: 32,
+    foot: null,
+    h: "6' 1\"",
+    w: "179 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "戈尔卡·古鲁塞塔",
+    en: [
+     "Gorka Guruzeta"
+    ],
+    num: 11,
+    pos: [
+     "FW"
+    ],
+    nat: "西班牙",
+    age: 30,
+    foot: null,
+    h: "6' 2\"",
+    w: "170 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "赫苏斯·阿雷索",
+    en: [
+     "Jesús Areso"
+    ],
+    num: 12,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 27,
+    foot: null,
+    h: "6' 0\"",
+    w: "179 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "亚历克斯·帕迪利亚",
+    en: [
+     "Álex Padilla"
+    ],
+    num: 13,
+    pos: [
+     "GK"
+    ],
+    nat: "墨西哥",
+    age: 23,
+    foot: null,
+    h: "6' 3\"",
+    w: "183 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "乌奈·埃吉卢斯",
+    en: [
+     "Unai Egiluz"
+    ],
+    num: 13,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 24,
+    foot: null,
+    h: "6' 1\"",
+    w: "172 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "拉波尔特",
+    en: [
+     "Aymeric Laporte"
+    ],
+    num: 14,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 32,
+    foot: null,
+    h: "6' 2\"",
+    w: "190 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "乌戈·林孔",
+    en: [
+     "Hugo Rincón"
+    ],
+    num: 15,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 23,
+    foot: null,
+    h: "6' 0\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "加拉雷塔",
+    en: [
+     "Iñigo Ruiz de Galarreta"
+    ],
+    num: 16,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 33,
+    foot: null,
+    h: "5' 9\"",
+    w: "150 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "尤里·贝尔奇切",
+    en: [
+     "Yuri Berchiche"
+    ],
+    num: 17,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 36,
+    foot: null,
+    h: "5' 11\"",
+    w: "172 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "米克尔·华雷吉萨尔",
+    en: [
+     "Mikel Jauregizar"
+    ],
+    num: 18,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 22,
+    foot: null,
+    h: "5' 10\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "亚历杭德罗·雷戈",
+    en: [
+     "Alejandro Rego"
+    ],
+    num: 20,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 23,
+    foot: null,
+    h: "6' 4\"",
+    w: "172 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "马罗安·萨纳迪",
+    en: [
+     "Maroan Sannadi"
+    ],
+    num: 21,
+    pos: [
+     "FW"
+    ],
+    nat: "摩洛哥",
+    age: 25,
+    foot: null,
+    h: "6' 4\"",
+    w: "172 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "尼科·塞拉诺",
+    en: [
+     "Nico Serrano"
+    ],
+    num: 22,
+    pos: [
+     "FW"
+    ],
+    nat: "西班牙",
+    age: 23,
+    foot: null,
+    h: "5' 11\"",
+    w: "159 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "罗韦尔特·纳瓦罗",
+    en: [
+     "Robert Navarro"
+    ],
+    num: 23,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 24,
+    foot: null,
+    h: "5' 10\"",
+    w: "141 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "赫雷纳巴雷纳",
+    en: [
+     "Beñat Gerenabarrena"
+    ],
+    num: 24,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 23,
+    foot: null,
+    h: "5' 8\"",
+    w: "150 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "阿尔瓦罗·亚洛",
+    en: [
+     "Álvaro Djaló"
+    ],
+    num: 25,
+    pos: [
+     "FW"
+    ],
+    nat: "Guinea-Bissau",
+    age: 27,
+    foot: null,
+    h: "5' 9\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "佩约·卡纳莱斯",
+    en: [
+     "Peio Canales"
+    ],
+    num: 28,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 21,
+    foot: null,
+    h: "5' 9\"",
+    w: "150 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "伊克尔·蒙雷亚尔",
+    en: [
+     "Iker Monreal"
+    ],
+    num: 30,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 21,
+    foot: null,
+    h: "6' 1\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "路易·让",
+    en: [
+     "Johaneko Louis Jean"
+    ],
+    num: 31,
+    pos: [
+     "DF"
+    ],
+    nat: "法国",
+    age: 22,
+    foot: null,
+    h: "5' 9\"",
+    w: "146 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Christian Imga",
+    en: [
+     "Christian Imga"
+    ],
+    num: 33,
+    pos: [
+     "FW"
+    ],
+    nat: "西班牙",
+    age: 17,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Jesús Vizcay Hurtado",
+    en: [
+     "Jesús Vizcay Hurtado"
+    ],
+    num: 34,
+    pos: [
+     "FW"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Aritz Conde Albiol",
+    en: [
+     "Aritz Conde Albiol"
+    ],
+    num: 35,
+    pos: [
+     "FW"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Selton Sánchez",
+    en: [
+     "Selton Sánchez"
+    ],
+    num: 44,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 19,
+    foot: null,
+    h: "6' 1\"",
+    w: "",
+    _src: "espn"
+   }
+  ]
+ },
+ "比利亚雷亚尔": {
+  league: "西甲",
+  coach: "",
+  updated: "2026-11-02",
+  players: [
+   {
+    n: "路易斯·儒尼奥尔",
+    en: [
+     "Luiz Júnior"
+    ],
+    num: 1,
+    pos: [
+     "GK"
+    ],
+    nat: "巴西",
+    age: 25,
+    foot: null,
+    h: "6' 4\"",
+    w: "192 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "洛根·科斯塔",
+    en: [
+     "Logan Costa"
+    ],
+    num: 2,
+    pos: [
+     "DF"
+    ],
+    nat: "Cape Verde Islands",
+    age: 25,
+    foot: null,
+    h: "6' 3\"",
+    w: "201 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "亚历克斯·弗里曼",
+    en: [
+     "Alex Freeman"
+    ],
+    num: 3,
+    pos: [
+     "DF"
+    ],
+    nat: "美国",
+    age: 22,
+    foot: null,
+    h: "6' 2\"",
+    w: "174 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "阿拉萨内·迪亚塔",
+    en: [
+     "Alassane Diatta"
+    ],
+    num: 5,
+    pos: [
+     "MF"
+    ],
+    nat: "塞内加尔",
+    age: 21,
+    foot: null,
+    h: "6' 3\"",
+    w: "174 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "保·纳瓦罗",
+    en: [
+     "Pau Navarro"
+    ],
+    num: 6,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 21,
+    foot: null,
+    h: "6' 0\"",
+    w: "159 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "赫拉德·莫雷诺",
+    en: [
+     "Gerard Moreno"
+    ],
+    num: 7,
+    pos: [
+     "FW"
+    ],
+    nat: "西班牙",
+    age: 34,
+    foot: null,
+    h: "5' 11\"",
+    w: "170 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "胡安·福伊特",
+    en: [
+     "Juan Foyth"
+    ],
+    num: 8,
+    pos: [
+     "DF"
+    ],
+    nat: "阿根廷",
+    age: 28,
+    foot: null,
+    h: "6' 2\"",
+    w: "183 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "格奥尔基·米卡乌塔泽",
+    en: [
+     "Georges Mikautadze"
+    ],
+    num: 9,
+    pos: [
+     "FW"
+    ],
+    nat: "格鲁吉亚",
+    age: 26,
+    foot: null,
+    h: "5' 9\"",
+    w: "157 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "阿尔贝托·莫莱罗",
+    en: [
+     "Alberto Moleiro"
+    ],
+    num: 10,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 23,
+    foot: null,
+    h: "5' 8\"",
+    w: "148 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "伊利亚斯·阿霍马奇",
+    en: [
+     "Ilias Akhomach"
+    ],
+    num: 11,
+    pos: [
+     "FW"
+    ],
+    nat: "摩洛哥",
+    age: 22,
+    foot: null,
+    h: "5' 9\"",
+    w: "152 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "雷纳托·维加",
+    en: [
+     "Renato Veiga"
+    ],
+    num: 12,
+    pos: [
+     "DF"
+    ],
+    nat: "葡萄牙",
+    age: 23,
+    foot: null,
+    h: "6' 3\"",
+    w: "192 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "鲁文·戈麦斯",
+    en: [
+     "Rubén Gómez"
+    ],
+    num: 13,
+    pos: [
+     "GK"
+    ],
+    nat: "西班牙",
+    age: 24,
+    foot: null,
+    h: "6' 1\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "圣地亚哥·科梅萨尼亚",
+    en: [
+     "Santi Comesaña"
+    ],
+    num: 14,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 30,
+    foot: null,
+    h: "6' 2\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "圣地亚哥·莫里尼奥",
+    en: [
+     "Santiago Mouriño"
+    ],
+    num: 15,
+    pos: [
+     "DF"
+    ],
+    nat: "乌拉圭",
+    age: 24,
+    foot: null,
+    h: "6' 1\"",
+    w: "168 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Carlos Macià",
+    en: [
+     "Carlos Macià"
+    ],
+    num: 16,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 18,
+    foot: null,
+    h: "6' 2\"",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "塔容·布坎南",
+    en: [
+     "Tajon Buchanan"
+    ],
+    num: 17,
+    pos: [
+     "FW"
+    ],
+    nat: "加拿大",
+    age: 27,
+    foot: null,
+    h: "6' 0\"",
+    w: "150 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "帕普·盖伊",
+    en: [
+     "Pape Gueye"
+    ],
+    num: 18,
+    pos: [
+     "MF"
+    ],
+    nat: "塞内加尔",
+    age: 27,
+    foot: null,
+    h: "6' 2\"",
+    w: "172 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "尼古拉斯·佩佩",
+    en: [
+     "Nicolas Pépé"
+    ],
+    num: 19,
+    pos: [
+     "FW"
+    ],
+    nat: "科特迪瓦",
+    age: 31,
+    foot: null,
+    h: "6' 0\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "卡洛斯·罗梅罗",
+    en: [
+     "Carlos Romero"
+    ],
+    num: 20,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 25,
+    foot: null,
+    h: "5' 11\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "塔尼·奥卢瓦塞伊",
+    en: [
+     "Tani Oluwaseyi"
+    ],
+    num: 21,
+    pos: [
+     "FW"
+    ],
+    nat: "加拿大",
+    age: 26,
+    foot: null,
+    h: "6' 2\"",
+    w: "174 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "阿约泽·佩雷斯",
+    en: [
+     "Ayoze Pérez"
+    ],
+    num: 22,
+    pos: [
+     "FW"
+    ],
+    nat: "西班牙",
+    age: 33,
+    foot: null,
+    h: "5' 10\"",
+    w: "146 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "塞尔吉·卡尔多纳",
+    en: [
+     "Sergi Cardona"
+    ],
+    num: 23,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 27,
+    foot: null,
+    h: "6' 1\"",
+    w: "170 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "内森·萨利巴",
+    en: [
+     "Nathan Saliba"
+    ],
+    num: 24,
+    pos: [
+     "MF"
+    ],
+    nat: "加拿大",
+    age: 22,
+    foot: null,
+    h: "5' 11\"",
+    w: "157 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "彼得·古拉奇",
+    en: [
+     "Péter Gulácsi"
+    ],
+    num: 25,
+    pos: [
+     "GK"
+    ],
+    nat: "匈牙利",
+    age: 36,
+    foot: null,
+    h: "6' 3\"",
+    w: "190 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Nizar El Jmili Ben Hamou",
+    en: [
+     "Nizar El Jmili Ben Hamou"
+    ],
+    num: 27,
+    pos: [
+     "FW"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Joselillo",
+    en: [
+     "Joselillo"
+    ],
+    num: 28,
+    pos: [
+     "FW"
+    ],
+    nat: "西班牙",
+    age: 19,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Cheikh Ahmad Tidiane Thiam",
+    en: [
+     "Cheikh Ahmad Tidiane Thiam"
+    ],
+    num: 30,
+    pos: [
+     "MF"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "César Bonafé Ceita",
+    en: [
+     "César Bonafé Ceita"
+    ],
+    num: 32,
+    pos: [
+     "DF"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Yakiv Kinareykin",
+    en: [
+     "Yakiv Kinareykin"
+    ],
+    num: 35,
+    pos: [
+     "GK"
+    ],
+    nat: "乌克兰",
+    age: 23,
+    foot: null,
+    h: "6' 3\"",
+    w: "170 lbs",
+    _src: "espn"
+   },
+   {
+    n: "Mauro Roca Martínez",
+    en: [
+     "Mauro Roca Martínez"
+    ],
+    num: 37,
+    pos: [
+     "MF"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Sergio Barrera Martín",
+    en: [
+     "Sergio Barrera Martín"
+    ],
+    num: 38,
+    pos: [
+     "MF"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   }
+  ]
+ },
  "米兰": {
   league: "意甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "Pietro Terracciano",
@@ -2473,7 +3463,7 @@ window.SQUADS_EU={
  "国米": {
   league: "意甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "比塞克",
@@ -2510,10 +3500,10 @@ window.SQUADS_EU={
     ],
     num: 5,
     pos: [
-     "MF"
+     "GK"
     ],
     nat: "塞尔维亚",
-    age: 21,
+    age: 28,
     foot: null,
     h: "6' 2\"",
     w: "181 lbs",
@@ -3120,7 +4110,7 @@ window.SQUADS_EU={
  "那不勒斯": {
   league: "意甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "阿莱克斯·梅雷特",
@@ -3350,6 +4340,22 @@ window.SQUADS_EU={
     _src: "espn"
    },
    {
+    n: "Francisco Baridó",
+    en: [
+     "Francisco Baridó"
+    ],
+    num: 18,
+    pos: [
+     "MF"
+    ],
+    nat: "阿根廷",
+    age: 18,
+    foot: null,
+    h: "5' 9\"",
+    w: "",
+    _src: "espn"
+   },
+   {
     n: "拉斯穆斯·霍伊伦",
     en: [
      "Rasmus Højlund"
@@ -3542,6 +4548,70 @@ window.SQUADS_EU={
     _src: "espn-zh"
    },
    {
+    n: "Andrea Chiummariello",
+    en: [
+     "Andrea Chiummariello"
+    ],
+    num: 38,
+    pos: [
+     "MF"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Nikita Melnyk",
+    en: [
+     "Nikita Melnyk"
+    ],
+    num: 39,
+    pos: [
+     "MF"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Claudio Lieto",
+    en: [
+     "Claudio Lieto"
+    ],
+    num: 40,
+    pos: [
+     "DF"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "David Spinelli",
+    en: [
+     "David Spinelli"
+    ],
+    num: 41,
+    pos: [
+     "GK"
+    ],
+    nat: "意大利",
+    age: 18,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
     n: "洛博特卡",
     en: [
      "Lobotka"
@@ -3624,7 +4694,7 @@ window.SQUADS_EU={
  "尤文": {
   league: "意甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "Kamil Grabara",
@@ -4271,33 +5341,468 @@ window.SQUADS_EU={
     h: "6' 4\"",
     w: "",
     _src: "espn"
+   }
+  ]
+ },
+ "罗马": {
+  league: "意甲",
+  coach: "",
+  updated: "2026-11-02",
+  players: [
+   {
+    n: "伦施",
+    en: [
+     "Devyne Rensch"
+    ],
+    num: 2,
+    pos: [
+     "DF"
+    ],
+    nat: "荷兰",
+    age: 23,
+    foot: null,
+    h: "5' 11\"",
+    w: "163 lbs",
+    _src: "espn-zh"
    },
    {
-    n: "弗拉霍维奇",
+    n: "库利埃拉基斯",
     en: [
-     "Vlahovic"
+     "Konstantinos Koulierakis"
     ],
+    num: 3,
     pos: [
-     "ST"
+     "DF"
     ],
-    foot: "右",
-    club: "尤文",
+    nat: "希腊",
+    age: 22,
+    foot: null,
+    h: "6' 2\"",
+    w: "172 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "克里斯坦特",
+    en: [
+     "Bryan Cristante"
+    ],
+    num: 4,
+    pos: [
+     "MF"
+    ],
+    nat: "意大利",
+    age: 31,
+    foot: null,
+    h: "6' 1\"",
+    w: "174 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "恩迪卡",
+    en: [
+     "Evan Ndicka"
+    ],
+    num: 5,
+    pos: [
+     "DF"
+    ],
+    nat: "科特迪瓦",
+    age: 27,
+    foot: null,
+    h: "6' 4\"",
+    w: "185 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "佩莱格里尼",
+    en: [
+     "Lorenzo Pellegrini"
+    ],
+    num: 7,
+    pos: [
+     "MF"
+    ],
+    nat: "意大利",
+    age: 30,
+    foot: null,
+    h: "6' 1\"",
+    w: "170 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "圣地亚哥·卡斯特罗",
+    en: [
+     "Santiago Castro"
+    ],
+    num: 9,
+    pos: [
+     "FW"
+    ],
+    nat: "阿根廷",
+    age: 22,
+    foot: null,
+    h: "5' 10\"",
+    w: "190 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "马伦",
+    en: [
+     "Donyell Malen"
+    ],
+    num: 14,
+    pos: [
+     "FW"
+    ],
+    nat: "荷兰",
+    age: 27,
+    foot: null,
+    h: "5' 10\"",
+    w: "150 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "德罗恩",
+    en: [
+     "Marten de Roon"
+    ],
+    num: 15,
+    pos: [
+     "MF"
+    ],
+    nat: "荷兰",
+    age: 35,
+    foot: null,
+    h: "6' 1\"",
+    w: "168 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "马努·科内",
+    en: [
+     "Manu Koné"
+    ],
+    num: 17,
+    pos: [
+     "MF"
+    ],
+    nat: "法国",
+    age: 25,
+    foot: null,
+    h: "6' 1\"",
+    w: "174 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "苏莱",
+    en: [
+     "Matìas Soulè"
+    ],
+    num: 18,
+    pos: [
+     "FW"
+    ],
+    nat: "阿根廷",
+    age: 23,
+    foot: null,
+    h: "6' 0\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "纳韦尔·莫利纳",
+    en: [
+     "Nahuel Molina"
+    ],
+    num: 20,
+    pos: [
+     "DF"
+    ],
+    nat: "阿根廷",
+    age: 28,
+    foot: null,
+    h: "5' 9\"",
+    w: "152 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "迪巴拉",
+    en: [
+     "Paulo Dybala"
+    ],
+    num: 21,
+    pos: [
+     "FW"
+    ],
+    nat: "阿根廷",
+    age: 32,
+    foot: "左",
+    h: "5' 10\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "埃莫索",
+    en: [
+     "Mario Hermoso"
+    ],
+    num: 22,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 31,
+    foot: null,
+    h: "6' 0\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "曼奇尼",
+    en: [
+     "Gianluca Mancini"
+    ],
+    num: 23,
+    pos: [
+     "DF"
+    ],
+    nat: "意大利",
+    age: 30,
+    foot: null,
+    h: "6' 3\"",
+    w: "170 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "巴莱尔迪",
+    en: [
+     "Leonardo Balerdi"
+    ],
+    num: 26,
+    pos: [
+     "DF"
+    ],
+    nat: "阿根廷",
+    age: 27,
+    foot: null,
+    h: "6' 2\"",
+    w: "185 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "巴斯克斯",
+    en: [
+     "Devis Vásquez"
+    ],
+    num: 32,
+    pos: [
+     "GK"
+    ],
+    nat: "哥伦比亚",
+    age: 28,
+    foot: null,
+    h: "6' 5\"",
+    w: "203 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "韦斯利",
+    en: [
+     "Wesley"
+    ],
+    num: 43,
+    pos: [
+     "DF"
+    ],
+    nat: "巴西",
+    age: 23,
+    foot: null,
+    h: "5' 9\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "皮西利",
+    en: [
+     "Niccolò Pisilli"
+    ],
+    num: 61,
+    pos: [
+     "MF"
+    ],
+    nat: "意大利",
+    age: 22,
+    foot: null,
+    h: "5' 11\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Alessandro Di Nunzio",
+    en: [
+     "Alessandro Di Nunzio"
+    ],
+    num: 63,
+    pos: [
+     "MF"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Antonio Arena",
+    en: [
+     "Antonio Arena"
+    ],
+    num: 68,
+    pos: [
+     "FW"
+    ],
+    nat: "意大利",
+    age: 17,
+    foot: null,
+    h: "6' 2\"",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Giorgio De Marzi",
+    en: [
+     "Giorgio De Marzi"
+    ],
+    num: 70,
+    pos: [
+     "GK"
+    ],
+    nat: "美国",
+    age: 19,
+    foot: null,
+    h: "6' 0\"",
+    w: "159 lbs",
+    _src: "espn"
+   },
+   {
+    n: "Lorenzo Paratici",
+    en: [
+     "Lorenzo Paratici"
+    ],
+    num: 72,
+    pos: [
+     "FW"
+    ],
+    nat: "意大利",
+    age: 18,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Emanuele Lulli",
+    en: [
+     "Emanuele Lulli"
+    ],
+    num: 77,
+    pos: [
+     "DF"
+    ],
+    nat: "意大利",
+    age: 19,
+    foot: null,
+    h: "6' 0\"",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Mandjou Camara",
+    en: [
+     "Mandjou Camara"
+    ],
+    num: 78,
+    pos: [
+     "FW"
+    ],
+    nat: "几内亚",
+    age: 20,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "罗德里戈·莫拉",
+    en: [
+     "Rodrigo Mora"
+    ],
+    num: 86,
+    pos: [
+     "MF"
+    ],
+    nat: "葡萄牙",
+    age: 19,
+    foot: null,
+    h: "5' 6\"",
+    w: "121 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "吉拉尔迪",
+    en: [
+     "Daniele Ghilardi"
+    ],
+    num: 87,
+    pos: [
+     "DF"
+    ],
+    nat: "意大利",
+    age: 23,
+    foot: null,
+    h: "6' 2\"",
+    w: "170 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "戈利尼",
+    en: [
+     "Pierluigi Gollini"
+    ],
+    num: 95,
+    pos: [
+     "GK"
+    ],
+    nat: "意大利",
+    age: 31,
+    foot: null,
+    h: "6' 4\"",
+    w: "205 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "斯维拉尔",
+    en: [
+     "Mile Svilar"
+    ],
+    num: 99,
+    pos: [
+     "GK"
+    ],
     nat: "塞尔维亚",
-    st: "禁区型9：右脚重炮",
-    tags: [
-     "抢点型"
-    ],
-    pair: [],
-    d: "禁区内左右脚+头球都有威胁，背身做球在进步。",
-    _src: "curated",
-    _rosterMiss: true
+    age: 27,
+    foot: null,
+    h: "6' 2\"",
+    w: "170 lbs",
+    _src: "espn-zh"
    }
   ]
  },
  "拜仁": {
   league: "德甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "诺伊尔",
@@ -4573,7 +6078,7 @@ window.SQUADS_EU={
     ],
     d: "世界最快足球运动员之一，反击时左路一条龙；孔帕尼体系左路爆点。",
     num: 19,
-    age: 25,
+    age: 26,
     h: "6' 1\"",
     w: "170 lbs",
     _src: "curated"
@@ -4998,7 +6503,7 @@ window.SQUADS_EU={
  "多特蒙德": {
   league: "德甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "格雷戈尔·科贝尔",
@@ -5564,7 +7069,7 @@ window.SQUADS_EU={
  "RB莱比锡": {
   league: "德甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "Ørjan Nyland",
@@ -6051,10 +7556,1016 @@ window.SQUADS_EU={
    }
   ]
  },
+ "勒沃库森": {
+  league: "德甲",
+  coach: "",
+  updated: "2026-11-02",
+  players: [
+   {
+    n: "弗莱肯",
+    en: [
+     "Mark Flekken"
+    ],
+    num: 1,
+    pos: [
+     "GK"
+    ],
+    nat: "荷兰",
+    age: 33,
+    foot: null,
+    h: "6' 5\"",
+    w: "192 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "法昆多·梅迪纳",
+    en: [
+     "Facundo Medina"
+    ],
+    num: 2,
+    pos: [
+     "DF"
+    ],
+    nat: "阿根廷",
+    age: 27,
+    foot: null,
+    h: "6' 0\"",
+    w: "172 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "米格尔·古铁雷斯",
+    en: [
+     "Miguel Gutiérrez"
+    ],
+    num: 3,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 25,
+    foot: null,
+    h: "5' 11\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "夸恩萨",
+    en: [
+     "Jarell Quansah"
+    ],
+    num: 4,
+    pos: [
+     "DF"
+    ],
+    nat: "英格兰",
+    age: 23,
+    foot: null,
+    h: "6' 3\"",
+    w: "183 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "洛伊克·巴代",
+    en: [
+     "Loïc Badé"
+    ],
+    num: 5,
+    pos: [
+     "DF"
+    ],
+    nat: "法国",
+    age: 26,
+    foot: null,
+    h: "6' 3\"",
+    w: "194 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "埃塞基耶尔·费尔南德斯",
+    en: [
+     "Ezequiel Fernández"
+    ],
+    num: 6,
+    pos: [
+     "MF"
+    ],
+    nat: "阿根廷",
+    age: 24,
+    foot: null,
+    h: "5' 10\"",
+    w: "152 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "约纳斯·霍夫曼",
+    en: [
+     "Jonas Hofmann"
+    ],
+    num: 7,
+    pos: [
+     "MF"
+    ],
+    nat: "德国",
+    age: 34,
+    foot: null,
+    h: "5' 9\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "安德里希",
+    en: [
+     "Robert Andrich"
+    ],
+    num: 8,
+    pos: [
+     "MF"
+    ],
+    nat: "德国",
+    age: 32,
+    foot: null,
+    h: "6' 2\"",
+    w: "183 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "阿方索·莫雷拉",
+    en: [
+     "Afonso Moreira"
+    ],
+    num: 9,
+    pos: [
+     "FW"
+    ],
+    nat: "葡萄牙",
+    age: 21,
+    foot: null,
+    h: "5' 9\"",
+    w: "150 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "马利克·蒂尔曼",
+    en: [
+     "Malik Tillman"
+    ],
+    num: 10,
+    pos: [
+     "MF"
+    ],
+    nat: "美国",
+    age: 24,
+    foot: null,
+    h: "6' 2\"",
+    w: "190 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "马丁·特里耶",
+    en: [
+     "Martin Terrier"
+    ],
+    num: 11,
+    pos: [
+     "FW"
+    ],
+    nat: "法国",
+    age: 29,
+    foot: null,
+    h: "6' 0\"",
+    w: "157 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "塔普索巴",
+    en: [
+     "Edmond Tapsoba"
+    ],
+    num: 12,
+    pos: [
+     "DF"
+    ],
+    nat: "Burkina Faso",
+    age: 27,
+    foot: null,
+    h: "6' 4\"",
+    w: "185 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "希克",
+    en: [
+     "Patrik Schick"
+    ],
+    num: 14,
+    pos: [
+     "FW"
+    ],
+    nat: "捷克",
+    age: 30,
+    foot: null,
+    h: "6' 3\"",
+    w: "190 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "蒂姆·奥尔曼",
+    en: [
+     "Tim Oermann"
+    ],
+    num: 15,
+    pos: [
+     "DF"
+    ],
+    nat: "德国",
+    age: 23,
+    foot: null,
+    h: "6' 2\"",
+    w: "168 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "卢卡斯·巴斯克斯",
+    en: [
+     "Lucas Vázquez"
+    ],
+    num: 17,
+    pos: [
+     "DF"
+    ],
+    nat: "西班牙",
+    age: 35,
+    foot: null,
+    h: "5' 8\"",
+    w: "152 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "肯内特·艾希霍恩",
+    en: [
+     "Kennet Eichhorn"
+    ],
+    num: 18,
+    pos: [
+     "MF"
+    ],
+    nat: "德国",
+    age: 17,
+    foot: null,
+    h: "6' 1\"",
+    w: "181 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "穆萨·迪亚比",
+    en: [
+     "Moussa Diaby"
+    ],
+    num: 19,
+    pos: [
+     "FW"
+    ],
+    nat: "法国",
+    age: 27,
+    foot: null,
+    h: "5' 7\"",
+    w: "150 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "盖拉·杜埃",
+    en: [
+     "Guela Doué"
+    ],
+    num: 20,
+    pos: [
+     "DF"
+    ],
+    nat: "科特迪瓦",
+    age: 24,
+    foot: null,
+    h: "6' 2\"",
+    w: "192 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "博尼费斯",
+    en: [
+     "Victor Boniface"
+    ],
+    num: 22,
+    pos: [
+     "FW"
+    ],
+    nat: "尼日利亚",
+    age: 25,
+    foot: null,
+    h: "6' 2\"",
+    w: "201 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "内森·特拉",
+    en: [
+     "Nathan Tella"
+    ],
+    num: 23,
+    pos: [
+     "FW"
+    ],
+    nat: "尼日利亚",
+    age: 27,
+    foot: null,
+    h: "5' 8\"",
+    w: "152 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "阿莱士·加西亚",
+    en: [
+     "Aleix García"
+    ],
+    num: 24,
+    pos: [
+     "MF"
+    ],
+    nat: "西班牙",
+    age: 29,
+    foot: null,
+    h: "5' 8\"",
+    w: "150 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "布拉斯维奇",
+    en: [
+     "Janis Blaswich"
+    ],
+    num: 28,
+    pos: [
+     "GK"
+    ],
+    nat: "德国",
+    age: 35,
+    foot: null,
+    h: "6' 4\"",
+    w: "192 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "本·塞吉尔",
+    en: [
+     "Eliesse Ben Seghir"
+    ],
+    num: 29,
+    pos: [
+     "FW"
+    ],
+    nat: "摩洛哥",
+    age: 21,
+    foot: null,
+    h: "5' 10\"",
+    w: "159 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "易卜拉欣·马扎",
+    en: [
+     "Ibrahim Maza"
+    ],
+    num: 30,
+    pos: [
+     "MF"
+    ],
+    nat: "阿尔及利亚",
+    age: 20,
+    foot: null,
+    h: "5' 11\"",
+    w: "172 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "科法内",
+    en: [
+     "Christian Kofane"
+    ],
+    num: 35,
+    pos: [
+     "FW"
+    ],
+    nat: "喀麦隆",
+    age: 20,
+    foot: null,
+    h: "6' 2\"",
+    w: "174 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "隆姆",
+    en: [
+     "Niklas Lomb"
+    ],
+    num: 36,
+    pos: [
+     "GK"
+    ],
+    nat: "德国",
+    age: 33,
+    foot: null,
+    h: "6' 1\"",
+    w: "183 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Dustin Buck",
+    en: [
+     "Dustin Buck"
+    ],
+    num: 37,
+    pos: [
+     "FW"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Kenan Doganay",
+    en: [
+     "Kenan Doganay"
+    ],
+    num: 39,
+    pos: [
+     "MF"
+    ],
+    nat: "法国",
+    age: 17,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Montrell Culbreath",
+    en: [
+     "Montrell Culbreath"
+    ],
+    num: 42,
+    pos: [
+     "MF"
+    ],
+    nat: "德国",
+    age: 19,
+    foot: null,
+    h: "5' 8\"",
+    w: "141 lbs",
+    _src: "espn"
+   },
+   {
+    n: "哈维霍斯特",
+    en: [
+     "Ben Hawighorst"
+    ],
+    num: 43,
+    pos: [
+     "DF"
+    ],
+    nat: "德国",
+    age: 18,
+    foot: null,
+    h: "6' 1\"",
+    w: "168 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Gabriel Minutillo",
+    en: [
+     "Gabriel Minutillo"
+    ],
+    num: 45,
+    pos: [
+     "MF"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "格里马尔多",
+    en: [
+     "Grimaldo"
+    ],
+    pos: [
+     "LB",
+     "LWB",
+     "DM"
+    ],
+    foot: "左",
+    club: "勒沃库森",
+    nat: "西班牙",
+    st: "进攻左闸：定位球+肋部直塞",
+    tags: [
+     "攻击型"
+    ],
+    pair: [],
+    d: "从本菲卡到勒沃库森，左路进攻参与度像边锋，任意球直接得分。",
+    _src: "curated"
+   }
+  ]
+ },
+ "弗赖堡": {
+  league: "德甲",
+  coach: "",
+  updated: "2026-11-02",
+  players: [
+   {
+    n: "米奥·巴克豪斯",
+    en: [
+     "Mio Backhaus"
+    ],
+    num: 1,
+    pos: [
+     "GK"
+    ],
+    nat: "德国",
+    age: 22,
+    foot: null,
+    h: "6' 4\"",
+    w: "181 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "菲利普·林哈特",
+    en: [
+     "Philipp Lienhart"
+    ],
+    num: 3,
+    pos: [
+     "DF"
+    ],
+    nat: "奥地利",
+    age: 30,
+    foot: null,
+    h: "6' 2\"",
+    w: "183 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "罗森费尔德",
+    en: [
+     "Rosenfelder",
+     "罗森费尔德"
+    ],
+    pos: [
+     "RB",
+     "RWB"
+    ],
+    foot: null,
+    club: "弗赖堡",
+    nat: "德国",
+    num: 3,
+    age: 23,
+    season: "—",
+    st: "年轻套边右后卫",
+    tags: [
+     "套边型"
+    ],
+    pair: [],
+    d: "弗赖堡青训右闸，国家队观察名单。",
+    h: "6' 1\"",
+    w: "168 lbs",
+    _src: "curated"
+   },
+   {
+    n: "安东尼·扬",
+    en: [
+     "Anthony Jung"
+    ],
+    num: 5,
+    pos: [
+     "DF"
+    ],
+    nat: "德国",
+    age: 34,
+    foot: null,
+    h: "6' 1\"",
+    w: "183 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "奥斯特哈格",
+    en: [
+     "Patrick Osterhage"
+    ],
+    num: 6,
+    pos: [
+     "MF"
+    ],
+    nat: "德国",
+    age: 26,
+    foot: null,
+    h: "6' 0\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "恩格哈特",
+    en: [
+     "Engelhardt",
+     "恩格哈特"
+    ],
+    pos: [
+     "CM",
+     "DM"
+    ],
+    foot: null,
+    club: "弗赖堡",
+    nat: "德国",
+    num: 6,
+    age: 25,
+    season: "—",
+    st: "年轻防守中场",
+    tags: [
+     "破坏型"
+    ],
+    pair: [],
+    d: "弗赖堡青训出品的25岁后腰，国家队的轮换深度。",
+    h: "6' 0\"",
+    w: "161 lbs",
+    _src: "curated"
+   },
+   {
+    n: "德里·谢尔汉特",
+    en: [
+     "Derry Scherhant"
+    ],
+    num: 7,
+    pos: [
+     "FW"
+    ],
+    nat: "德国",
+    age: 23,
+    foot: null,
+    h: "6' 1\"",
+    w: "172 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "马克西米利安·埃格施泰因",
+    en: [
+     "Maximilian Eggestein"
+    ],
+    num: 8,
+    pos: [
+     "MF"
+    ],
+    nat: "德国",
+    age: 29,
+    foot: null,
+    h: "5' 11\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "卢卡斯·勒尔",
+    en: [
+     "Lucas Höler"
+    ],
+    num: 9,
+    pos: [
+     "FW"
+    ],
+    nat: "德国",
+    age: 32,
+    foot: null,
+    h: "6' 0\"",
+    w: "183 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "特罗伊",
+    en: [
+     "Treu",
+     "Troy"
+    ],
+    pos: [
+     "CB"
+    ],
+    foot: null,
+    club: "弗赖堡",
+    nat: "德国",
+    num: 13,
+    age: 25,
+    season: "—",
+    st: "年轻中卫",
+    tags: [],
+    pair: [],
+    d: "弗赖堡防线新星，国家队轮换名单。",
+    h: "5' 8\"",
+    w: "157 lbs",
+    _src: "curated"
+   },
+   {
+    n: "铃木唯人",
+    en: [
+     "Yuito Suzuki"
+    ],
+    num: 14,
+    pos: [
+     "MF"
+    ],
+    nat: "日本",
+    age: 25,
+    foot: null,
+    h: "5' 9\"",
+    w: "157 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "卢卡斯·屈布勒",
+    en: [
+     "Lukas Kübler"
+    ],
+    num: 17,
+    pos: [
+     "DF"
+    ],
+    nat: "德国",
+    age: 34,
+    foot: null,
+    h: "6' 0\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "尼克拉斯·贝斯特",
+    en: [
+     "Niklas Beste"
+    ],
+    num: 19,
+    pos: [
+     "MF"
+    ],
+    nat: "德国",
+    age: 27,
+    foot: null,
+    h: "5' 9\"",
+    w: "146 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "山本理仁",
+    en: [
+     "Rihito Yamamoto"
+    ],
+    num: 20,
+    pos: [
+     "MF"
+    ],
+    nat: "日本",
+    age: 24,
+    foot: null,
+    h: "5' 10\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "弗洛里安·穆勒",
+    en: [
+     "Florian Müller"
+    ],
+    num: 21,
+    pos: [
+     "GK"
+    ],
+    nat: "德国",
+    age: 28,
+    foot: null,
+    h: "6' 3\"",
+    w: "192 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "西里亚克·伊列",
+    en: [
+     "Cyriaque Irié"
+    ],
+    num: 22,
+    pos: [
+     "FW"
+    ],
+    nat: "Burkina Faso",
+    age: 21,
+    foot: null,
+    h: "6' 1\"",
+    w: "192 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "弗洛伦特·穆斯利亚",
+    en: [
+     "Florent Muslija"
+    ],
+    num: 23,
+    pos: [
+     "MF"
+    ],
+    nat: "科索沃",
+    age: 28,
+    foot: null,
+    h: "5' 8\"",
+    w: "141 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "胡特",
+    en: [
+     "Jannik Huth"
+    ],
+    num: 24,
+    pos: [
+     "GK"
+    ],
+    nat: "德国",
+    age: 32,
+    foot: null,
+    h: "6' 1\"",
+    w: "174 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "贝尔坎·耶尔马兹",
+    en: [
+     "Berkay Yilmaz"
+    ],
+    num: 27,
+    pos: [
+     "DF"
+    ],
+    nat: "Türkiye",
+    age: 21,
+    foot: null,
+    h: "5' 10\"",
+    w: "150 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "金特尔",
+    en: [
+     "Matthias Ginter"
+    ],
+    num: 28,
+    pos: [
+     "DF"
+    ],
+    nat: "德国",
+    age: 32,
+    foot: null,
+    h: "6' 3\"",
+    w: "190 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "克里斯蒂安·京特",
+    en: [
+     "Christian Günter"
+    ],
+    num: 30,
+    pos: [
+     "DF"
+    ],
+    nat: "德国",
+    age: 33,
+    foot: null,
+    h: "6' 0\"",
+    w: "183 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "马塔诺维奇",
+    en: [
+     "Igor Matanovic"
+    ],
+    num: 31,
+    pos: [
+     "FW"
+    ],
+    nat: "克罗地亚",
+    age: 23,
+    foot: null,
+    h: "6' 4\"",
+    w: "196 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "温琴佐·格里福",
+    en: [
+     "Vincenzo Grifo"
+    ],
+    num: 32,
+    pos: [
+     "MF"
+    ],
+    nat: "意大利",
+    age: 33,
+    foot: null,
+    h: "5' 11\"",
+    w: "168 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "约尔迪·马肯戈",
+    en: [
+     "Jordy Makengo"
+    ],
+    num: 33,
+    pos: [
+     "DF"
+    ],
+    nat: "法国",
+    age: 25,
+    foot: null,
+    h: "6' 3\"",
+    w: "172 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Rouven Tarnutzer",
+    en: [
+     "Rouven Tarnutzer"
+    ],
+    num: 39,
+    pos: [
+     "MF"
+    ],
+    nat: "瑞士",
+    age: 19,
+    foot: null,
+    h: "5' 11\"",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Mateo Zelic",
+    en: [
+     "Mateo Zelic"
+    ],
+    num: 40,
+    pos: [
+     "FW"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "后藤启介",
+    en: [
+     "Keisuke Goto"
+    ],
+    num: 42,
+    pos: [
+     "FW"
+    ],
+    nat: "日本",
+    age: 21,
+    foot: null,
+    h: "6' 3\"",
+    w: "152 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "奥格斯",
+    en: [
+     "Ifechukwu Ogbus"
+    ],
+    num: 43,
+    pos: [
+     "DF"
+    ],
+    nat: "瑞士",
+    age: 20,
+    foot: null,
+    h: "6' 1\"",
+    w: "183 lbs",
+    _src: "espn-zh"
+   }
+  ]
+ },
  "巴黎": {
   league: "法甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "阿什拉夫",
@@ -6566,7 +9077,7 @@ window.SQUADS_EU={
  "里尔": {
   league: "法甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "Berke Özer",
@@ -6930,7 +9441,7 @@ window.SQUADS_EU={
      "FW"
     ],
     nat: "摩洛哥",
-    age: 23,
+    age: 24,
     foot: null,
     h: "5' 10\"",
     w: "170 lbs",
@@ -7021,7 +9532,7 @@ window.SQUADS_EU={
  "摩纳哥": {
   league: "法甲",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "卢卡斯·赫拉德茨基",
@@ -7501,6 +10012,1060 @@ window.SQUADS_EU={
     foot: null,
     h: "6' 1\"",
     w: "168 lbs",
+    _src: "espn"
+   }
+  ]
+ },
+ "里昂": {
+  league: "法甲",
+  coach: "",
+  updated: "2026-11-02",
+  players: [
+   {
+    n: "多米尼克·格赖夫",
+    en: [
+     "Dominik Greif"
+    ],
+    num: 1,
+    pos: [
+     "GK"
+    ],
+    nat: "斯洛伐克",
+    age: 29,
+    foot: null,
+    h: "6' 6\"",
+    w: "181 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "马兹·比斯特鲁普",
+    en: [
+     "Mads Bidstrup"
+    ],
+    num: 2,
+    pos: [
+     "MF"
+    ],
+    nat: "丹麦",
+    age: 25,
+    foot: null,
+    h: "5' 9\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "塔利亚菲科",
+    en: [
+     "Nicolás Tagliafico"
+    ],
+    num: 3,
+    pos: [
+     "DF"
+    ],
+    nat: "阿根廷",
+    age: 34,
+    foot: null,
+    h: "5' 8\"",
+    w: "141 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "坦纳·特斯曼",
+    en: [
+     "Tanner Tessmann"
+    ],
+    num: 6,
+    pos: [
+     "MF"
+    ],
+    nat: "美国",
+    age: 25,
+    foot: null,
+    h: "6' 2\"",
+    w: "190 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "欧内斯特·努阿马",
+    en: [
+     "Ernest Nuamah"
+    ],
+    num: 7,
+    pos: [
+     "FW"
+    ],
+    nat: "加纳",
+    age: 23,
+    foot: null,
+    h: "5' 10\"",
+    w: "157 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "科朗坦·托利索",
+    en: [
+     "Corentin Tolisso"
+    ],
+    num: 8,
+    pos: [
+     "MF"
+    ],
+    nat: "法国",
+    age: 32,
+    foot: null,
+    h: "5' 11\"",
+    w: "179 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "帕维尔·舒尔茨",
+    en: [
+     "Pavel Sulc"
+    ],
+    num: 10,
+    pos: [
+     "MF"
+    ],
+    nat: "捷克",
+    age: 25,
+    foot: null,
+    h: "5' 10\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "中村敬斗",
+    en: [
+     "Keito Nakamura"
+    ],
+    num: 11,
+    pos: [
+     "FW"
+    ],
+    nat: "日本",
+    age: 26,
+    foot: null,
+    h: "5' 11\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "扎卡里·阿特卡姆",
+    en: [
+     "Zachary Athekame"
+    ],
+    num: 13,
+    pos: [
+     "DF"
+    ],
+    nat: "瑞士",
+    age: 21,
+    foot: null,
+    h: "5' 11\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "阿布内尔",
+    en: [
+     "Abner"
+    ],
+    num: 16,
+    pos: [
+     "DF"
+    ],
+    nat: "巴西",
+    age: 26,
+    foot: null,
+    h: "6' 0\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "卢瓦·奥彭达",
+    en: [
+     "Loïs Openda"
+    ],
+    num: 17,
+    pos: [
+     "FW"
+    ],
+    nat: "比利时",
+    age: 26,
+    foot: null,
+    h: "5' 10\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Khalis Merah",
+    en: [
+     "Khalis Merah"
+    ],
+    num: 18,
+    pos: [
+     "MF"
+    ],
+    nat: "法国",
+    age: 19,
+    foot: null,
+    h: "5' 10\"",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "穆萨·尼亚哈特",
+    en: [
+     "Moussa Niakhaté"
+    ],
+    num: 19,
+    pos: [
+     "DF"
+    ],
+    nat: "塞内加尔",
+    age: 30,
+    foot: null,
+    h: "6' 3\"",
+    w: "181 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "费利克斯·巴赫尔",
+    en: [
+     "Felix Bacher"
+    ],
+    num: 20,
+    pos: [
+     "DF"
+    ],
+    nat: "奥地利",
+    age: 26,
+    foot: null,
+    h: "6' 3\"",
+    w: "181 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "鲁本·克鲁伊维特",
+    en: [
+     "Ruben Kluivert"
+    ],
+    num: 21,
+    pos: [
+     "DF"
+    ],
+    nat: "荷兰",
+    age: 25,
+    foot: null,
+    h: "6' 2\"",
+    w: "152 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "克林顿·马塔",
+    en: [
+     "Clinton Mata"
+    ],
+    num: 22,
+    pos: [
+     "DF"
+    ],
+    nat: "Angola",
+    age: 33,
+    foot: null,
+    h: "5' 11\"",
+    w: "159 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "泰勒·莫顿",
+    en: [
+     "Tyler Morton"
+    ],
+    num: 23,
+    pos: [
+     "MF"
+    ],
+    nat: "英格兰",
+    age: 24,
+    foot: null,
+    h: "6' 0\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "朱利安·杜兰维尔",
+    en: [
+     "Julien Duranville"
+    ],
+    num: 24,
+    pos: [
+     "FW"
+    ],
+    nat: "比利时",
+    age: 20,
+    foot: null,
+    h: "5' 8\"",
+    w: "148 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Justin Bengui Joao",
+    en: [
+     "Justin Bengui Joao"
+    ],
+    num: 25,
+    pos: [
+     "GK"
+    ],
+    nat: "法国",
+    age: 21,
+    foot: null,
+    h: "6' 3\"",
+    w: "168 lbs",
+    _src: "espn"
+   },
+   {
+    n: "Kail Boudache",
+    en: [
+     "Kail Boudache"
+    ],
+    num: 26,
+    pos: [
+     "FW"
+    ],
+    nat: "法国",
+    age: 20,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Yvann Konan",
+    en: [
+     "Yvann Konan"
+    ],
+    num: 30,
+    pos: [
+     "GK"
+    ],
+    nat: "",
+    age: 19,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Alejandro Rodríguez",
+    en: [
+     "Alejandro Rodríguez"
+    ],
+    num: 32,
+    pos: [
+     "FW"
+    ],
+    nat: "英格兰",
+    age: 18,
+    foot: null,
+    h: "5' 11\"",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Cluver Sambi Mbungu",
+    en: [
+     "Cluver Sambi Mbungu"
+    ],
+    num: 33,
+    pos: [
+     "MF"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Matthias Da Silva",
+    en: [
+     "Matthias Da Silva"
+    ],
+    num: 35,
+    pos: [
+     "GK"
+    ],
+    nat: "葡萄牙",
+    age: 18,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Steeve Kango",
+    en: [
+     "Steeve Kango"
+    ],
+    num: 37,
+    pos: [
+     "DF"
+    ],
+    nat: "法国",
+    age: 19,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Angel Daniel Garcia",
+    en: [
+     "Angel Daniel Garcia"
+    ],
+    num: 38,
+    pos: [
+     "DF"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "雷米·德康",
+    en: [
+     "Rémy Descamps"
+    ],
+    num: 40,
+    pos: [
+     "GK"
+    ],
+    nat: "法国",
+    age: 30,
+    foot: null,
+    h: "6' 4\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Adil Hamdani",
+    en: [
+     "Adil Hamdani"
+    ],
+    num: 44,
+    pos: [
+     "FW"
+    ],
+    nat: "法国",
+    age: 17,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Rémi Himbert",
+    en: [
+     "Rémi Himbert"
+    ],
+    num: 45,
+    pos: [
+     "FW"
+    ],
+    nat: "法国",
+    age: 18,
+    foot: null,
+    h: "5' 10\"",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Lassine Diarra",
+    en: [
+     "Lassine Diarra"
+    ],
+    num: 50,
+    pos: [
+     "GK"
+    ],
+    nat: "马里",
+    age: 23,
+    foot: null,
+    h: "6' 0\"",
+    w: "181 lbs",
+    _src: "espn"
+   },
+   {
+    n: "Mohamed Ouédraogo",
+    en: [
+     "Mohamed Ouédraogo"
+    ],
+    num: 76,
+    pos: [
+     "DF"
+    ],
+    nat: "Burkina Faso",
+    age: 23,
+    foot: null,
+    h: "6' 0\"",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "诺阿姆·卡马拉",
+    en: [
+     "Noham Kamara"
+    ],
+    num: 85,
+    pos: [
+     "DF"
+    ],
+    nat: "法国",
+    age: 19,
+    foot: null,
+    h: "6' 1\"",
+    w: "168 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "诺亚·纳尔泰",
+    en: [
+     "Noah Nartey"
+    ],
+    num: 99,
+    pos: [
+     "MF"
+    ],
+    nat: "丹麦",
+    age: 21,
+    foot: null,
+    h: "5' 11\"",
+    w: "152 lbs",
+    _src: "espn-zh"
+   }
+  ]
+ },
+ "马赛": {
+  league: "法甲",
+  coach: "",
+  updated: "2026-11-02",
+  players: [
+   {
+    n: "伊根-赖利",
+    en: [
+     "CJ Egan-Riley"
+    ],
+    num: 4,
+    pos: [
+     "DF"
+    ],
+    nat: "英格兰",
+    age: 23,
+    foot: null,
+    h: "6' 0\"",
+    w: "152 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "托楚克武·恩纳迪",
+    en: [
+     "Tochukwu Nnadi"
+    ],
+    num: 6,
+    pos: [
+     "MF"
+    ],
+    nat: "尼日利亚",
+    age: 23,
+    foot: null,
+    h: "5' 9\"",
+    w: "",
+    _src: "espn-zh"
+   },
+   {
+    n: "安赫尔·戈梅斯",
+    en: [
+     "Angel Gomes"
+    ],
+    num: 7,
+    pos: [
+     "MF"
+    ],
+    nat: "英格兰",
+    age: 26,
+    foot: null,
+    h: "5' 6\"",
+    w: "121 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "希马德·阿卜杜利",
+    en: [
+     "Himad Abdelli"
+    ],
+    num: 8,
+    pos: [
+     "MF"
+    ],
+    nat: "阿尔及利亚",
+    age: 26,
+    foot: null,
+    h: "6' 1\"",
+    w: "179 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "阿明·古伊里",
+    en: [
+     "Amine Gouiri"
+    ],
+    num: 9,
+    pos: [
+     "FW"
+    ],
+    nat: "阿尔及利亚",
+    age: 26,
+    foot: null,
+    h: "5' 11\"",
+    w: "174 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "尼尔·莫派",
+    en: [
+     "Neal Maupay"
+    ],
+    num: 11,
+    pos: [
+     "FW"
+    ],
+    nat: "法国",
+    age: 30,
+    foot: null,
+    h: "5' 8\"",
+    w: "150 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "杰弗里·德朗厄",
+    en: [
+     "Jeffrey de Lange"
+    ],
+    num: 12,
+    pos: [
+     "GK"
+    ],
+    nat: "荷兰",
+    age: 28,
+    foot: null,
+    h: "6' 3\"",
+    w: "174 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "德里克·科尼利厄斯",
+    en: [
+     "Derek Cornelius"
+    ],
+    num: 13,
+    pos: [
+     "DF"
+    ],
+    nat: "加拿大",
+    age: 28,
+    foot: null,
+    h: "6' 2\"",
+    w: "190 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "伊戈尔·派尚",
+    en: [
+     "Igor Paixão"
+    ],
+    num: 14,
+    pos: [
+     "FW"
+    ],
+    nat: "巴西",
+    age: 26,
+    foot: null,
+    h: "5' 6\"",
+    w: "141 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "巴莫·梅特",
+    en: [
+     "Bamo Meïté"
+    ],
+    num: 18,
+    pos: [
+     "DF"
+    ],
+    nat: "科特迪瓦",
+    age: 24,
+    foot: null,
+    h: "6' 0\"",
+    w: "163 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "热奥弗里·孔多比亚",
+    en: [
+     "Geoffrey Kondogbia"
+    ],
+    num: 19,
+    pos: [
+     "MF"
+    ],
+    nat: "Central African Republic",
+    age: 33,
+    foot: null,
+    h: "6' 2\"",
+    w: "174 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "纳耶夫·阿格尔德",
+    en: [
+     "Nayef Aguerd"
+    ],
+    num: 21,
+    pos: [
+     "DF"
+    ],
+    nat: "摩洛哥",
+    age: 30,
+    foot: null,
+    h: "6' 3\"",
+    w: "174 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "蒂莫西·维阿",
+    en: [
+     "Timothy Weah"
+    ],
+    num: 22,
+    pos: [
+     "FW"
+    ],
+    nat: "美国",
+    age: 26,
+    foot: null,
+    h: "6' 0\"",
+    w: "146 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "皮埃尔-埃米尔·霍伊别尔",
+    en: [
+     "Pierre-Emile Højbjerg"
+    ],
+    num: 23,
+    pos: [
+     "MF"
+    ],
+    nat: "丹麦",
+    age: 31,
+    foot: null,
+    h: "6' 1\"",
+    w: "183 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "乌利塞斯·加西亚",
+    en: [
+     "Ulisses Garcia"
+    ],
+    num: 25,
+    pos: [
+     "DF"
+    ],
+    nat: "瑞士",
+    age: 30,
+    foot: null,
+    h: "6' 0\"",
+    w: "161 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "法里斯·穆姆巴尼亚",
+    en: [
+     "Faris Moumbagna"
+    ],
+    num: 29,
+    pos: [
+     "FW"
+    ],
+    nat: "喀麦隆",
+    age: 26,
+    foot: null,
+    h: "6' 1\"",
+    w: "170 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "埃默森",
+    en: [
+     "Emerson"
+    ],
+    num: 33,
+    pos: [
+     "DF"
+    ],
+    nat: "意大利",
+    age: 32,
+    foot: null,
+    h: "5' 9\"",
+    w: "139 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Jelle Van Neck",
+    en: [
+     "Jelle Van Neck"
+    ],
+    num: 40,
+    pos: [
+     "GK"
+    ],
+    nat: "比利时",
+    age: 22,
+    foot: null,
+    h: "6' 2\"",
+    w: "152 lbs",
+    _src: "espn"
+   },
+   {
+    n: "Ibrahim Gomis",
+    en: [
+     "Ibrahim Gomis"
+    ],
+    num: 41,
+    pos: [
+     "GK"
+    ],
+    nat: "摩洛哥",
+    age: 21,
+    foot: null,
+    h: "6' 7\"",
+    w: "174 lbs",
+    _src: "espn"
+   },
+   {
+    n: "Nouhoum Kamissoko",
+    en: [
+     "Nouhoum Kamissoko"
+    ],
+    num: 42,
+    pos: [
+     "MF"
+    ],
+    nat: "马里",
+    age: 21,
+    foot: null,
+    h: "6' 0\"",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Tadjidine Mmadi",
+    en: [
+     "Tadjidine Mmadi"
+    ],
+    num: 43,
+    pos: [
+     "FW"
+    ],
+    nat: "法国",
+    age: 19,
+    foot: null,
+    h: "5' 11\"",
+    w: "132 lbs",
+    _src: "espn"
+   },
+   {
+    n: "Antoine Dominique Henri Valero",
+    en: [
+     "Antoine Dominique Henri Valero"
+    ],
+    num: 44,
+    pos: [
+     "FW"
+    ],
+    nat: "",
+    age: null,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Alexi Koum",
+    en: [
+     "Alexi Koum"
+    ],
+    num: 46,
+    pos: [
+     "DF"
+    ],
+    nat: "法国",
+    age: 20,
+    foot: null,
+    h: "5' 11\"",
+    w: "157 lbs",
+    _src: "espn"
+   },
+   {
+    n: "凯利亚内·阿卜杜拉",
+    en: [
+     "Keyliane Abdallah"
+    ],
+    num: 48,
+    pos: [
+     "FW"
+    ],
+    nat: "法国",
+    age: 20,
+    foot: null,
+    h: "6' 1\"",
+    w: "157 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Rayan Bang Na",
+    en: [
+     "Rayan Bang Na"
+    ],
+    num: 61,
+    pos: [
+     "DF"
+    ],
+    nat: "法国",
+    age: 19,
+    foot: null,
+    h: "6' 2\"",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Anis Doubal",
+    en: [
+     "Anis Doubal"
+    ],
+    num: 66,
+    pos: [
+     "DF"
+    ],
+    nat: "突尼斯",
+    age: 20,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Kelyann Bezahaf",
+    en: [
+     "Kelyann Bezahaf"
+    ],
+    num: 74,
+    pos: [
+     "DF"
+    ],
+    nat: "阿尔及利亚",
+    age: 20,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Hilan Slimani",
+    en: [
+     "Hilan Slimani"
+    ],
+    num: 76,
+    pos: [
+     "DF"
+    ],
+    nat: "法国",
+    age: 20,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "阿明·哈里特",
+    en: [
+     "Amine Harit"
+    ],
+    num: 77,
+    pos: [
+     "MF"
+    ],
+    nat: "摩洛哥",
+    age: 29,
+    foot: null,
+    h: "5' 11\"",
+    w: "148 lbs",
+    _src: "espn-zh"
+   },
+   {
+    n: "Mathis Clement",
+    en: [
+     "Mathis Clement"
+    ],
+    num: 80,
+    pos: [
+     "DF"
+    ],
+    nat: "法国",
+    age: 20,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Ugo El Kadmiri",
+    en: [
+     "Ugo El Kadmiri"
+    ],
+    num: 84,
+    pos: [
+     "FW"
+    ],
+    nat: "瑞典",
+    age: 19,
+    foot: null,
+    h: "",
+    w: "",
+    _src: "espn"
+   },
+   {
+    n: "Théo Vermot",
+    en: [
+     "Théo Vermot"
+    ],
+    num: 92,
+    pos: [
+     "GK"
+    ],
+    nat: "法国",
+    age: 29,
+    foot: null,
+    h: "6' 3\"",
+    w: "163 lbs",
     _src: "espn"
    }
   ]

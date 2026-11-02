@@ -2,14 +2,14 @@
    数据来源：ESPN core API 2026 赛季（名单/号码/位置粗粒度/年龄/国籍/身高体重）
    + 精选库合并（中文名/惯用脚/技术特点/属性），_rosterMiss=精选库有但ESPN名单未匹配
    foot 空值=未查证；运行时 AI 联网补全后缓存到 localStorage
-   生成时间：2026-11-01T18:50:29.707Z
+   生成时间：2026-11-02T16:08:30.034Z
 */
 "use strict";
 window.SQUADS_PL={
  "曼联": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "拉门斯",
@@ -1091,7 +1091,7 @@ window.SQUADS_PL={
  "曼城": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "多纳鲁马",
@@ -1812,7 +1812,7 @@ window.SQUADS_PL={
  "阿森纳": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "拉亚",
@@ -2513,7 +2513,7 @@ window.SQUADS_PL={
  "利物浦": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "阿利松",
@@ -3230,7 +3230,7 @@ window.SQUADS_PL={
  "热刺": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "罗伯逊",
@@ -3283,34 +3283,6 @@ window.SQUADS_PL={
     num: 5,
     age: 29,
     h: "6' 1\"",
-    w: "172 lbs",
-    _src: "curated"
-   },
-   {
-    n: "范赫克",
-    en: [
-     "van Hecke"
-    ],
-    pos: [
-     "CB",
-     "RB"
-    ],
-    foot: "右",
-    club: "热刺",
-    nat: "荷兰",
-    st: "出球型年轻中卫",
-    tags: [
-     "出球型"
-    ],
-    pair: [
-     "托辛：右中卫/中卫轮换"
-    ],
-    d: "2026夏窗从布莱顿加盟热刺：出球冷静+对抗进步快，德泽尔比在布莱顿就了解他的建队拼图。",
-    weak: "易失位",
-    weakNote: "Yahoo 2026-08 赛后分析：防守端“aggressively stepping out of position for no apparent reason”，高位线被身后球打穿；TFA 球探同时肯定其出球与拦截。属上抢时机/位置感风险，不是速度问题。",
-    num: 6,
-    age: 26,
-    h: "6' 2\"",
     w: "172 lbs",
     _src: "curated"
    },
@@ -3523,22 +3495,6 @@ window.SQUADS_PL={
     _src: "espn-zh"
    },
    {
-    n: "Sávio",
-    en: [
-     "Sávio"
-    ],
-    num: 17,
-    pos: [
-     "FW"
-    ],
-    nat: "巴西",
-    age: 22,
-    foot: null,
-    h: "5' 10\"",
-    w: "157 lbs",
-    _src: "espn"
-   },
-   {
     n: "索兰克",
     en: [
      "Solanke"
@@ -3608,22 +3564,6 @@ window.SQUADS_PL={
     h: "6' 1\"",
     w: "174 lbs",
     _src: "espn"
-   },
-   {
-    n: "马尔穆什",
-    en: [
-     "Omar Marmoush"
-    ],
-    num: 22,
-    pos: [
-     "FW"
-    ],
-    nat: "埃及",
-    age: 27,
-    foot: null,
-    h: "5' 11\"",
-    w: "174 lbs",
-    _src: "espn-zh"
    },
    {
     n: "Mykhailo Mudryk",
@@ -3876,6 +3816,58 @@ window.SQUADS_PL={
     _src: "curated"
    },
    {
+    n: "范赫克",
+    en: [
+     "van Hecke"
+    ],
+    pos: [
+     "CB",
+     "RB"
+    ],
+    foot: "右",
+    club: "热刺",
+    nat: "荷兰",
+    st: "出球型年轻中卫",
+    tags: [
+     "出球型"
+    ],
+    pair: [
+     "托辛：右中卫/中卫轮换"
+    ],
+    d: "2026夏窗从布莱顿加盟热刺：出球冷静+对抗进步快，德泽尔比在布莱顿就了解他的建队拼图。",
+    weak: "易失位",
+    weakNote: "Yahoo 2026-08 赛后分析：防守端“aggressively stepping out of position for no apparent reason”，高位线被身后球打穿；TFA 球探同时肯定其出球与拦截。属上抢时机/位置感风险，不是速度问题。",
+    _src: "curated"
+   },
+   {
+    n: "马尔穆什",
+    en: [
+     "Omar Marmoush",
+     "Marmoush",
+     "奥马尔·马尔穆什"
+    ],
+    pos: [
+     "LW",
+     "ST"
+    ],
+    foot: "右",
+    club: "热刺",
+    nat: "埃及",
+    st: "右脚左翼/前锋：内切+串联",
+    tags: [
+     "逆足内切",
+     "全能9"
+    ],
+    weak: "终结效率低",
+    weakNote: "spurshub 2026-27 球探：link play 100th percentile，但 npxG/shot 仅 31st percentile；终结效率低、射门选择一般。热刺当前用在左翼，TM 主位置 CF；另有防守参与度一般（49th percentile），但不写“不参与防守”。",
+    pair: [
+     "索兰克：锋线轮换"
+    ],
+    d: "2026-08 从曼城租借（含买断义务）；当前首发左边锋（10-19 对考文垂进球）；TM 主位置 CF，热刺用在 LW；串联强，终结效率是短板。",
+    _src: "curated",
+    _rosterMiss: true
+   },
+   {
     n: "托纳利",
     en: [
      "Tonali"
@@ -3903,7 +3895,7 @@ window.SQUADS_PL={
  "切尔西": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "埃米·马丁内斯",
@@ -4194,7 +4186,7 @@ window.SQUADS_PL={
     d: "英超抢断王级别的扫荡范围，转身出球也在涨。1.15亿身价正在兑现。",
     weakNote: "【可用性风险，非战术短板】2025-26 俱乐部+国家队 12 黄 2 红，因停赛缺席 5 场（The Athletic 2026-02 专题）；2026-27 英超 3 场。强项仍是扫荡与覆盖。",
     num: 25,
-    age: 24,
+    age: 25,
     h: "5' 10\"",
     w: "161 lbs",
     _src: "curated"
@@ -4512,7 +4504,7 @@ window.SQUADS_PL={
  "阿斯顿维拉": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "Zion Suzuki",
@@ -5038,7 +5030,7 @@ window.SQUADS_PL={
  "纽卡斯尔": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "尼克·波普",
@@ -5530,7 +5522,7 @@ window.SQUADS_PL={
  "诺丁汉森林": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "Ousmane Diomande",
@@ -5960,7 +5952,7 @@ window.SQUADS_PL={
  "埃弗顿": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "皮克福德",
@@ -6067,6 +6059,7 @@ window.SQUADS_PL={
     ],
     pair: [],
     d: "曼城外租埃弗顿：控球牵制+制造定位球，节奏型边锋的另一种活法。",
+    status: "训练态度问题被内部停训（非主力，出场顺位下降）",
     num: 10,
     age: 31,
     h: "5' 11\"",
@@ -6152,22 +6145,6 @@ window.SQUADS_PL={
     h: "5' 10\"",
     w: "159 lbs",
     _src: "espn"
-   },
-   {
-    n: "布伦南·约翰逊",
-    en: [
-     "Brennan Johnson"
-    ],
-    num: 22,
-    pos: [
-     "FW"
-    ],
-    nat: "威尔士",
-    age: 25,
-    foot: null,
-    h: "6' 1\"",
-    w: "161 lbs",
-    _src: "espn-zh"
    },
    {
     n: "Christian Nørgaard",
@@ -6372,7 +6349,7 @@ window.SQUADS_PL={
  "水晶宫": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "蒂里克·米切尔",
@@ -6901,7 +6878,7 @@ window.SQUADS_PL={
  "布莱顿": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "维尔布鲁根",
@@ -7480,7 +7457,7 @@ window.SQUADS_PL={
  "布伦特福德": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "凯莱赫",
@@ -7966,7 +7943,7 @@ window.SQUADS_PL={
  "伯恩茅斯": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "彼得罗维奇",
@@ -8421,7 +8398,7 @@ window.SQUADS_PL={
  "富勒姆": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "贝恩德·莱诺",
@@ -8892,7 +8869,7 @@ window.SQUADS_PL={
  "利兹联": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "特拉福德",
@@ -9378,7 +9355,7 @@ window.SQUADS_PL={
  "桑德兰": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "丹索",
@@ -9910,7 +9887,7 @@ window.SQUADS_PL={
  "考文垂": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "Ethan Pinnock",
@@ -10381,7 +10358,7 @@ window.SQUADS_PL={
  "伊普斯维奇": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "Alex Palmer",
@@ -10852,7 +10829,7 @@ window.SQUADS_PL={
  "赫尔城": {
   league: "英超",
   coach: "",
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   players: [
    {
     n: "Jack Butland",

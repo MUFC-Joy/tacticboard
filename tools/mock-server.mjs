@@ -14,6 +14,31 @@ const PORT = Number(process.argv[2] || 8901);
 /* ---------- 按系统提示词分发 canned 响应 ---------- */
 function canned(system, user){
   system=system||''; user=user||'';
+  if(system.includes('战术教练组分析师')){ /* 问题四：角色适配 AI 分析 */
+    return JSON.stringify({
+      verdict:'很适配',score:88,
+      summary:'mock 结论：他的技术特点与该角色高度吻合，在当前俱乐部体系下已承担近似职责，2026-27 赛季表现稳定。',
+      reasons:['位置匹配：主位置与角色位置完全一致（依据：库内位置数据）',
+        '技术标签吻合：出球/组织类标签命中角色要求（依据：球员档案）',
+        '赛季表现：2026-27 场均传球/对抗数据处于同位置前列（依据：mock 搜索结果）'],
+      risks:['被高强度逼抢时出球选择会打折（mock）','对手针对性贴身时需要搭档保护'],
+      fitNote:'教练应让他站在角色默认热区，配一名破坏型搭档补防守，定位球由他主罚（mock 建议）。',
+      sources:'mocksports.com',conf:'infer'});
+  }
+  if(system.includes('九大模块')){ /* 问题九：球队 AI 战术看板 */
+    return JSON.stringify({
+      recentBasis:'mock 依据：近 3 场 2 胜 1 平，主力后腰伤停 2 周，近两场改打双后腰。',
+      m1:{base:'基准首发高位压迫实际执行为 4-4-2 中块（mock）',counters:['克制单后腰出球队'],weakTo:['被长传打身后'],conditions:['全员健康时成立'],oppCounter:['对手反制：边路长传转移（mock 场次）']},
+      m2:{pool:['6号=第一替补A（登场后压迫强度下降）'],coreOut:{planA:'同位置顶替维持打法',planB:'整体改双后腰'},chain:['核心伤缺→肋部保护降档'],suspension:'停赛短期轮换，与伤病长缺分开处理'},
+      m3:{home:'主场压迫强',away:'客场收缩打转换',halves:'60 分钟后固定换翼卫',states:'领先收缩/落后加前锋/平局稳控'},
+      m4:{xg:'近5场 xG 1.7 / xGA 0.8（mock）',press:'PPDA 9.5',zones:'边路触球 36%',note:'样本：近5场联赛；来源 mockstats.io'},
+      m5:{trend:'状态上行（mock）',matches:[{m:'mock 2-1 胜',form:'4-2-3-1',changes:'60 分钟改 4-4-2 后变好'}],problems:['连续 2 场弧顶漏远射'],positives:['左路套路连续奏效']},
+      m6:{attack:'角球后点战术（mock）',defence:'区域联防，后点偶发漏人',coach:'关键时段加码定位球',types:'角球短开；禁区前沿任意球直接射门'},
+      m7:{windows:'常规窗口 60-75 分钟',intents:['稳固防守','提速冲身后'],formChanges:['4-2-3-1→4-4-2（mock）'],successRate:'近 10 次 6 次改善'},
+      m8:{priorities:'联赛优先，杯赛大幅轮换',fatigue:'70 分钟执行力下降（mock）',injuryRisk:'边翼卫易疲劳性伤病'},
+      m9:[{player:'mock 核心',zone:'右肋',duty:'组织+最后一传',varies:'变阵后改边锋内切',ifStopped:'无替代组织者=致命短板（mock）'}],
+      sources:'mocksports.com'});
+  }
   if(system.includes('新闻编辑')){ /* 球队看板 */
     return JSON.stringify({
       epl:[{t:'榜首大战前瞻',d:'10-31',s:'积分榜前四近 5 轮合计仅负 1 场，本轮直接对话将决定榜首归属。',src:'mocksports.com'},

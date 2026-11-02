@@ -1,4 +1,4 @@
-/* 主站名单桥：32 队 ESPN 名单 + 中文名映射（供搜索筛选/角色检测用） */
+/* 主站名单桥：五大联赛 40 队 ESPN 名单 + 中文名映射（供搜索筛选/角色检测用） */
 "use strict";
 window.SQUADS_ALL=(function(){
   var all={};

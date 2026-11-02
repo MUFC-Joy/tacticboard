@@ -1,5 +1,5 @@
 /* =========================================================
-   squads-bridge.js —— 32 队名单桥接（引擎用）
+   squads-bridge.js —— 五大联赛 40 队名单桥接（引擎用）
    把 data/squads_pl.js + squads_eu.js 的 ESPN 名单并入引擎的球员池：
      · expandPos()：粗位置 GK/DF/MF/FW → 细位置（引擎选人/评分用）
      · POOL 增补 ESPN 球员（精选库已有的以精选库为准，eng-app.js 里合并）
@@ -25,7 +25,7 @@ window.expandPos=function(pos){
   return map[pos]||[pos];
 };
 
-/* 引擎统一取某队名单：SQUADS 优先（32队全），回退 undefined 由 eng-app 用 PLAYERS 处理 */
+/* 引擎统一取某队名单：SQUADS 优先（40 队全），回退 undefined 由 eng-app 用 PLAYERS 处理 */
 window.squadsOf=function(team){
   return (window.SQUADS_ALL&&SQUADS_ALL[team])||null;
 };

@@ -261,7 +261,7 @@ const PLAYERS = [
 {n:"劳姆", en:["Raum","劳姆"], pos:["LB","LWB"], foot:"左", club:"RB莱比锡", nat:"德国", num:22, age:28, season:"—", st:"攻击型左后卫：传中机器", tags:["套边型"], pair:["基米希(国家队):右路对角"], d:"莱比锡左闸：左脚传中+定位球+往返，德国队左路首选。"},
 {n:"安东", en:["W. Anton","安东"], pos:["CB","DM"], foot:"右", club:"多特蒙德", nat:"德国", num:3, age:30, season:"—", st:"出球型多面手中卫", tags:["出球型"], pair:["施洛特贝克：俱乐部搭档"], d:"多特防线指挥官：出球+客串后腰，国家队的战术变体棋子。"},
 {n:"米特尔施泰特", en:["Mittelstädt","米特尔施泰特"], pos:["LB","LWB"], foot:"左", club:"斯图加特", nat:"德国", num:18, age:29, season:"—", st:"套边左后卫：传中稳定", tags:["套边型"], pair:[], d:"斯图加特左闸：传中质量+定位球，劳姆的轮换搭档。"},
-{n:"特罗伊", en:["Troy","特罗伊"], pos:["CB"], foot:null, club:"弗赖堡", nat:"德国", num:13, age:25, season:"—", st:"年轻中卫", tags:[], pair:[], d:"弗赖堡防线新星，国家队轮换名单。"},
+{n:"特罗伊", en:["Treu","Troy"], pos:["CB"], foot:null, club:"弗赖堡", nat:"德国", num:13, age:25, season:"—", st:"年轻中卫", tags:[], pair:[], d:"弗赖堡防线新星，国家队轮换名单。"},
 {n:"巴库", en:["R. Baku","巴库"], pos:["RB","LWB","RW"], foot:"右", club:"RB莱比锡", nat:"德国", num:16, age:28, season:"—", st:"双足多面手边路", tags:["多面手"], pair:[], d:"莱比锡边路万金油：两闸+边锋都能踢，跑动能力是通行证。"},
 {n:"瓦格诺曼", en:["Vagnoman","瓦格诺曼"], pos:["RB","LB"], foot:"右", club:"斯图加特", nat:"德国", num:14, age:25, season:"—", st:"双闸轮换", tags:["多面手"], pair:[], d:"斯图加特边后卫：速度+往返，国家队轮换深度。"},
 {n:"罗森费尔德", en:["Rosenfelder","罗森费尔德"], pos:["RB","RWB"], foot:null, club:"弗赖堡", nat:"德国", num:3, age:23, season:"—", st:"年轻套边右后卫", tags:["套边型"], pair:[], d:"弗赖堡青训右闸，国家队观察名单。"},

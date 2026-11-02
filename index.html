@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>看球战术台 TacticBoard</title>
-<link rel="stylesheet" href="css/main.css?v=13">
+<link rel="stylesheet" href="css/main.css?v=24">
 </head>
 <body>
 <header>
-  <div class="t">看球战术台 <b>TacticBoard</b><span class="badge">v4 · AI 联网版 · 数据截至 2026.10</span><button class="gearbtn" onclick="TBSettings.open()">⚙ AI 设置</button></div>
+  <div class="t">看球战术台 <b>TacticBoard</b><span class="badge">v5 · AI 联网版 · 数据截至 2026.11</span><button class="gearbtn" onclick="TBSettings.open()">⚙ AI 设置</button></div>
   <div class="s">排阵 → 对位诊断 → 换人复盘 · 全部 AI 功能共用一套接口与联网搜索（右上角 ⚙ 配置）</div>
 </header>
 <main>
@@ -17,15 +17,26 @@
   <section class="tab" id="tab-club"></section>
   <section class="tab" id="tab-sr"></section>
   <section class="tab" id="tab-nt"></section>
-  <section class="tab" id="tab-sim"><div id="simwrap"><iframe id="engframe" src="tacticboard-engine/index.html?embed=1&v=23" title="对位引擎" loading="lazy"></iframe></div></section>
+  <section class="tab" id="tab-sim"><div id="simwrap"><iframe id="engframe" src="tacticboard-engine/index.html?embed=1&v=29" title="对位引擎" loading="lazy"></iframe></div></section>
 </main>
 <nav class="nav">
-  <button data-t="tab-fmt" class="on"><span class="i">📐</span>阵型</button>
-  <button data-t="tab-role"><span class="i">🎭</span>角色</button>
-  <button data-t="tab-club"><span class="i">🏟️</span>球队</button>
-  <button data-t="tab-sr"><span class="i">🔍</span>搜索</button>
-  <button data-t="tab-nt"><span class="i">📒</span>笔记</button>
-  <button data-t="tab-sim"><span class="i">🎮</span>模拟器</button>
+  <div class="navbrand">
+    <span class="nb-logo">⚽</span>
+    <span class="nb-txt"><b>看球战术台</b><i>TacticBoard v5</i></span>
+  </div>
+  <div class="navbtns">
+    <button data-t="tab-fmt" class="on"><span class="i">📐</span><span class="lb">阵型实验室</span><span class="hint">排阵 · 知识库</span></button>
+    <button data-t="tab-role"><span class="i">🎭</span><span class="lb">角色</span><span class="hint">适配检测器</span></button>
+    <button data-t="tab-club"><span class="i">🏟️</span><span class="lb">球队</span><span class="hint">战术卡 · 看板</span></button>
+    <button data-t="tab-sr"><span class="i">🔍</span><span class="lb">搜索</span><span class="hint">球员 · 知识</span></button>
+    <button data-t="tab-nt"><span class="i">📒</span><span class="lb">笔记</span><span class="hint">归档 · 随手写</span></button>
+    <button data-t="tab-sim"><span class="i">🎮</span><span class="lb">模拟器</span><span class="hint">对位引擎</span></button>
+  </div>
+  <div class="navfoot">
+    <button class="gearbtn" onclick="TBSettings.open()"><span class="i">⚙</span><span class="lb">全局 AI 设置</span></button>
+    <div class="themesel" id="themeSel"></div>
+    <div class="nb-tip">球员 / 知识 / 球队动态由 AI 联网生成并保存在本机</div>
+  </div>
 </nav>
 <footer class="hintline" style="text-align:center; padding:0 14px 92px; line-height:1.7">
   球员 / 知识 / 球队动态均由 AI 联网搜索生成并保存在本机 · 首次使用点右上角 ⚙ 配置 AI 与搜索引擎
@@ -33,21 +44,22 @@
 
 <div id="modal"><div class="mbox" id="mbox"></div></div>
 
-<script src="ai/keystore.js?v=1"></script>
+<script src="ai/keystore.js?v=2"></script>
 <script src="ai/agent-core.js?v=3"></script>
-<script src="ai/tools-web.js?v=3"></script>
-<script src="ai/settings.js?v=3"></script>
+<script src="ai/tools-web.js?v=6"></script>
+<script src="ai/settings.js?v=11"></script>
 <script src="players.js?v=9"></script>
-<script src="data.js?v=10"></script>
+<script src="data.js?v=12"></script>
+<script src="data/coaches.js?v=2"></script>
 <script src="data/squads_pl.js?v=7"></script>
 <script src="data/squads_eu.js?v=7"></script>
 <script src="js/squads-main.js?v=1"></script>
-<script src="js/team-tactics-data.js?v=4"></script>
-<script src="js/search.js?v=8"></script>
-<script src="js/briefing.js?v=5"></script>
-<script src="js/formation-lab.js?v=7"></script>
-<script src="js/notes.js?v=2"></script>
-<script src="js/main.js?v=17"></script>
+<script src="js/team-tactics-data.js?v=5"></script>
+<script src="js/search.js?v=9"></script>
+<script src="js/briefing.js?v=6"></script>
+<script src="js/formation-lab.js?v=12"></script>
+<script src="js/notes.js?v=6"></script>
+<script src="js/main.js?v=23"></script>
 
 <script>
 /* 内嵌引擎适配层：只做排版微调，不改引擎逻辑与数据 */

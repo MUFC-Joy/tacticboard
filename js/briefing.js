@@ -79,9 +79,18 @@ window.Briefing=(function(){
   function render(){
     var el=document.getElementById('briefingBox'); if(!el) return;
     var d=get();
+    /* 问题五：模拟器里存在的全部球队（俱乐部+国家队）做输入快选，保证看板能搜到每一支 */
+    var teamNames=[];
+    try{
+      (window.TEAM_TACTICS&&TEAM_TACTICS.clubs||[]).forEach(function(c){ if(teamNames.indexOf(c.z)<0) teamNames.push(c.z); });
+      (window.TEAM_TACTICS&&TEAM_TACTICS.nations||[]).forEach(function(c){ if(teamNames.indexOf(c.z)<0) teamNames.push(c.z); });
+      if(window.SQUADS_ALL) Object.keys(SQUADS_ALL).forEach(function(t){ if(teamNames.indexOf(t)<0) teamNames.push(t); });
+    }catch(e){}
     var h='<div class="card deep"><h3>🛰️ AI 赛季看板<small>截至搜索那天 · 手动更新</small></h3>'
-      +'<div class="searchrow"><input id="bfTeam" placeholder="只查一支球队：曼城 / 皇马 / 法国队…">'
-      +'<button class="optbtn" style="width:auto;padding:10px 14px;margin:0" id="bfGo">🔍 查这支</button></div>';
+      +'<datalist id="bfTeamList">'+teamNames.map(function(t){ return '<option value="'+esc(t)+'">'; }).join('')+'</datalist>'
+      +'<div class="searchrow"><input id="bfTeam" list="bfTeamList" placeholder="只查一支球队：曼城 / 罗马 / 毕尔巴鄂竞技…（共 '+teamNames.length+' 支可快选）">'
+      +'<button class="optbtn" style="width:auto;padding:10px 14px;margin:0" id="bfGo">🔍 查这支</button></div>'
+      +(teamNames.length?'<div class="hintline">模拟器收录的球队都可以直接查：'+teamNames.slice(0,10).map(esc).join(' · ')+' …（输入框可联想）</div>':'');
     if(d&&d.focus&&d.focus.length){
       h+='<div class="hintline">已保存 '+d.focus.length+' 支球队的查询（默认收起，点开查看；🗑 可单条删除）</div>';
       d.focus.forEach(function(f,i){

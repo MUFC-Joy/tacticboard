@@ -9,13 +9,14 @@
    ========================================================= */
 'use strict';
 window.TBWebTools=(function(){
-  var TAVILY='https://api.tavily.com', BOCHA='https://api.bochaai.com';
+  var TAVILY='https://api.tavily.com', BOCHA='https://api.bochaai.com', SERPER='https://google.serper.dev';
   var _proxyOK=null; /* null=未探测 */
 
   function provider(){ return (window.TBSettings&&TBSettings.cfg().searchProvider)||'tavily'; }
   function key(){
     var s=window.TBSettings; if(!s) return '';
-    return s.cfg().searchProvider==='bocha' ? s.tavilyKey() : s.tavilyKey();
+    if(s.searchKey) return s.searchKey();          /* 新版：按「使用中的搜索引擎」取 Key */
+    return s.tavilyKey ? s.tavilyKey() : '';
   }
   function available(){ return !!key(); }
   function clip(s,n){ s=String(s==null?'':s); return s.length>n? s.slice(0,n)+'…' : s; }
@@ -60,9 +61,31 @@ window.TBWebTools=(function(){
     return res.json();
   }
 
+  /* ---------- Serper（Google 结果）：直连 ---------- */
+  async function serperPost(body,signal){
+    var k=key(); if(!k) throw new Error('未配置搜索 Key（全局设置 → 联网搜索）');
+    var res=await fetch(SERPER+'/search',{method:'POST',signal:signal,
+      headers:{'Content-Type':'application/json','X-API-KEY':k},
+      body:JSON.stringify(body)});
+    if(!res.ok){
+      var t=''; try{ t=await res.text(); }catch(_){}
+      if(res.status===401||res.status===403) throw new Error('Serper Key 无效（'+res.status+'）');
+      throw new Error('Serper 请求失败('+res.status+')'+(t?'：'+t.slice(0,100):''));
+    }
+    return res.json();
+  }
+
   /* ---------- 统一搜索入口（供工具与看板等直接调用） ---------- */
   async function search(query,opt){
     opt=opt||{}; var signal=opt.signal;
+    if(provider()==='serper'){
+      var sj=await serperPost({q:query,num:Math.min(10,opt.max||6),hl:'zh-cn'},signal);
+      var out=[];
+      ((sj.organic)||[]).forEach(function(r){
+        out.push({title:r.title,url:r.link,snippet:r.snippet||''});
+      });
+      return out;
+    }
     if(provider()==='bocha'){
       var j=await bochaPost({query:query,count:opt.max||6,summary:true,freshness:opt.freshness||'noLimit'},signal);
       var vals=(j.data&&j.data.webPages&&j.data.webPages.value)||[];
@@ -105,9 +128,9 @@ window.TBWebTools=(function(){
     execute:async function(args,ctx){
       var url=String(args.url||'');
       if(!/^https?:\/\//.test(url)) return '错误：url 必须以 http(s):// 开头';
-      if(provider()==='bocha'){
-        /* 博查无 extract 接口：多次搜索补足，提示模型换信源 */
-        return '博查提供商不支持网页正文抓取。请改用 web_search 搜索该页面的具体内容，或引用其他来源。';
+      if(provider()==='bocha'||provider()==='serper'){
+        /* 博查 / Serper 无 extract 接口：提示模型换信源 */
+        return (provider()==='bocha'?'博查':'Serper')+' 不支持网页正文抓取。请改用 web_search 搜索该页面的具体内容，或引用其他来源。';
       }
       var j=await tavilyPost('/extract',{urls:[url]},ctx&&ctx.signal);
       var r=(j.results||[])[0];

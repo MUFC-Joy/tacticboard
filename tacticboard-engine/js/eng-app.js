@@ -13,7 +13,7 @@ PLAYERS.forEach(function(p){ var c=norm(p.club); if(!c||c.indexOf('离开')>=0) 
   (POOL[c]=POOL[c]||[]).push(p); });
 var byName={}; PLAYERS.forEach(function(p){ byName[p.n]=p; });
 
-/* 32 队名单（ESPN 基础数据）并入：粗位置展开，精选库已有的以精选库为准 */
+/* 五大联赛 40 队名单（ESPN 基础数据）并入：粗位置展开，精选库已有的以精选库为准 */
 var SQUADS_ALL=window.SQUADS_ALL||{};
 Object.keys(SQUADS_ALL).forEach(function(t){
   var arr=POOL[t]=POOL[t]||[];
@@ -65,7 +65,7 @@ var GROUPS=(function(){
     return PL_ORDER.indexOf(a)-PL_ORDER.indexOf(b); });
   var order=['英超','西甲','意甲','德甲','法甲'];
   return order.filter(function(l){return byL[l]&&byL[l].length;})
-    .map(function(l){return {t:(l==='英超'?'英超 20 队':l+' 豪门'),list:byL[l]};});
+    .map(function(l){return {t:(l==='英超'?'英超 20 队':l+' 球队'),list:byL[l]};});
 })();
 var CARD={}; PL20.forEach(function(t){CARD[t.name]=t;});
 
@@ -94,7 +94,15 @@ var DNA={
  '桑德兰':      {press:2,control:1,direct:3,low:3,wing:2,trans:2},
  '考文垂':      {press:2,control:2,direct:2,low:2,wing:1,trans:1},
  '伊普斯维奇':  {press:1,control:2,direct:3,low:2,wing:1,trans:2},
- '赫尔城':      {press:1,control:2,direct:3,low:3,wing:1,trans:1}
+ '赫尔城':      {press:1,control:2,direct:3,low:3,wing:1,trans:1},
+ /* 2026-11 新增 7 队 */
+ '罗马':        {press:3,control:2,direct:2,low:1,wing:3,trans:2},
+ '勒沃库森':    {press:2,control:3,direct:2,low:1,wing:2,trans:1},
+ '弗赖堡':      {press:2,control:2,direct:2,low:2,wing:2,trans:2},
+ '毕尔巴鄂竞技':{press:2,control:3,direct:2,low:1,wing:3,trans:2},
+ '比利亚雷亚尔':{press:2,control:3,direct:1,low:1,wing:2,trans:1},
+ '里昂':        {press:2,control:3,direct:2,low:1,wing:2,trans:2},
+ '马赛':        {press:3,control:3,direct:2,low:1,wing:3,trans:2}
 };
 var DNA_DEFAULT={press:2,control:2,direct:2,low:2,wing:2,trans:2};
 /* 用户手改教练时写这一层；没改过的队走 DNA */
@@ -199,7 +207,8 @@ var GRP={GK:'门',RB:'卫',CB:'卫',LB:'卫',RWB:'卫',LWB:'卫',DM:'中',CM:'�
 var S={home:'曼联',away:'曼城',minute:0,hs:0,as:0,
        lineup:{},status:{},events:[],lastDiff:null,snap:null,
        tactic:{},poss:{},subMark:{},dir:{},weather:'dry',
-       play:{},possRate:{},confirmed:null,bench:{},snaps:[]};
+       play:{},possRate:{},confirmed:null,bench:{},snaps:[],
+       boardPos:{},oral:''};   /* 问题六：自由站位分区；问题二：口述站位情报 */
 function taxOf(t){ return S.tactic[t]||'bal'; }
 function possOn(t){ return !!S.poss[t]; }
 function setTax(team,v){ S.tactic[team]=v; renderAll(); }
@@ -268,20 +277,49 @@ function formOf(name){
   var m=(t.sys||'').match(/(\d(?:-\d){1,3})/); return m?m[1]:'4-2-3-1';
 }
 function resetSquad(){
+  /* 先清阵型选择再排人：否则 autoLineup 会按旧阵型（如 5-4-1）选人，再套进新阵型槽位 */
+  FORM_SEL={};
   S.lineup[S.home]=autoLineup(S.home); S.lineup[S.away]=autoLineup(S.away);
   S.status={}; S.events=[]; S.subMark={}; S.confirmed=null; S.minute=0; S.hs=0; S.as=0;
-  /* 问题九：战术设置一并恢复原样（姿态/主攻/打法/控球率/形态/阵型选择） */
+  /* 问题九：战术设置一并恢复原样（姿态/主攻/打法/控球率/形态） */
   S.tactic={}; S.poss={}; S.dir={}; S.play={}; S.possRate={}; KEEP={}; S.snaps=[];
-  FORM_SEL={};
   S.lastDiff=null;
   S.snap={h:metrics(S.lineup[S.home]),a:metrics(S.lineup[S.away])};
   renderAll(); renderSetup(); save();
 }
+/* 主帅名册：data/coaches.js 为单一数据源；用户在「🛡 主帅核对」里手填的写本机 COACH_FIX 层 */
+var COACH_FIX={};
+try{ COACH_FIX=JSON.parse(localStorage.getItem('tb_coach_fix')||'{}'); }catch(e){ COACH_FIX={}; }
+function coachSaveFix(t,n,since){
+  if(!t) return;
+  if(n&&String(n).trim()){ COACH_FIX[t]={n:String(n).trim(),since:String(since||''),ts:Date.now()}; }
+  else delete COACH_FIX[t];
+  try{ localStorage.setItem('tb_coach_fix',JSON.stringify(COACH_FIX)); }catch(e){}
+}
+/* 返回 {n,st,since,src}；st: ok=已核对 infer=待确认 none=未核实 */
+function coachMeta(t){
+  var f=COACH_FIX[t];
+  if(f&&f.n) return {n:f.n,st:'ok',since:f.since||'',src:'你手动核对'};
+  var c=window.TB_COACHES&&window.TB_COACHES[t];
+  if(c) return {n:c.n||'',st:c.n?(c.st||'ok'):'none',since:c.since||'',src:c.src||''};
+  var card=CARD[t];
+  if(card&&card.mgr) return {n:card.mgr,st:'infer',since:'',src:'旧版引擎教练卡'};
+  if(SQUADS_ALL[t]&&SQUADS_ALL[t].coach) return {n:SQUADS_ALL[t].coach,st:'infer',since:'',src:'名单数据'};
+  return {n:'',st:'none',since:'',src:'未核实'};
+}
 function coachOf(t){
   if(PROFILE[t]&&PROFILE[t].coach) return PROFILE[t].coach;
-  var c=CARD[t]; if(c&&c.mgr) return c.mgr;
-  if(SQUADS_ALL[t]&&SQUADS_ALL[t].coach) return SQUADS_ALL[t].coach;
-  return '未核实（可在教练卡里填）';
+  var m=coachMeta(t);
+  return m.n||'未核实（可在教练卡里填）';
+}
+/* 小徽标：待确认 / 未核实 才显示，已核对不打扰 */
+function coachTag(t){
+  var m=coachMeta(t); if(m.st==='ok') return '';
+  var txt=m.st==='none'?'待补':'待确认';
+  return ' <span class="ctag" title="'+esc(m.src||'')+'">'+txt+'</span>';
+}
+function coachPendingCount(){
+  return (typeof TEAMS!=='undefined'?TEAMS:[]).filter(function(t){ return coachMeta(t).st!=='ok'; }).length;
 }
 function styleOf(name){
   var base=DNA[name]||DNA_DEFAULT;
@@ -690,25 +728,210 @@ function fixGKSlot(team){
 }
 var TAC_OPEN={};
 function toggleTac(team,on){ TAC_OPEN[team]=on; }
-function renderPitch(which){
+/* ---------------- 对位图：两队摆在**同一块**球场上，面对面 ----------------
+   主队进攻朝上（GK 在下方），客队旋转 180° 进攻朝下（GK 在上方）。
+   坐标规则：FORMS 里的坐标是「进攻朝上」的基准，客队用 (100-x,100-y) 旋转 180°。 */
+var BOARD_MATCH=true;
+function toggleMatchLines(){ BOARD_MATCH=!BOARD_MATCH; renderAll(); }
+/* 问题三：全屏状态记住，toggle 连线/拖拽后重渲染不再弹回小窗 */
+var BOARD_FS=false;
+function toggleBoardFull(){
+  BOARD_FS=!BOARD_FS;
+  var el=document.querySelector('.board');
+  if(el){
+    el.classList.toggle('fs',BOARD_FS);
+    var b=el.querySelector('.boardhd .hbtn.fsbtn');
+    if(b) b.textContent=BOARD_FS?'✕ 退出全屏':'⛶ 全屏';
+  }
+  document.documentElement.classList.toggle('boardfs',BOARD_FS);
+}
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape') return;
+  var el=document.querySelector('.board.fs');
+  if(!el) return;
+  toggleBoardFull();
+});
+
+/* ===== 问题六：自由站位（九宫格分区 + 拖拽 + AI 读取） =====
+   球场按 左/中/右 × 后/中/前 划成九宫格（按各队进攻方向判定：门将侧=后场，对方球门侧=前场）。
+   用户把球员拖到某个格子里 = 「他这场的主站位区域」，AI 分析时以此为准（固定阵型坐标只作背景）。 */
+var BOARD_DRAG=false;
+function toggleBoardDrag(){ BOARD_DRAG=!BOARD_DRAG; renderAll(); }
+function boardPosOf(team,who){ return (S.boardPos[team]||{})[who]||null; }
+function zoneName(team,x,y){
+  var lane = x<33.4?'左路':(x>66.6?'右路':'中路');
+  var depth = (team===S.home ? (100-y) : y);   /* 距自家球门的深度 */
+  var d = depth<33.4?'后场':(depth<66.6?'中场':'前场');
+  return d+lane;
+}
+function resetBoardPos(){ S.boardPos={}; save(); renderAll(); }
+function zonesSummary(team){
+  var bp=S.boardPos[team]||{};
+  return Object.keys(bp).map(function(n){ return {player:n,zone:zoneName(team,bp[n].x,bp[n].y)}; });
+}
+/* 拖拽：pointerdown 在棋子上 → pointermove 改 left/top → pointerup 落格 */
+var DRAG={active:false};
+document.addEventListener('pointermove',function(e){
+  if(!DRAG.active) return;
+  var pitch=document.querySelector('.boardpitch'); if(!pitch) return;
+  var dx=e.clientX-DRAG.startX, dy=e.clientY-DRAG.startY;
+  if(!DRAG.moved&&Math.abs(dx)+Math.abs(dy)<4) return;
+  DRAG.moved=true; DRAG.el.classList.add('dragging');
+  var r=pitch.getBoundingClientRect();
+  var x=Math.max(1,Math.min(99,(e.clientX-r.left)/r.width*100));
+  var y=Math.max(1,Math.min(99,(e.clientY-r.top)/r.height*100));
+  DRAG.el.style.left=x+'%'; DRAG.el.style.top=y+'%';
+});
+document.addEventListener('pointerup',function(e){
+  if(!DRAG.active) return;
+  var d=DRAG; DRAG={active:false};
+  d.el.classList.remove('dragging');
+  if(!d.moved) return;
+  var pitch=document.querySelector('.boardpitch'); if(!pitch) return;
+  var r=pitch.getBoundingClientRect();
+  var x=Math.max(1,Math.min(99,(e.clientX-r.left)/r.width*100));
+  var y=Math.max(1,Math.min(99,(e.clientY-r.top)/r.height*100));
+  (S.boardPos[d.team]=S.boardPos[d.team]||{})[d.who]={x:Math.round(x*10)/10,y:Math.round(y*10)/10};
+  window.__tbDragMoved=true;
+  save(); renderAll();
+});
+function bindBoardDrag(root){
+  (root||document).querySelectorAll('.boardpitch .tk.has').forEach(function(el){
+    el.addEventListener('pointerdown',function(e){
+      if(!BOARD_DRAG) return;
+      if(!el.dataset.tname||!el.dataset.tteam) return;
+      DRAG={active:true,moved:false,team:el.dataset.tteam,who:el.dataset.tname,el:el,
+        startX:e.clientX,startY:e.clientY};
+      e.preventDefault();
+    });
+  });
+}
+function setOral(v){ S.oral=v; save(); }
+
+function sideSlots(which){
   var team=which==='h'?S.home:S.away;
   var form=formOf(team);
   var base=FORMS[form]||FORMS['4-2-3-1'];
   var slots=applyDir(postureSlots(possOn(team)?(POSS_FORMS[form]||base):base,taxOf(team)),form,dirOf(team));
-  if(which==='h') slots=slots.map(function(sl){return [sl[0],sl[1],100-sl[2]];});
   var lu=S.lineup[team]||autoLineup(team); S.lineup[team]=lu;
   fixGKSlot(team);
+  return slots.map(function(sl,i){
+    var n=lu[i], p=n?byName[n]:null;
+    var x=sl[1], y=sl[2];
+    /* 把「进攻朝上」的整条阵型压进自己这半场：门将 90 → 90，中锋 14 → 52（贴着中线）。
+       客队再水平镜像 + 垂直翻转：于是 A 队右翼卫（右侧下半场）正好对着 B 队左后卫（右侧上半场），
+       两队前锋面对面站在中圈两侧——一眼看出「谁对位谁」。 */
+    var yy=56+(y-14)*0.47;             /* 压进自己半场，中锋停在 56（中线附近） */
+    if(sl[0]==='GK') yy=94.5;          /* 门将贴住底线，别和中卫叠在一起 */
+    if(sl[0]==='CB'&&Math.abs(x-50)<2) yy-=2;   /* 三中卫的居中中卫上提一点，避免压住门将 */
+    if(which==='a'){ x=100-x; yy=100-yy; }
+    y=yy;
+    /* 问题六：用户拖拽设定过主站位区 → 覆盖坐标 */
+    var bp=n?boardPosOf(team,n):null;
+    if(bp){ x=bp.x; y=bp.y; }
+    return {i:i,code:sl[0],x:Math.round(x*10)/10,y:Math.round(y*10)/10,
+      name:p?p.n:'',has:!!p,team:team,status:n?stOf(n):'ok',sub:(n&&S.subMark[n])?S.subMark[n]:0};
+  });
+}
+function tkHtml(t,which){
+  var emo=t.has?(STMARK[t.status]||''):'';
+  var sub=t.sub?('<u class="sbm">↑'+t.sub+"'</u>"):'';
+  var zn=(t.has&&boardPosOf(t.team,t.name))?('<u class="znb">'+esc(zoneName(t.team,t.x,t.y))+'</u>'):'';
+  return '<div class="tk '+(t.has?'has':'empty')+'" data-w="'+which+'" data-i="'+t.i+'" data-pos="'+t.code
+    +'"'+(t.has?' data-tteam="'+esc(t.team)+'" data-tname="'+esc(t.name)+'"':'')
+    +' style="left:'+t.x+'%;top:'+t.y+'%">'
+    +'<b>'+(t.has?esc(t.name):t.code)+'</b><i>'+t.code+'</i>'+(emo?'<em>'+emo+'</em>':'')+sub+zn+'</div>';
+}
+/* 对位连线 v2（问题二重做）：
+   ① 门将不连线——门将没有 1v1 对位对象（旧版会把门将连到中卫/边后卫上）；
+   ② 按「位置语义」优先：中卫↔中锋、左后卫↔右边锋、后腰↔前腰、中场↔中场、边锋↔边后卫……
+      每名对方球员最多被连一条线；语义配不上才退回「最近的外场球员」；
+   ③ 这是「开局对位参考」：比赛中随换人/变阵随时失效，不作为 AI 赛中结论的依据。 */
+var OPP_POS={
+  CB:['ST'], LB:['RW','RM'], RB:['LW','LM'], LWB:['RW','LM'], RWB:['LW','RM'],
+  DM:['AM'], CM:['CM','AM'], AM:['DM','CM'], RM:['LB','LWB'], LM:['RB','RWB'],
+  LW:['RB','RWB'], RW:['LB','LWB'], ST:['CB']
+};
+function pairLines(hs,as){
+  var usedA={}, out=[], doneH={};
+  function pick(h,codes,noCBST,maxD){
+    var best=null;
+    as.forEach(function(a){
+      if(usedA[a.i]||a.code==='GK') return;
+      if(codes&&codes.length&&codes.indexOf(a.code)<0) return;
+      if(noCBST&&(a.code==='CB'||a.code==='ST')) return;
+      var dx=Math.abs(h.x-a.x), dy=Math.abs(h.y-a.y);
+      var d=dx*2.2+dy*0.8;
+      if(!best||d<best.d) best={h:h,a:a,d:d};
+    });
+    return (best&&best.d<=(maxD==null?1e9:maxD))?best:null;
+  }
+  var PRIO={GK:9,CB:7,ST:7,RB:0,LB:0,RWB:0,LWB:0,RW:1,LW:1,RM:1,LM:1,DM:2,CM:3,AM:3};
+  var order=hs.slice().sort(function(p,q){ return (PRIO[p.code]||4)-(PRIO[q.code]||4); });
+  /* 第一轮：只做位置语义配对（中卫↔中锋、边后卫↔边锋、后腰↔前腰……） */
+  order.forEach(function(h){
+    if(h.code==='GK'||!h.has) return;
+    var b=pick(h,OPP_POS[h.code]||null);
+    if(b){ usedA[b.a.i]=1; doneH[h.i]=1; out.push(b); }
+  });
+  /* 第二轮：没配上语义对手的（阵型错位/人数不等），连最近的外场球员；
+     先避开 CB/ST（把中锋-中卫这条线留给真正该对的人），实在没有才放开 */
+  order.forEach(function(h){
+    if(h.code==='GK'||!h.has||doneH[h.i]) return;
+    var b=pick(h,null,true,100)||pick(h,null,false,100);
+    if(b){ usedA[b.a.i]=1; out.push(b); }
+  });
+  return out;
+}
+function zoneGridSvg(){
+  var L=[33.4,66.6],cells='';
+  L.forEach(function(v){
+    cells+='<line x1="'+v+'" y1="0" x2="'+v+'" y2="100"/>'
+      +'<line x1="0" y1="'+v+'" x2="100" y2="'+v+'"/>';
+  });
+  return '<svg class="zgrid" viewBox="0 0 100 100" preserveAspectRatio="none">'+cells+'</svg>';
+}
+function boardHtml(){
+  var hs=sideSlots('h'), as=sideSlots('a');
+  var tok=hs.map(function(t){ return tkHtml(t,'h'); }).join('')
+        +as.map(function(t){ return tkHtml(t,'a'); }).join('');
+  var lines='';
+  if(BOARD_MATCH){
+    var ps=pairLines(hs,as);
+    lines='<svg class="mlines" viewBox="0 0 100 100" preserveAspectRatio="none">'
+      +ps.map(function(p){
+        return '<line x1="'+p.h.x+'" y1="'+p.h.y+'" x2="'+p.a.x+'" y2="'+p.a.y+'"/>';
+      }).join('')+'</svg>';
+  }
+  var anyPos=Object.keys(S.boardPos||{}).some(function(t){ return Object.keys(S.boardPos[t]).length; });
+  return '<div class="card board'+(BOARD_FS?' fs':'')+'">'
+    +'<div class="boardhd"><b>🎯 对位图</b>'
+    +'<span class="mut">两队同场：<b style="color:#ff8f95">主队进攻朝上</b> · <b style="color:#8ec1ff">客队进攻朝下</b>。虚线=开局位置对位参考（随比赛变化，不作赛中结论）。</span>'
+    +'<button class="hbtn '+(BOARD_MATCH?'on':'')+'" onclick="toggleMatchLines()">'+(BOARD_MATCH?'✓ 对位连线':'对位连线')+'</button>'
+    +'<button class="hbtn '+(BOARD_DRAG?'on':'')+'" onclick="toggleBoardDrag()">🖐 自由站位'+(BOARD_DRAG?'中':'')+'</button>'
+    +(anyPos?'<button class="hbtn" onclick="resetBoardPos()">↺ 还原站位</button>':'')
+    +'<button class="hbtn fsbtn" onclick="toggleBoardFull()">'+(BOARD_FS?'✕ 退出全屏':'⛶ 全屏')+'</button></div>'
+    +'<div class="pitch boardpitch'+(BOARD_DRAG?' dragmode':'')+'">'+(BOARD_DRAG?zoneGridSvg():'')+lines
+    +'<div class="btag btag-t">'+esc(S.away)+' · 进攻 ↓</div>'
+    +'<div class="btag btag-b">'+esc(S.home)+' · 进攻 ↑</div>'
+    +tok+'</div>'
+    +(BOARD_DRAG?'<div class="zhint">🖐 拖动球员到他的主站位区（九宫格按各队进攻方向判定：靠自家球门=后场，靠对方球门=前场）。松手后格名挂在球员脚下，AI 分析以你拖的区为最高优先级——全屏下拖更准。</div>'
+      :'<div class="hint">点球员 → 换人 / 标状态；「🖐 自由站位」可把球员拖进九宫格分区，AI 按你拖的区分析</div>')
+    +(anyPos?'<div class="zlist">已设主站位区：'+Object.keys(S.boardPos).map(function(t){
+        return zonesSummary(t).map(function(z){ return '<span class="zchip">'+esc(z.player)+'<i>'+esc(z.zone)+'</i></span>'; }).join('');
+      }).join('')+'</div>':'')
+    +'<div class="oralbox"><div class="lov">🎙 口述站位与场上情报（写在这里的内容=AI 分析的最高优先级现场信息，赛前/赛中分析都会读）</div>'
+    +'<textarea class="ctext oralta" data-oral rows="3" placeholder="例：右后卫实际内收当第三后腰；左边锋上半场压得很高、60 分钟后回收；我们弧顶保护总是少一人…">'+esc(S.oral||'')+'</textarea></div>'
+    +'</div>';
+}
+
+function teamPanel(which){
+  var team=which==='h'?S.home:S.away;
+  var form=formOf(team);
   var full=(POOL[team]||[]).length;
+  var lu=S.lineup[team]||autoLineup(team);
   var starters=lu.filter(Boolean).length;
   var subs=Math.max(0,full-starters);
-  var tok='';
-  slots.forEach(function(sl,i){
-    var n=lu[i],p=n?byName[n]:null,st=n?stOf(n):'ok';
-    var emo=STMARK[st]||'';
-    var sub=(n&&S.subMark[n])?`<u class="sbm">↑${S.subMark[n]}'</u>`:'';
-    tok+=`<div class="tk ${p?'':'empty'}" data-w="${which}" data-i="${i}" style="left:${sl[1]}%;top:${sl[2]}%">
-      <b>${p?esc(p.n):sl[0]}</b><i>${sl[0]}</i>${emo?'<em>'+emo+'</em>':''}${sub}</div>`;
-  });
   var chips=BASE_FORMS.map(function(f){
     return `<button class="fchip ${f===form?'on':''}" data-team="${esc(team)}" data-form="${f}">${f}</button>`;}).join('');
   var tx=taxOf(team);
@@ -728,13 +951,11 @@ function renderPitch(which){
     <span class="mut" style="font-size:10px;align-self:center">主攻</span>
     ${DIRS.map(function(k){ return `<button class="fchip ${dirCur===k?'on':''}" data-dir="${esc(team)}" data-v="${k}">${DIR_NAME[k]}</button>`; }).join('')}
   </div>`;
-  /* 战术打法（AI 分析重点输入） */
   var pc=playOf(team);
   var playRow=`<div class="frow tax">
     <span class="mut" style="font-size:10px;align-self:center">打法</span>
     ${PLAYS.map(function(k){ return `<button class="fchip playchip ${pc===k?'on':''}" data-play="${esc(team)}" data-v="${k}">${k}</button>`; }).join('')}
   </div>`;
-  /* 控球率预期（0-100 滑条，AI 用） */
   var pr=possRateOf(team);
   var possRow=`<div class="possRow"><span class="mut" style="font-size:10px">控球率预期</span>
     <input type="range" min="20" max="80" step="5" value="${pr}" data-possr="${esc(team)}">
@@ -742,7 +963,7 @@ function renderPitch(which){
   return `<div class="pitchwrap">
     <div class="phead"><span class="dot" style="background:${which==='h'?'#e2383f':'#4ea1ff'}"></span>
       <b>${esc(team)}</b>
-      <span class="mut">${esc(coachOf(team))} · ${full} 人库 · 首发 ${starters} · 替补 ${subs}${full<11?' <b style="color:#f0b429">数据不足</b>':''}</span>
+      <span class="mut">${esc(coachOf(team))}${coachTag(team)} · ${full} 人库 · 首发 ${starters} · 替补 ${subs}${full<11?' <b style="color:#f0b429">数据不足</b>':''}</span>
       <button class="hbtn" data-bench="${esc(team)}">替补席</button>
       <button class="hbtn" data-events="${esc(team)}">事件</button>
       <button class="hbtn" style="margin-left:auto" data-coach="${esc(team)}">改教练</button></div>
@@ -754,9 +975,7 @@ function renderPitch(which){
       ${playRow}
       ${possRow}
       ${which==='h'?'<div class="postureHint">姿态=整条线前压/回收；有球形态=出球结构</div>':''}
-      </div></details>
-    <div class="pitch">${tok}</div>
-    <div class="hint">点球员 → 换人 / 标状态</div></div>`;
+      </div></details></div>`;
 }
 
 function legendCard(){
@@ -894,7 +1113,8 @@ function renderHUD(){
 }
 
 function renderAll(){
-  $('#pitches').innerHTML=renderPitch('h')+renderPitch('a');
+  $('#pitches').innerHTML='<div class="teams">'+teamPanel('h')+teamPanel('a')+'</div>'+boardHtml();
+  bindBoardDrag(document);
   var hm=metrics(S.lineup[S.home]||[]), am=metrics(S.lineup[S.away]||[]);
   var diff='';
   if(S.lastDiff){
@@ -908,10 +1128,13 @@ function renderAll(){
       <div class="ae">结构差值，不是评分：问题搬家比分数涨落更重要。</div></div>`;
   }
   $('#analysis').innerHTML=aiBarHtml()
+    + '<div class="anbody">'
     + prematchCard()
     + `<div class="perspH"><span>比赛分析 · ${esc(S.home)} vs ${esc(S.away)}</span><span class="line"></span></div>`
     + aiCardsHtml()
-    + legendCard() + coachNoteCard() + scoreCard() + phaseCard(hm,am) + subCard() + timelineCard() + snapsCard() + aiTermsCard() + diff;
+    + '<div class="anmeta">'
+    + legendCard() + coachNoteCard() + scoreCard() + phaseCard(hm,am) + subCard() + snapsCard() + timelineCard() + aiTermsCard() + diff
+    + '</div></div>';
   renderHUD();
   save();
 }
@@ -944,6 +1167,44 @@ function openBench(team){
     };
   });
 }
+/* ===== 主帅核对表：40 队主帅 + 审核状态，可现场补填/确认 ===== */
+function openCoachAudit(){
+  var pend=coachPendingCount(), total=(typeof TEAMS!=='undefined'?TEAMS.length:0);
+  function row(t){
+    var m=coachMeta(t);
+    var cls=m.st==='ok'?'ok':(m.st==='none'?'none':'infer');
+    var stTxt=m.st==='ok'?'✅ 已核对':(m.st==='none'?'⬜ 未核实':'⚠️ 待确认');
+    return '<div class="cfrow '+cls+'" data-ct="'+esc(t)+'">'
+      +'<span class="cft">'+esc(t)+'</span>'
+      +'<input class="ctext cfi" data-cfi="'+esc(t)+'" value="'+esc(m.n)+'" placeholder="填主帅名…">'
+      +'<span class="cfst">'+stTxt+'</span>'
+      +'<span class="cfc" title="'+esc(m.src||'')+'">'+(m.since?esc(m.since):'—')+'</span>'
+      +'</div>';
+  }
+  var h='<div class="sh"><b>🛡 主帅核对表</b><button class="x" onclick="closeSheet()">✕</button></div>'
+    +'<div class="lov">全部 '+total+' 队 · <b style="color:#f0b429">'+pend+' 队</b> 还没核对（含空缺）。改完自动存本机，模拟器头部 / AI 分析立刻用新名字。</div>'
+    +'<div class="cflegend"><span class="cfk ok">✅ 已核对</span><span class="cfk infer">⚠️ 待确认（媒体口径/旧资料）</span><span class="cfk none">⬜ 未核实（空缺）</span></div>'
+    +'<div class="cfaudit">';
+  GROUPS.forEach(function(g){
+    var list=g.list.slice().sort(function(x,y){
+      var a=coachMeta(x).st==='ok'?1:0, b=coachMeta(y).st==='ok'?1:0; return a-b;
+    });
+    h+='<div class="cfg"><div class="lgrp">'+g.t+' <em>'+list.length+'</em></div>'+list.map(row).join('')+'</div>';
+  });
+  h+='</div>';
+  $('#sheet').innerHTML='<div class="sheetIn wide">'+h+'</div>'; $('#sheet').classList.add('on');
+  $('#sheet').querySelectorAll('[data-cfi]').forEach(function(inp){
+    inp.addEventListener('change',function(){
+      var t=inp.getAttribute('data-cfi');
+      coachSaveFix(t,inp.value,'');
+      var rowEl=inp.closest('.cfrow');
+      if(inp.value.trim()){ rowEl.className='cfrow ok'; rowEl.querySelector('.cfst').textContent='✅ 已核对'; }
+      else { rowEl.className='cfrow none'; rowEl.querySelector('.cfst').textContent='⬜ 未核实'; }
+      renderSetup(); renderAll();
+    });
+  });
+}
+
 /* ===== 事件池（问题十八）：黄牌/红牌/伤退/变阵/压迫切换/定位球 ===== */
 var EV_TEAM=null;
 function openEvents(team){
@@ -1027,6 +1288,7 @@ function renderSetup(){
       <span class="mut" style="flex:none">客队</span>${teamSelect('a',a)}</div>
     <div class="row" style="flex-wrap:wrap"><span class="mut">${esc(coachOf(h))} ${formOf(h)} · ${countOf(h)}人 ｜ ${esc(coachOf(a))} ${formOf(a)} · ${countOf(a)}人</span>
       <span style="flex:1"></span>
+      <button class="tb" style="padding:5px 9px;font-size:11.5px" onclick="openCoachAudit()">🛡 主帅核对${coachPendingCount()?'（'+coachPendingCount()+' 队待确认）':''}</button>
       <button class="tb" style="padding:5px 9px;font-size:11.5px" onclick="aiEnrichBoth()"${(!window.TBSettings||!TBSettings.ready())?' disabled':''}>AI 补全两队中文名/特点</button></div>
     <div class="row"><span class="mut">天气</span>
       <button class="fchip wxchip ${S.weather==='dry'?'on':''}" onclick="setWeather('dry')">晴</button>
@@ -1039,63 +1301,93 @@ function renderSetup(){
 }
 
 /* ---------------- 交互 ---------------- */
-function openSheet(wi,idx){
-  var team=wi==='h'?S.home:S.away, form=formOf(team), slots=FORMS[form];
+function POSZH(s){
+  return ({GK:'门将',CB:'中卫',LB:'左后卫',RB:'右后卫',LWB:'左翼卫',RWB:'右翼卫',
+    DM:'后腰 6 号',CM:'中场 8 号',AM:'前腰 10 号',RM:'右前卫',LM:'左前卫',
+    LW:'左边锋',RW:'右边锋',ST:'中锋 9 号',ST2:'第二前锋'})[s]||s;
+}
+var POSHINT={
+  GK:'门将：先看门线技术（扑救/站位），再看出球与出击范围——现代体系里门将是第一名组织者。',
+  CB:'中卫：看对抗与争顶、转身速度（防身后）、出球线路（左脚/右脚）；三中卫还要看横向覆盖。',
+  LB:'边后卫：看往返体能与传中质量；内收型要看中场接球与出球能力。',
+  RB:'边后卫：看往返体能与传中质量；内收型要看中场接球与出球能力。',
+  LWB:'翼卫：攻要像边锋、守要像边后卫，一场 12 公里起——体能是第一筛选条件。',
+  RWB:'翼卫：攻要像边锋、守要像边后卫，一场 12 公里起——体能是第一筛选条件。',
+  DM:'后腰 6 号：优先看拦截/补位/弧顶保护，其次看出球与转身；单 6 还要看覆盖面积。',
+  CM:'中场 8 号：要能落位防守 + 前插支援；B2B 看体能，组织 8 看传球。',
+  AM:'前腰 10 号：看两线之间接球、最后一传与远射；不落位防守是这个位置的天生短板。',
+  RM:'右前卫：4-4-2 / 4-1-4-1 的边路中场，攻防两端都要跑。',
+  LM:'左前卫：4-4-2 / 4-1-4-1 的边路中场，攻防两端都要跑。',
+  LW:'左边锋：看一对一、内切或下底的惯用脚方向、回防意愿。',
+  RW:'右边锋：看一对一、内切或下底的惯用脚方向、回防意愿。',
+  ST:'中锋 9 号：支点看背身做球、抢点看跑位、逼抢型看防守贡献——先确定你要哪种 9 号。'
+};
+function posTagHtml(p,slot){
+  var arr=(p&&p.pos)||[];
+  if(!arr.length) return '<span class="mut">位置未知</span>';
+  return arr.map(function(x){ return '<i class="pt '+(String(x)===String(slot)?'hit':'')+'">'+esc(x)+'</i>'; }).join('');
+}
+function openSheet(wi,idx,posFromDom){
+  var team=wi==='h'?S.home:S.away, form=formOf(team), slots=FORMS[form]||FORMS['4-2-3-1'];
   if(S.minute>0&&!SUB_TAG[team]) SUB_TAG[team]='对位替换';
-  var slot=slots[idx][0];
+  /* 位置码优先用球场上那颗棋子的 data-pos：即使坐标表未来改了顺序，弹窗分组也不会错位 */
+  var slot=posFromDom||((slots[idx]||['CM'])[0]);
   var lu=S.lineup[team]||autoLineup(team); S.lineup[team]=lu;
   var cur=lu[idx];
-  var cands=(POOL[team]||[]).filter(function(p){ return !sentOff(team,p.n); }).slice().sort(function(a,b){return scoreFor(b,slot)-scoreFor(a,slot);});
-  var sts=[['hot','🔥'],['ok','🙂'],['low','😑'],['inj','🤕'],['yellow','🟨'],['red','🟥罚下'],['out','⛔']];
-  var h=`<div class="sheetIn"><div class="sh"><b>${esc(team)} · ${slot}</b>
-    <button class="x" onclick="closeSheet()">✕</button></div>`;
-  if(cur) h+=`<div class="strow"><span class="mut">状态</span>${sts.map(function(s){
-      return `<button class="st ${stOf(cur)===s[0]?'on':''}" data-st="${s[0]}" data-n="${esc(cur)}">${s[1]}</button>`;}).join('')}</div>`;
-  if(S.minute>0){
-    var tags=['进攻换防守','防守换进攻','对位替换','伤病被迫换人','战术新指令'];
-    h+=`<div class="lov">换人意图标签（AI 分析会按标签加权）</div><div class="frow" style="flex-wrap:wrap">`
-      +tags.map(function(tg){ return `<button class="fchip ${((SUB_TAG[team]||(S.minute>0?'对位替换':''))===tg)?'on':''}" data-subtag="${tg}">${tg}</button>`; }).join('')
-      +`</div>`;
-  }
-  h+=`<div class="lov">选择球员（同位置优先，组内按适配度排序）</div><div class="plist">
-      <button class="pr ${!cur?'on':''}" data-slotnull="1"><span>— 留空 —</span></button>`;
+  var curP=cur?byName[cur]:null;
+  var allCands=(POOL[team]||[]).filter(function(p){ return !sentOff(team,p.n); });
+  var cands=allCands.slice().sort(function(a,b){return scoreFor(b,slot)-scoreFor(a,slot);});
+  var sts=[['hot','🔥'],['ok','🙂'],['low','😑'],['inj','🤕'],['yellow','🟨'],['red','🟥'],['out','⛔']];
+  var target=GRP[slot]||'';
+  var gDefs=[['门','门将'],['卫','后卫'],['中','中场'],['锋','前锋']];
   var buckets={};
   cands.forEach(function(p){
-    var g=GRP[(p.pos||[])[0]]||'';
-    (buckets[g]=buckets[g]||[]).push(p);
+    var primary=GRP[(p.pos||[])[0]]||'其他';
+    (buckets[primary]=buckets[primary]||[]).push(p);
   });
-  var target=GRP[slot]||'';
-  var gDefs=[['门','门将'],['卫','后卫'],['中','中场'],['锋','前锋'],['','其他']];
+  /* 同位置优先 → 邻近位置兜底 → 其他位置 */
   var ordered=gDefs.filter(function(g){return g[0]===target;})
     .concat(gDefs.filter(function(g){return g[0]!==target;}));
+
+  var h='<div class="sheetIn wide"><div class="sheethd">'
+    +'<div class="sheethd-l"><div class="sheethd-t">'+esc(team)+' · <b>'+esc(slot)+'</b> <span class="shpos">'+esc(POSZH(slot))+'</span></div>'
+    +'<div class="sheethd-s">'+(cur?('当前：<b>'+esc(cur)+'</b>'+(curP&&curP.foot?' · '+esc(curP.foot)+'脚':'')):'这个位置还空着')+'</div></div>'
+    +'<button class="x" onclick="closeSheet()">✕</button></div>'
+    +'<div class="shhint">'+esc(POSHINT[slot]||'按位置适配度排序，同位置优先。')+'</div>';
+  if(cur) h+='<div class="strow"><span class="mut">状态</span>'+sts.map(function(s){
+      return '<button class="st '+(stOf(cur)===s[0]?'on':'')+'" data-st="'+s[0]+'" data-n="'+esc(cur)+'">'+s[1]+'</button>';}).join('')+'</div>';
+  if(S.minute>0){
+    var tags=['进攻换防守','防守换进攻','对位替换','伤病被迫换人','战术新指令'];
+    h+='<div class="lov">换人意图标签（AI 分析会按标签加权）</div><div class="frow" style="max-width:none;margin:0;flex-wrap:wrap">'
+      +tags.map(function(tg){ return '<button class="fchip '+((SUB_TAG[team]||'对位替换')===tg?'on':'')+'" data-subtag="'+tg+'">'+tg+'</button>'; }).join('')
+      +'</div>';
+  }
+  h+='<div class="shlist" id="shList">';
+  h+='<button class="pr nullrow '+(cur?'':'on')+'" data-slotnull="1"><span>— 留空（先不填这个人）—</span></button>';
   ordered.forEach(function(g){
     var arr=buckets[g[0]]||[];
     if(!arr.length) return;
+    var isTarget=g[0]===target;
     arr.sort(function(a,b){
-      var ae=(a.pos||[]).indexOf(slot)>=0?1:0;
-      var be=(b.pos||[]).indexOf(slot)>=0?1:0;
+      var ae=(a.pos||[]).indexOf(slot)>=0?1:0, be=(b.pos||[]).indexOf(slot)>=0?1:0;
       if(ae!==be) return be-ae;
       return scoreFor(b,slot)-scoreFor(a,slot);
     });
-    h+=`<div class="lgrp">${g[1]} <em>${arr.length}</em>${g[0]===target?' <span class="mut">同位置优先</span>':''}</div>`;
+    h+='<div class="lgrp'+(isTarget?' hit':'')+'">'+(isTarget?'★ 推荐 · ':'')+g[1]
+      +' <em>'+arr.length+' 人</em>'+(isTarget?'<span class="lgrp-tip">同位置优先</span>':'')+'</div>';
     arr.forEach(function(p){
       var used=lu.filter(function(n,i){return n===p.n&&i!==idx;}).length>0;
-      h+=`<button class="pr ${cur===p.n?'on':''} ${used?'used':''}" data-pick="${esc(p.n)}">
-        <span><b>${esc(p.n)}</b> <i class="mut">${(p.pos||[]).join('/')} · ${esc(p.st||'')}</i></span>
-        <em>${scoreFor(p,slot)>9?'✔':''}${used?' · 已在场(互换)':''}${hurt(p)?' ⛔':''}</em></button>`;
+      var fit=scoreFor(p,slot);
+      h+='<button class="pr '+(cur===p.n?'on':'')+' '+(used?'used':'')+'" data-pick="'+esc(p.n)+'">'
+        +'<span class="prn"><b>'+esc(p.n)+'</b> <span class="prp">'+posTagHtml(p,slot)+'</span>'
+        +(p.foot?'<i class="mut" style="font-size:10.5px">'+esc(p.foot)+'脚</i>':'')+'</span>'
+        +'<em>'+(used?'已在场（互换）':(fit>=10?'✔ 本位置':'可客串'))+(hurt(p)?' ⛔':'')+'</em></button>';
     });
   });
-  h+=`</div></div>`;
+  h+='</div></div>';
   $('#sheet').innerHTML=h; $('#sheet').classList.add('on');
-  $('#sheet').dataset.wi=wi; $('#sheet').dataset.idx=idx; $('#sheet').querySelector('.sheetIn').dataset.team=team;
-  setTimeout(function(){
-    var box=document.querySelector('#sheet .sheetIn');
-    var g=document.querySelector('#sheet .lgrp');
-    if(box&&g){
-      var top=g.getBoundingClientRect().top-box.getBoundingClientRect().top+box.scrollTop-6;
-      box.scrollTop=Math.max(0,top);
-    }
-  },0);
+  $('#sheet').dataset.wi=wi; $('#sheet').dataset.idx=idx;
+  var list=$('#shList'); if(list) list.scrollTop=0;
 }
 function closeSheet(){ $('#sheet').classList.remove('on'); $('#sheet').innerHTML=''; }
 var SUB_TAG={};
@@ -1202,6 +1494,7 @@ function save(){
     home:S.home,away:S.away,form:FORM_SEL,lineup:S.lineup,status:S.status,minute:S.minute,hs:S.hs,as:S.as,
     tactic:S.tactic,poss:S.poss,dir:S.dir,keep:KEEP,events:S.events,subMark:S.subMark,weather:S.weather,
     play:S.play,possRate:S.possRate,confirmed:S.confirmed,bench:S.bench,snaps:S.snaps,
+    boardPos:S.boardPos,oral:S.oral,
     coachFix:{style:STYLE_FIX,profile:PROFILE,form:FORM_OVERRIDE}
   })); }catch(e){}
 }
@@ -1216,6 +1509,7 @@ function load(){
     S.weather=d.weather==='rain'?'rain':'dry';
     S.play=d.play||{}; S.possRate=d.possRate||{}; S.confirmed=d.confirmed||null;
     S.bench=d.bench||{}; S.snaps=d.snaps||[];
+    S.boardPos=d.boardPos||{}; S.oral=d.oral||'';
     if(d.coachFix){
       STYLE_FIX=d.coachFix.style||{}; PROFILE=d.coachFix.profile||{}; FORM_OVERRIDE=d.coachFix.form||FORM_OVERRIDE;
     }
@@ -1792,6 +2086,8 @@ function aiEnrichBoth(){
 
 /* ---------------- 事件委托 ---------------- */
 document.addEventListener('click',function(e){
+  /* 拖拽落位后的那次 click 不当作点击棋子 */
+  if(window.__tbDragMoved){ window.__tbDragMoved=false; e.preventDefault(); return; }
   var t=e.target;
   var tb=t.closest?t.closest('#tabs button'):null;
   if(tb){ switchTab(tb.getAttribute('data-tab')); return; }
@@ -1857,7 +2153,7 @@ document.addEventListener('click',function(e){
   var fc=t.closest?t.closest('.fchip[data-form]'):null;
   if(fc){ changeForm(fc.getAttribute('data-team'),fc.getAttribute('data-form')); return; }
   var tk=t.closest?t.closest('.tk'):null;
-  if(tk){ openSheet(tk.getAttribute('data-w'),Number(tk.getAttribute('data-i'))); return; }
+  if(tk){ openSheet(tk.getAttribute('data-w'),Number(tk.getAttribute('data-i')),tk.getAttribute('data-pos')); return; }
   var stb=t.closest?t.closest('.st'):null;
   if(stb){ setSt(stb.getAttribute('data-n'),stb.getAttribute('data-st')); return; }
   var pick=t.closest?t.closest('[data-pick]'):null;
@@ -1919,7 +2215,7 @@ function mdToHtml(md){
   return out.join('');
 }
 
-/* ---------- 指纹：阵容/状态/比分/时间/天气/姿态/主攻/打法/控球率/教练档案/换人 ---------- */
+/* ---------- 指纹：阵容/状态/比分/时间/天气/姿态/主攻/打法/控球率/教练档案/换人/站位区/口述 ---------- */
 function aiFingerprint(){
   var parts=[S.home,S.away,formOf(S.home),formOf(S.away),
     (S.lineup[S.home]||[]).join(','),(S.lineup[S.away]||[]).join(','),
@@ -1927,7 +2223,8 @@ function aiFingerprint(){
     JSON.stringify(S.tactic||{}),JSON.stringify(S.poss||{}),JSON.stringify(S.dir||{}),
     playOf(S.home),playOf(S.away),possRateOf(S.home),possRateOf(S.away),
     JSON.stringify(PROFILE[S.home]||{}),JSON.stringify(PROFILE[S.away]||{}),
-    JSON.stringify((S.events||[]).filter(function(e){return e.type==='sub';}).map(function(e){return e.min+':'+e.out+'>'+e.in;}))];
+    JSON.stringify((S.events||[]).filter(function(e){return e.type==='sub';}).map(function(e){return e.min+':'+e.out+'>'+e.in;})),
+    JSON.stringify(S.boardPos||{}),S.oral||''];
   var str=parts.join('|'), h=5381;
   for(var i=0;i<str.length;i++){ h=((h<<5)+h+str.charCodeAt(i))|0; }
   return (h>>>0).toString(36)+'-'+str.length.toString(36);
@@ -1938,7 +2235,8 @@ function aiPreFingerprint(){
     S.confirmed.h.join(','),S.confirmed.a.join(','),S.weather,
     playOf(S.confirmed.home),playOf(S.confirmed.away),
     possRateOf(S.confirmed.home),possRateOf(S.confirmed.away),
-    JSON.stringify(PROFILE[S.confirmed.home]||{}),JSON.stringify(PROFILE[S.confirmed.away]||{})];
+    JSON.stringify(PROFILE[S.confirmed.home]||{}),JSON.stringify(PROFILE[S.confirmed.away]||{}),
+    S.oral||''];
   var str=parts.join('|'), h=5381;
   for(var i=0;i<str.length;i++){ h=((h<<5)+h+str.charCodeAt(i))|0; }
   return (h>>>0).toString(36)+'-'+str.length.toString(36);
@@ -1995,7 +2293,8 @@ function aiContext(){
     weather:S.weather==='rain'?'雨':'晴',events:evs,confirmedXI:!!S.confirmed,
     redsHome:(S.events||[]).filter(function(e){return e.type==='red'&&e.team===S.home;}).map(function(e){return e.who;}),
     redsAway:(S.events||[]).filter(function(e){return e.type==='red'&&e.team===S.away;}).map(function(e){return e.who;}),
-    benchHome:benchOf(S.home),benchAway:benchOf(S.away),snapshots:snaps};
+    benchHome:benchOf(S.home),benchAway:benchOf(S.away),snapshots:snaps,
+    zonesHome:zonesSummary(S.home),zonesAway:zonesSummary(S.away),oral:S.oral||''};
 }
 
 /* ---------- Agent 调用封装 ---------- */
@@ -2033,7 +2332,9 @@ function aiSysPrompt(){
   +'4. 「全场对位」必须覆盖门将、后卫线、中场、锋线全部区域：给出人与人的直接对位或区域对位（谁防谁、谁压谁、哪条走廊最危险），前中后场都要有。\n'
   +'5. 「换人点评」：对已有的每次换人，评教练意图、估计效果；如果换得不好，直接说该换谁更有效（从替补名单里挑）；如果教练某次战术选择失误导致丢球/丢分，明确指出并说明代价。没有换人就不写这个分区。\n'
   +'6. 联网工具：开场先搜两队最新伤停/状态/近况（每次分析最多 2-3 次搜索，够了就停）。搜不到就用输入数据推断并把 conf 标 infer 或 guess。\n'
-  +'7. 输出 10-16 条，按重要性排。禁止空话（如「注意中场争夺」），每条都要能追溯到数据。中文输出。';
+  +'7. 输出 10-16 条，按重要性排。禁止空话（如「注意中场争夺」），每条都要能追溯到数据。中文输出。\n'
+  +'8. 若输入含 oral（用户口述站位/场上情报）或 zonesHome/zonesAway（用户拖拽设定的球员主站位区）：这是用户现场观察，优先级最高——站位与对位分析必须以其为基准，固定阵型坐标只作背景；与阵型默认站位冲突时明确说明「用户口述 vs 纸面阵型」的差异及其战术含义。\n'
+  +'9. 对位关系是「开局参考」：比赛中会随换人/变阵变化，不要把开局连线当成整场不变的结论，可结合 oral 说明对位实际如何演变。';
 }
 async function aiRun(){
   if(AI.busy) return;
@@ -2058,7 +2359,9 @@ async function aiRun(){
       +'5. 比分联动：先读 scoreTendency（领先收缩/落后强攻/平局均势），分析必须与倾向一致；读 snapshots 的指标趋势（↑↓）验证你的判断。\n'
       +'6. 换人意图标签（进攻换防守/防守换进攻/对位替换/伤病被迫换人/战术新指令）决定分析权重：伤病被迫换人重点写连锁影响，战术新指令重点写结构变化。\n'
       +'7. 红牌：有红牌方按少一人分析阵型收缩与被针对点。\n'
-      +'8. 每条都要回答「什么时候不成立」。';
+      +'8. 每条都要回答「什么时候不成立」。\n'
+      +'9. 若 ctx 有 oral（用户口述站位与场上情报）或 zonesHome/zonesAway（用户拖拽设定的主站位区）：这是最高优先级现场信息，站位/对位分析必须以其为基准。\n'
+      +'10. 赛中分析不要把开局对位连线当成整场不变的结论——结合 oral 与 events 说明对位实际如何变化。';
     var res=await aiAgentRun(aiSysPrompt(),user,function(st){ AI.stage=st+'（'+((Date.now()-AI.startedAt)/1000|0)+'s）'; renderAll(); });
     AI.stage='整理成卡片';
     renderAll();
@@ -2103,10 +2406,12 @@ async function aiRunPrematch(force){
           profile:PROFILE[c.home]||{},xi:xiOf(c.home,c.h,c.formH)},
         away:{team:c.away,form:c.formA,coach:coachOf(c.away),play:playOf(c.away),possRate:possRateOf(c.away)+'%',
           profile:PROFILE[c.away]||{},xi:xiOf(c.away,c.a,c.formA)},
-        weather:S.weather==='rain'?'雨':'晴'})
+        weather:S.weather==='rain'?'雨':'晴',
+        zonesHome:zonesSummary(c.home),zonesAway:zonesSummary(c.away),oral:S.oral||''})
       +'\n\n任务（赛前分析，比赛还没开始）：\n'
       +'1. 通过人员和战术阵型，分析双方这套首发存在的结构性差距（中场人数、宽度、身后、制空等）。\n'
       +'2. 分别指出双方「哪里最可能被对手针对」（具体到人和走廊）。\n'
+      +'3. 若输入含 oral（用户口述站位与场上情报）或 zones（用户拖拽设定的主站位区）：这是最高优先级现场信息，站位分析以其为基准。\n'
       +'3. 「换人预案」独立分区（sec=换人预案）：双方关键替补是谁、大概什么时间换、换人之后会改变哪一组对位、连锁风险点。\n'
       +'4. 「红黄牌风险」分区（sec=红黄牌风险）：识别哪些对位容易吃牌（如后腰盯对方核心 10 号、边后卫追防套边边锋），点名吃牌属性高的球员。\n'
       +'5. 「节奏开关」分区（sec=节奏开关）：哪一方能主动掌控节奏、什么条件下比赛会落入对方舒服的节奏（门将出球质量只是其中一环，还要覆盖压迫强度对比与转换速度对比）。\n'
@@ -2305,15 +2610,21 @@ function aiBarHtml(){
       +'<div class="aistage">'+esc(AI.stage||'分析中…')+'</div>';
   }
   var c=window.TBSettings?TBSettings.cfg():{};
-  return '<div class="aibar"><div class="aibtns">'
+  return '<div class="aibar">'
+    +'<div class="aibar-head"><b>🤖 AI 分析台</b>'
+      +'<span class="aibar-sub">'+esc(S.home)+' vs '+esc(S.away)+' · 主站与模拟器共用同一套接口与搜索 Key</span>'
+      +'<span class="aibar-live">'+(AI.busy||AI.preBusy||AI.termsBusy?'分析中':'待命')+'</span></div>'
+    +'<div class="aibtns">'
     +'<button class="aibtn" data-ai="cfg">⚙ 设置</button>'
     +'<button class="aibtn live" data-ai="pre"'+(AI.preBusy?' disabled':'')+'>'+(AI.preBusy?'赛前分析中…':(AI.preCards?'赛前分析 ↻':'赛前分析'))+'</button>'
     +'<button class="aibtn live" data-ai="run"'+(AI.busy?' disabled':'')+'>'+(AI.busy?'比赛分析中…':'AI 比赛分析')+'</button>'
     +'<button class="aibtn" data-ai="terms"'+(AI.termsBusy?' disabled':'')+'>'+(AI.termsBusy?'推荐中…':'术语推荐')+'</button>'
     +'<button class="aibtn" data-ai="recform">💡 推荐变阵</button>'
     +'</div>'
-    +(aiSearchOn()?'':'<div class="aistage">💡 未配置搜索 Key：分析只用本地库数据；配置后（⚙ 设置）AI 会联网查最新伤停与状态</div>')
-    +hint+prog;
+    +(aiSearchOn()?'':'<div class="aibar-note">💡 未配置搜索 Key：分析只用本地库数据；配置后（⚙ 设置）AI 会联网查最新伤停与状态</div>')
+    +(hint?'<div class="aibar-status">'+hint+'</div>':'')
+    +(prog?'<div class="aibar-status">'+prog+'</div>':'')
+    +'</div>';
 }
 /* 赛前分析卡 */
 function prematchCard(){
@@ -2341,8 +2652,8 @@ function aiSecsHtml(cards,stale){
   cards.forEach(function(m){ if(!seen[m.sec||'']){ seen[m.sec||'']=1; secs.push(m.sec||''); } });
   return secs.map(function(sec){
     var list=cards.filter(function(m){return (m.sec||'')===sec;});
-    var h=sec?'<div class="sh2">'+esc(sec)+'</div>':'';
-    return h+list.map(function(m){
+    var h=sec?'<div class="ansech"><span class="ansecb"></span><span class="ansect">'+esc(sec)+'</span><span class="anscen">'+list.length+' 张</span></div>':'';
+    return '<section class="ansec">'+h+'<div class="acgrid">'+list.map(function(m){
       return '<div class="ac l'+m.lvl+' aicard'+(stale?' expired':'')+'"><div class="ah"><span class="tag">'+esc(m.area)+'</span>'
         +'<span class="lv"><span class="aibadge">AI</span>'+confTag(m.c)+'</span></div>'
         +'<div class="at md">'+mdToHtml(m.txt)+'</div>'
@@ -2350,7 +2661,7 @@ function aiSecsHtml(cards,stale){
         +(m.x?'<div class="ix">什么时候不成立：'+esc(m.x)+'</div>':'')
         +(m.ev?'<div class="ae">依据：'+esc(m.ev).replace(/\n/g,'<br>')+'</div>':'')
         +'</div>';
-    }).join('');
+    }).join('')+'</div></section>';
   }).join('');
 }
 function aiCardsHtml(){
@@ -2383,6 +2694,7 @@ document.addEventListener('input',function(e){
 });
 document.addEventListener('input',function(e){
   var t=e.target;
+  if(t.matches&&t.matches('[data-oral]')){ setOral(t.value); return; }
   if(t.matches&&t.matches('[data-snapnote]')){
     var sn=S.snaps.find(function(x){ return x.min===Number(t.dataset.snapnote); });
     if(sn){ sn.note=t.value; save(); }
@@ -2394,6 +2706,9 @@ document.addEventListener('input',function(e){
 /* ---------------- 启动 ---------------- */
 aiCacheLoad();
 document.addEventListener('tbai:changed',function(){ AI.err=''; renderAll(); });
+/* 问题七：头部队数文案动态化（新增球队后不再写死） */
+(function(){ var el=document.getElementById('teamCountSpan');
+  if(el&&typeof TEAMS!=='undefined') el.textContent=TEAMS.length+' 队对位 · AI 联网分析'; })();
 
 loadHudPref();
 if(!load()){
