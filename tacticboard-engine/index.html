@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0c1015">
+<title>对位引擎 v5.0</title>
+<link rel="stylesheet" href="engine.css?v=5">
+</head>
+<body>
+<script>
+if(location.search.indexOf('embed=1')>=0){document.documentElement.className='embed';}
+</script>
+<div id="scroll">
+<header>
+  <h1>对位引擎 <b>v5.0</b>
+    <button class="hbtn" onclick="openTermsAll()">术语表</button>
+    <button class="hbtn" onclick="TBSettings.open()">⚙ AI 设置</button>
+    <span class="mut" style="font-weight:400;font-size:11px">32 队对位 · AI 联网分析</span></h1>
+  <div class="sub">L1 球员本体 · L2 教练体系（换帅只改这层）· L3 比赛态（比分/时间/状态/换人）</div>
+</header>
+<nav id="tabs">
+  <button data-tab="lineup" class="on">排阵</button>
+  <button data-tab="analysis">分析</button>
+  <button data-tab="log">复盘</button>
+</nav>
+<main>
+  <section id="pane-lineup" class="pane on">
+    <section id="setup" class="card"></section>
+    <section id="pitches"></section>
+  </section>
+  <section id="pane-analysis" class="pane">
+    <section id="analysis"></section>
+  </section>
+  <section id="pane-log" class="pane">
+    <section id="log"></section>
+  </section>
+</main>
+</div>
+<div id="hud"></div>
+<div id="hudCfg"></div>
+<div id="hudShow" class="hudshow" onclick="showHud()">比分 ▲</div>
+<div id="sheet"></div>
+<script src="../ai/keystore.js?v=1"></script>
+<script src="../ai/agent-core.js?v=3"></script>
+<script src="../ai/tools-web.js?v=3"></script>
+<script src="../ai/settings.js?v=1"></script>
+<script src="js/eng-data.js?v=5"></script>
+<script src="../data/squads_pl.js?v=6"></script>
+<script src="../data/squads_eu.js?v=6"></script>
+<script src="js/squads-bridge.js?v=3"></script>
+<script src="js/eng-app.js?v=21"></script>
+</body></html>
