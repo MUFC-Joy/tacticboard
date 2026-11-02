@@ -29,9 +29,16 @@ export const OVERRIDES={
     'Mateus Fernandes':'热刺',           /* 西汉姆 → 热刺 £85m */
     'Elliot Anderson':'曼城',            /* 森林 → 曼城 */
     'Ayyoub Bouaddi':'曼城',             /* 里尔 → 曼城 */
-    'Gonçalo Ramos':'米兰'               /* 巴黎 → 米兰 ~€70m */
+    'Gonçalo Ramos':'米兰',              /* 巴黎 → 米兰 ~€70m */
+    /* 2026-11-02 三批（用户指正+核实） */
+    'Omar Marmoush':'热刺',              /* 曼城 → 热刺（先租后买 ~£60m） */
+    'Jan Paul van Hecke':'热刺',         /* 布莱顿 → 热刺 */
+    'Brennan Johnson':'埃弗顿',          /* 热刺 → 埃弗顿（2026.8.11） */
+    'Dusan Vlahović':null,              /* 尤文 → 自由身离队（离开五大联赛） */
+    'Sávio':'热刺'                       /* → 热刺 */
   },
   status:{
-    'Jamal Musiala':'重伤初愈（2025.7 重伤，回归后替补轮换，实力恢复中）'
+    'Jamal Musiala':'重伤初愈（2025.7 重伤，回归后替补轮换，实力恢复中）',
+    'Jack Grealish':'训练态度问题被内部停训（非主力，出场顺位下降）'
   }
 };

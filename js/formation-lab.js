@@ -254,11 +254,22 @@ window.FLab=(function(){
       var q2=inp.value.trim().toLowerCase();
       var wrap=document.getElementById('flCands');
       if(!q2){ wrap.innerHTML='<div class="hintline" style="padding:8px 4px">👆 输入名字后这里显示匹配名单（不自动推荐）</div>'; return; }
+      var slot=slotsOf()[i][0];
       var list=names.filter(function(x){
         return x.n.toLowerCase().indexOf(q2)>=0||(x.en||'').toLowerCase().indexOf(q2)>=0;
-      }).slice(0,30);
+      });
+      /* 问题四：该位置适配的球员排前面，并标注位置 */
+      var lib=function(n){ var p=findP(n); return p||{pos:[]}; };
+      list.sort(function(a,b){
+        var pa=(lib(a.n).pos||[]), pb=(lib(b.n).pos||[]);
+        var am=pa.indexOf(slot)>=0?1:0, bm=pb.indexOf(slot)>=0?1:0;
+        if(am!==bm) return bm-am;
+        return a.n.localeCompare(b.n,'zh');
+      });
+      list=list.slice(0,30);
       wrap.innerHTML=list.length?list.map(function(x){
-        return '<div class="mini" data-n="'+esc(x.n)+'" style="padding:9px 12px;margin-bottom:6px;cursor:pointer"><h4 style="margin:0;font-size:14px">'+esc(x.n)+(x.en&&x.en!==x.n?' <small style="color:var(--mut)">'+esc(x.en)+'</small>':'')+'</h4></div>';
+        var pp=(lib(x.n).pos||[]).join('/');
+        return '<div class="mini" data-n="'+esc(x.n)+'" style="padding:9px 12px;margin-bottom:6px;cursor:pointer;display:flex;justify-content:space-between"><h4 style="margin:0;font-size:14px">'+esc(x.n)+(x.en&&x.en!==x.n?' <small style="color:var(--mut)">'+esc(x.en)+'</small>':'')+'</h4><span class="mut" style="font-size:11px">'+esc(pp)+'</span></div>';
       }).join(''):'<div class="hintline" style="padding:8px 4px">没有匹配——可以直接点上面的「确定」用这个名字（AI 会联网查他）</div>';
       wrap.querySelectorAll('[data-n]').forEach(function(m){
         m.onclick=function(){ inp.value=m.dataset.n; confirmSlot(); };

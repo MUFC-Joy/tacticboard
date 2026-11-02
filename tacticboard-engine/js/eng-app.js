@@ -324,7 +324,7 @@ function autoLineup(team){
 function repairLineup(team){
   var form=formOf(team), slots=FORMS[form]; if(!slots) return;
   var raw=S.lineup[team]||[], pool=(POOL[team]||[]).filter(function(p){return !hurt(p);});
-  var redSlots=(S.events||[]).filter(function(e){ return e.type==='red'&&e.team===team&&e.slot!=null; }).map(function(e){ return e.slot; });
+  var redSlots=[]; /* 问题五：红牌不再清空位置，球员留场显示标记 */
   var used={}, out=slots.map(function(sl,i){
     var n=raw[i], p=n?byName[n]:null;
     if(p&&norm(p.club)===team&&!hurt(p)&&!used[p.n]){ used[p.n]=1; return p.n; }
@@ -333,8 +333,6 @@ function repairLineup(team){
   var pref=PREFERRED[team];
   out=out.map(function(n,i){
     if(n) return n;
-    /* 红牌罚下的位置保留空缺（少一人作战），不自动补人 */
-    if(redSlots.indexOf(i)>=0) return null;
     var slot=slots[i][0], cand=null;
     if(pref&&pref.form===form){
       var pp=byName[pref.xi[i]];
@@ -456,7 +454,7 @@ var TERMS={
 };
 
 /* ---------------- 分析 ---------------- */
-var STMARK={hot:'🔥',low:'😑',inj:'🤕',yellow:'🟨',out:'⛔'};
+var STMARK={hot:'🔥',low:'😑',inj:'🤕',yellow:'🟨',out:'⛔',red:'🟥'};
 function mk(n){ return STMARK[stOf(n)]||''; }
 function statusLine(n){
   var s=stOf(n); var p=byName[n];
@@ -978,7 +976,8 @@ function pickEvPlayer(type){
   document.getElementById('evWho').innerHTML=h;
   var go=function(who,extra){
     var e={type:type,min:S.minute,team:team,who:who||'',note:extra||''};
-    if(type==='red'){ S.status[who]='red'; var i=(S.lineup[team]||[]).indexOf(who); if(i>=0){ S.lineup[team][i]=null; e.slot=i; } }
+    if(type==='red'){ S.status[who]='red'; }     /* 问题五：红牌球员保留在场上显示🟥标记 */
+    if(type==='yellow'){ S.status[who]='yellow'; }  /* 黄牌显示🟨 */
     if(type==='injury'){ S.status[who]='inj'; }
     S.events.push(e);
     repairLineup(team);

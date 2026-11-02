@@ -245,7 +245,10 @@ function ttCard(t){
   const ai=window.TTAI&&TTAI.get(t.z);
   const axis=t.axis?['press','control','direct','low','width','tempo','pressdir','counter','cross']
     .map(k=>t.axis[k]!==undefined?t.axis[k]:'—').join(' · '):null;
-  let h='<div class="card deep"><h3>'+(t.f||'')+esc(t.z)+'<small>'+esc(t.coach)+'｜'+esc(t.since||'—')+'｜'+esc(t.style||'')+'</small></h3>'
+  
+  let h='<div class="card deep"><h3>'+(t.f||'')+esc(t.z)
+    +(ai?' <span class="chip g" style="font-size:11px">🤖 已 AI 更新 '+new Date(ai.ts).toLocaleString()+'</span>':'')
+    +'<small>'+esc(t.coach)+'｜'+esc(t.since||'—')+'｜'+esc(t.style||'')+'</small></h3>'
     +(t.base?'<div class="mrow"><b>纸面主阵型：</b>'+esc(t.base)+'</div>':'')
     +(t.now?'<div class="tagline">'+esc(t.now)+'</div>':'')
     +(t.role?'<div class="sec">主 帅 打 法 & 主 力 战 术 角 色（含转会信息）</div><div class="p">'+esc(t.role)+'</div>':'')
@@ -269,8 +272,7 @@ function ttCard(t){
     +(t.setPiece?'<div class="hintline">🎯 定位球倾向：'+esc(t.setPiece)+'</div>':'')
     +(t.rep?'<div class="hintline">📌 代表变体分支：'+esc(t.rep)+'</div>':'')
     +(axis?'<div class="hintline">🎛️ 基准参数（压迫·控球·直接·低位·宽度·节奏·逼抢方向·反击·传中）：'+axis+'</div>':'')
-    +'<div style="margin-top:8px"><button class="chip b" data-ttai="'+esc(t.z)+'">🤖 AI 更新这支球队（联网搜官网最新）</button>'
-    +(ai?' <span class="hintline">AI 更新于 '+new Date(ai.ts).toLocaleString()+'</span>':'')+'</div>';
+    +'<div style="margin-top:8px"><button class="chip b" data-ttai="'+esc(t.z)+'">'+(ai?'🤖 再次 AI 更新':'🤖 AI 更新这支球队（联网搜官网最新）')+'</button></div>';
   if(ai&&ai.card){
     const a=ai.card;
     h+='<details style="margin-top:8px"><summary style="cursor:pointer;font-size:13px;color:#a8d2ff">🤖 AI 更新版内容（点击展开）</summary><div style="padding:6px 2px">'
@@ -318,7 +320,7 @@ function renderClubs(){
   const segs='<div class="card" style="padding:10px 14px"><div class="p" style="margin:0 0 4px">赛季战术分析（2026-27 固定内容 · 每个赛季手动更新 · 上次核对 '+esc(TT.Updated||'—')+'）· 最新动态用上方 AI 看板或「查这支」</div>'
     +'<div class="pillrow" id="clubFilter">'+["","英超","西甲","意甲","德甲","法甲","国家队"].map(l=>
       '<button data-l="'+l+'"'+(clubLeague===l?' class="on"':'')+'>'+(l||"全部")+'</button>').join("")+'</div></div>';
-  let body='<div class="ttgrid">'+TT.clubs.filter(c=>!clubLeague||clubLeague===c.lg).map(ttCard).join('')
+  let body='<div>'+TT.clubs.filter(c=>!clubLeague||clubLeague===c.lg).map(ttCard).join('')
     +TT.nations.filter(()=>!clubLeague||clubLeague==="国家队").map(ttCard).join('')+'</div>';
   $("#tab-club").innerHTML='<div id="briefingBox"></div>'+segs+body;
   $$("#clubFilter button").forEach(b=>b.onclick=()=>{ clubLeague=b.dataset.l; renderClubs(); window.scrollTo(0,0); });
@@ -333,14 +335,19 @@ function renderSearch(){
 }
 
 /* ================= 导航 & 启动 ================= */
+/* 问题六：记住每个板块的滚动位置，切回时恢复（不回顶） */
+const _tabScroll={};
 $$(".nav button").forEach(b => {
   b.onclick = () => {
+    const cur=document.querySelector(".tab.on");
+    if(cur) _tabScroll[cur.id]=window.scrollY;
     $$(".nav button").forEach(x=>x.classList.remove("on"));
     $$(".tab").forEach(x=>x.classList.remove("on"));
     b.classList.add("on");
     $("#"+b.dataset.t).classList.add("on");
     document.body.classList.toggle("sim-mode", b.dataset.t === "tab-sim");
-    window.scrollTo(0,0);
+    const y=_tabScroll[b.dataset.t]||0;
+    requestAnimationFrame(()=>window.scrollTo(0,y));
   };
 });
 

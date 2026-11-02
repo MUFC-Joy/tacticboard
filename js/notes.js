@@ -50,6 +50,7 @@ window.Notes=(function(){
         }).join(''):'<div class="hintline">这个分类还没有记录——在「搜索」页搜球员/知识、或在球队看板查询后会自动归档到这里。</div>')
       +'</div></div>'
       +'<div class="card"><h3>✍️ 自由笔记<small>无限写 · 自动保存</small></h3>'
+      +'<div class="hintline" style="color:#a8d2ff">💾 存在哪：所有笔记和历史都保存在<b>这台电脑/手机的浏览器本机存储（localStorage）</b>里——不经过任何服务器、不上传。换浏览器、换设备或清除浏览器数据后不会带走，需要长期保存请用条目上的「复制」按钮导出。</div>'
       +'<div class="row"><select class="tbai-select" id="ntFreeCat" style="max-width:200px">'
       +state.cats.map(function(c){ return '<option'+(curNote===c?' selected':'')+'>'+esc(c)+'</option>'; }).join('')
       +'</select><span class="mut">当前笔记归类（可自建分类）</span></div>'

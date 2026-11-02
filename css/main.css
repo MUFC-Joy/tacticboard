@@ -161,6 +161,4 @@ body.sim-mode main{padding-bottom:78px}
 .pickrow .optbtn{flex:1;min-width:200px}
 
 /* ---- 桌面观感（手机不影响） ---- */
-@media (min-width:900px){
-  #tab-club .ttgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
-}
+/* 问题九：卡片保持正常方块（单列堆叠） */
